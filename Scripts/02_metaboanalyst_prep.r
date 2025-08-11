@@ -50,7 +50,8 @@
         mutate(across(all_of(features_to_keep), ~ ifelse(.x == 0, 0.5 * min(.x[.x > 0], na.rm = TRUE), .x)))
     #- 2.2.4: Log2 transform dataset
       UFT_metaboanalyst_log2 <- UFT_metaboanalyst_halfmin %>%
-        mutate(across(all_of(features_to_keep), ~ log2(.x)))
+        mutate(across(all_of(features_to_keep), ~ log2(.x))) %>%
+        mutate(Variant = as.factor(Variant))
     #- 2.2.5: Split UFT into C18 and HILIC datasets
       hilic_cols <- names(UFT_metaboanalyst_log2)[str_starts(names(UFT_metaboanalyst_log2), "HILIC")]
       c18_cols <- names(UFT_metaboanalyst_log2)[str_starts(names(UFT_metaboanalyst_log2), "C18")]
