@@ -146,3 +146,58 @@
       print(head(results_tibble, 10))
     #- 3.3.4: Export results
       readr::write_csv(results_tibble, "Outputs/cluster_ttest_results.csv")
+  #+ 3.4: Heatmap with HILIC Untargeted
+# 1) Split groups and matrix
+dat <- UFT_HILIC_metaboanalyst_log2 %>% select(-Patient_ID)
+group <- factor(dat$Variant, levels = c("PTC", "FV-PTC", "FTC")) # lock desired order
+X <- as.matrix(dat %>% select(-Variant)) # rows = samples, cols = features
+sample_ids <- make.names(UFT_HILIC_metaboanalyst_log2$Patient_ID, unique = TRUE)
+
+# 2) ANOVA p-values per feature (over group)
+pvals <- apply(X, 2, function(x) {
+  fit <- aov(x ~ group)
+  summary(fit)[[1]][["Pr(>F)"]][1]
+})
+
+# 3) Top 2500 (or all if fewer)
+k <- min(2500, ncol(X))
+top_idx <- order(pvals)[1:k]
+X_top <- X[, top_idx, drop = FALSE]
+
+# 4) Drop zero-variance features
+nzv <- apply(X_top, 2, sd, na.rm = TRUE) > 0
+X_top <- X_top[, nzv, drop = FALSE]
+
+# 5) Names + transpose (rows=features, cols=samples)
+rownames(X_top) <- sample_ids # samples
+colnames(X_top) <- colnames(UFT_HILIC_metaboanalyst_log2)[-(1:2)][top_idx][nzv] # features
+M <- t(X_top)
+
+# 6) Column annotation (must match columns of M)
+ann_col <- data.frame(Variant = group)
+rownames(ann_col) <- sample_ids
+ann_col <- ann_col[colnames(M), , drop = FALSE]
+# 7) Custom colors for Variant
+ann_colors <- list(
+  Variant = c(
+    "PTC"    = "#DF8D0A",
+    "FV-PTC" = "#23744E",
+    "FTC"    = "#194992"
+  )
+)
+
+# 8) Heatmap
+pheatmap(
+  M,
+  scale = "row",
+  color = colorRampPalette(rev(brewer.pal(11, "RdBu")))(255),
+  clustering_distance_rows = "euclidean",
+  clustering_distance_cols = "euclidean",
+  clustering_method = "complete",
+  annotation_col = ann_col,
+  annotation_colors = ann_colors,
+  show_rownames = FALSE,
+  show_colnames = FALSE,
+  fontsize = 10,
+  na_col = "#DDDDDD"
+)

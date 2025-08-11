@@ -64,4 +64,3 @@
       write.csv(UFT_C18_metaboanalyst_log2, "Raw_Data/Metaboanalyst/UFT_C18_metaboanalyst_log2.csv", row.names = FALSE)
       write.csv(UFT_HILIC_metaboanalyst_log2, "Raw_Data/Metaboanalyst/UFT_HILIC_metaboanalyst_log2.csv", row.names = FALSE)
       #! Performed HCA with heatmaps in metaboanalyst
-    #+ 2.4: Specify clustering from metaboanalyst HCA
