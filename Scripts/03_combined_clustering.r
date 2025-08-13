@@ -1,16 +1,9 @@
 #* 3: Combined Clustering analysis
-  #+ 3.0: Up front variables
-    variant_colors <- c("PTC" = "#DF8D0A", "FV-PTC" = "#23744E", "FTC" = "#194992")
-    clade_colors <- c("Clade_1" = "#94001E", "Clade_2" = "#03507D")
+  #+ 3.0: Setup
     conflicts_prefer(ggplot2::margin)
-  #+ 3.1: Combined PCA analysis based on variants
+  #+ 3.1: Combined PCA analysi
     pca_variant_results <- make_PCA(
-      data = UFT_metaboanalyst_log2,
-      output_filename = "Combined_pca_variants.svg",
-      ellipse_colors = variant_colors
-    )
-  #+ 3.2: Heatmap with Combined Untargeted
-    #- 3.2.1: Run heatmap analysis
+      data = UFT_meta"/Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/Manuscripts and Projects/Active Projects/Thyroid Metabolomics/DTC-metabolomics-2025/Raw_Data/Final/tumor_pathology.xlsx")
       #_Create heatmap and get results including clade analysis
       heatmap_results <- make_heatmap(
         data = UFT_metaboanalyst_log2,
@@ -39,16 +32,122 @@
         output_filename = "Combined_pca_clades.svg",
         ellipse_colors = clade_colors
       )
-  #+ 3.4: T-tests between hierarchical clusters
-    #- 3.4.1: Run t-tests between clades for Mummichog analysis
-      ttest_results <- mummichog_ttests(
-        data = UFT_metaboanalyst_log2,
-        group_assignments = heatmap_results$clade_df,
-        group_column = "Clade",
-        output_filename = "clade_based_ttest_results.csv",
-        group1_value = 1,
-        group2_value = 2
-      )
+  #+ 3.4: Create heatmaps
+    #- 3.4.1: Prepare data for heatmap
+      heatmap_data_T <- UFT_metaboanalyst_log2 %>%
+        left_join(tumor_pathology %>% select(Patient_ID, T), by = "Patient_ID") %>%
+        select(Patient_ID, Variant, T, everything()) %>%
+        rename(T_stage = T) %>%
+        mutate(T_stage = case_when(
+          is.na(T_stage) ~ NA_character_,
+          TRUE ~ paste("T", T_stage, sep = "")
+        ))
+    #- 3.4.2: Create heatmaps with different feature selections
+        variance_full <- make_heatmap(
+          heatmap_data_T,
+          variant_colors = variant_colors,
+          feature_selector = "variance",
+          top_features = FALSE,
+          annotate_t_stage = TRUE,
+          T_stage_colors = T_stage_colors,
+          output_filename = NULL,
+          output_png_filename = "variance_full.png",
+          png_width = 2000, png_height = 2000, png_res = 220
+        )
+        variance_2000 <- make_heatmap(
+          heatmap_data_T,
+          variant_colors = variant_colors,
+          feature_selector = "variance",
+          top_features = 2000,
+          annotate_t_stage = TRUE,
+          T_stage_colors = T_stage_colors,
+          output_filename = NULL,
+          output_png_filename = "variance_2000.png",
+          png_width = 2000, png_height = 2000, png_res = 220
+        )
+        variance_500 <- make_heatmap(
+          heatmap_data_T,
+          variant_colors = variant_colors,
+          feature_selector = "variance",
+          top_features = 500,
+          annotate_t_stage = TRUE,
+          T_stage_colors = T_stage_colors,
+          output_filename = NULL,
+          output_png_filename = "variance_500.png",
+          png_width = 2000, png_height = 2000, png_res = 220
+        )
+  #+ PERMANOVA
+    variance_study <- UFT_metaboanalyst_log2 %>%
+      left_join(tumor_pathology, by = "Patient_ID") %>%
+      rename(T_stage = T) %>%
+      mutate(T_stage = case_when(
+        is.na(T_stage) ~ NA_character_,
+        TRUE ~ paste("T", T_stage, sep = "")
+      )) %>%
+      select(Patient_ID, T_stage, Sex, Age, MFC, LD, LVI, ETE, everything(), -c(Cluster, Patient, Variant_Name, N, M, Grade))
+# INPUT: variance_study tibble (samples x [metadata + 20k features]), already log2-transformed & imputed
+
+# --- 1) Define metadata and build feature matrix
+meta_vars <- c("T_stage", "Sex", "Age", "MFC", "LD", "LVI", "ETE", "Variant")
+
+# Clean up metadata types (helps avoid silent coercion issues)
+meta <- variance_study |>
+  dplyr::select(dplyr::all_of(meta_vars)) |>
+  dplyr::mutate(
+    T_stage = as.factor(T_stage),
+    Sex     = as.factor(Sex),
+    MFC     = as.factor(MFC), # ensure factor (fixes rows like "8 MFC 0.0132 0.887")
+    LD      = as.numeric(LD),
+    LVI     = as.factor(LVI),
+    ETE     = as.factor(ETE),
+    Variant = as.factor(Variant),
+    Age     = as.numeric(Age)
+  )
+
+# Build numeric feature matrix (drop Patient_ID and all metadata columns)
+features_matrix <- variance_study |>
+  dplyr::select(-Patient_ID, -dplyr::all_of(meta_vars)) |>
+  as.data.frame()
+
+# Keep only samples with complete metadata, and align features
+keep <- stats::complete.cases(meta)
+meta_cc <- meta[keep, , drop = FALSE]
+features_cc <- features_matrix[keep, , drop = FALSE]
+
+# Drop any all-NA or zero-variance features (paranoid-safety)
+all_na <- vapply(features_cc, function(z) all(is.na(z)), logical(1))
+if (any(all_na)) features_cc <- features_cc[, !all_na, drop = FALSE]
+
+zv <- vapply(features_cc, function(z) stats::var(z, na.rm = TRUE), numeric(1)) == 0
+if (any(zv)) features_cc <- features_cc[, !zv, drop = FALSE]
+
+# --- 2) Select top 20% by variance (on log2 scale as-is)
+feature_vars <- vapply(features_cc, function(z) stats::var(z, na.rm = TRUE), numeric(1))
+n_keep <- ceiling(0.20 * ncol(features_cc))
+top_idx <- order(feature_vars, decreasing = TRUE)[1:n_keep]
+features_top <- as.matrix(features_cc[, top_idx, drop = FALSE])
+
+# --- 3) Distance matrix (Euclidean on log2; skip scaling since already log2; add scale() if desired)
+dist_mat <- vegan::vegdist(features_top, method = "euclidean")
+
+# --- 4) Run PERMANOVA for EACH metadata variable separately (R2, p)
+get_permanova_stats <- function(varname) {
+  f <- stats::as.formula(paste("dist_mat ~", varname))
+  res <- vegan::adonis2(f, data = meta_cc, permutations = 999)
+  tibble::tibble(
+    Variable = varname,
+    R2       = as.numeric(res$R2[1]),
+    p_value  = as.numeric(res$`Pr(>F)`[1])
+  )
+}
+
+results_top20 <- dplyr::bind_rows(lapply(meta_vars, get_permanova_stats)) |>
+  dplyr::arrange(dplyr::desc(R2)) %>%
+  arrange(p_value)
+
+
+
+
   #+ 3.5: Run t-tests for pairwise variant comparisons
     #- 3.5.1: FV-PTC vs PTC comparison
       #_Extract variant assignments (excluding FTC)
