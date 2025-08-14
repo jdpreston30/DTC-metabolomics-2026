@@ -1,18 +1,34 @@
 #* 3: Combined Clustering analysis
   #+ 3.0: Setup
     conflicts_prefer(ggplot2::margin)
-  #+ 3.1: Combined PCA analysi
-    pca_variant_results <- make_PCA(
-      data = UFT_meta"/Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/Manuscripts and Projects/Active Projects/Thyroid Metabolomics/DTC-metabolomics-2025/Raw_Data/Final/tumor_pathology.xlsx")
-      #_Create heatmap and get results including clade analysis
-      heatmap_results <- make_heatmap(
-        data = UFT_metaboanalyst_log2,
-        variant_colors = variant_colors,
-        top_features = 500,
-        variant_levels = c("FTC", "FV-PTC", "PTC"),
-        n_clades = 2,
-        output_filename = "Combined_heatmap.svg"
-      )
+  #+ 3.1: Add relevant path data onto UFT
+      merged_tumor_data_joiner <- tumor_pathology %>%
+        mutate(
+          T_computed_bin = case_when(
+            T_computed %in% c("T1", "T2") ~ "T1-T2",
+            T_computed %in% c("T3", "T4") ~ "T3-T4",
+            TRUE ~ NA_character_
+          )
+        ) %>%
+        select(Patient_ID, Sex, Age, MFC,ETE, T_computed_bin, LD, LVI, T_computed)
+      #- 5.1.2: Join with TFT_metaboanalyst_log2
+      TFT_metaboanalyst_log2_path <- UFT_metaboanalyst_log2 %>%
+        left_join(merged_tumor_data_joiner, by = "Patient_ID") %>%
+        select(Patient_ID, T_computed_bin, LD, LVI, Variant, everything(), -T_computed)
+  #+ 3.1: Create PCA plots
+      #- 3.1.1: Generate PCA plot object (using variant colors)
+        variant_pca <- make_PCA(
+          data = TFT_metaboanalyst_log2_path %>% select(-c(T_computed_bin:LVI)),
+          ellipse_colors = variant_colors
+        )
+        T_stage_PCA <- make_PCA(
+          data = TFT_metaboanalyst_log2_path %>% select(-c(LD:Variant)),
+          ellipse_colors = T_stage_colors
+        )
+        LVI_PCA <- make_PCA(
+          data = TFT_metaboanalyst_log2_path %>% select(-c(T_computed_bin, LD, Variant)),
+          ellipse_colors = LVI_colors
+        )
   #+ 3.3: Combined PCA analysis with hierarchical clusters
     #- 3.3.1: Create modified dataset with clade assignments
       #_Create data with clade assignments instead of variants
@@ -35,35 +51,17 @@
   #+ 3.4: Create heatmaps
     #- 3.4.1: Prepare data for heatmap
       heatmap_data_T <- UFT_metaboanalyst_log2 %>%
-        left_join(tumor_pathology %>% select(Patient_ID, T), by = "Patient_ID") %>%
-        select(Patient_ID, Variant, T, everything()) %>%
-        rename(T_stage = T) %>%
-        mutate(T_stage = case_when(
-          is.na(T_stage) ~ NA_character_,
-          TRUE ~ paste("T", T_stage, sep = "")
-        ))
+        left_join(tumor_pathology %>% select(Patient_ID, T_computed), by = "Patient_ID") %>%
+        select(Patient_ID, Variant, T_computed, everything()) %>%
+        rename(T_stage = T_computed)
     #- 3.4.2: Create heatmaps with different feature selections
-        variance_full <- make_heatmap(
-          heatmap_data_T,
-          variant_colors = variant_colors,
-          feature_selector = "variance",
-          top_features = FALSE,
-          annotate_t_stage = TRUE,
-          T_stage_colors = T_stage_colors,
-          output_filename = NULL,
-          output_png_filename = "variance_full.png",
-          png_width = 2000, png_height = 2000, png_res = 220
-        )
         variance_2000 <- make_heatmap(
           heatmap_data_T,
           variant_colors = variant_colors,
           feature_selector = "variance",
           top_features = 2000,
           annotate_t_stage = TRUE,
-          T_stage_colors = T_stage_colors,
-          output_filename = NULL,
-          output_png_filename = "variance_2000.png",
-          png_width = 2000, png_height = 2000, png_res = 220
+          T_stage_colors = T_stage_colors_heatmap
         )
         variance_500 <- make_heatmap(
           heatmap_data_T,
@@ -71,24 +69,15 @@
           feature_selector = "variance",
           top_features = 500,
           annotate_t_stage = TRUE,
-          T_stage_colors = T_stage_colors,
-          output_filename = NULL,
-          output_png_filename = "variance_500.png",
-          png_width = 2000, png_height = 2000, png_res = 220
+          T_stage_colors = T_stage_colors_heatmap
         )
   #+ PERMANOVA
     variance_study <- UFT_metaboanalyst_log2 %>%
-      left_join(tumor_pathology, by = "Patient_ID") %>%
-      rename(T_stage = T) %>%
-      mutate(T_stage = case_when(
-        is.na(T_stage) ~ NA_character_,
-        TRUE ~ paste("T", T_stage, sep = "")
-      )) %>%
-      select(Patient_ID, T_stage, Sex, Age, MFC, LD, LVI, ETE, everything(), -c(Cluster, Patient, Variant_Name, N, M, Grade))
-# INPUT: variance_study tibble (samples x [metadata + 20k features]), already log2-transformed & imputed
-
+      left_join(merged_tumor_data_joiner, by = "Patient_ID") %>%
+      select(Patient_ID, Variant, T_computed, Sex, Age, MFC, LVI, everything()) %>%
+      rename(T_stage = T_computed)
 # --- 1) Define metadata and build feature matrix
-meta_vars <- c("T_stage", "Sex", "Age", "MFC", "LD", "LVI", "ETE", "Variant")
+meta_vars <- c("T_stage", "Sex", "Age", "MFC", "LVI", "Variant")
 
 # Clean up metadata types (helps avoid silent coercion issues)
 meta <- variance_study |>
@@ -97,9 +86,7 @@ meta <- variance_study |>
     T_stage = as.factor(T_stage),
     Sex     = as.factor(Sex),
     MFC     = as.factor(MFC), # ensure factor (fixes rows like "8 MFC 0.0132 0.887")
-    LD      = as.numeric(LD),
     LVI     = as.factor(LVI),
-    ETE     = as.factor(ETE),
     Variant = as.factor(Variant),
     Age     = as.numeric(Age)
   )
@@ -113,14 +100,6 @@ features_matrix <- variance_study |>
 keep <- stats::complete.cases(meta)
 meta_cc <- meta[keep, , drop = FALSE]
 features_cc <- features_matrix[keep, , drop = FALSE]
-
-# Drop any all-NA or zero-variance features (paranoid-safety)
-all_na <- vapply(features_cc, function(z) all(is.na(z)), logical(1))
-if (any(all_na)) features_cc <- features_cc[, !all_na, drop = FALSE]
-
-zv <- vapply(features_cc, function(z) stats::var(z, na.rm = TRUE), numeric(1)) == 0
-if (any(zv)) features_cc <- features_cc[, !zv, drop = FALSE]
-
 # --- 2) Select top 20% by variance (on log2 scale as-is)
 feature_vars <- vapply(features_cc, function(z) stats::var(z, na.rm = TRUE), numeric(1))
 n_keep <- ceiling(0.20 * ncol(features_cc))
@@ -144,9 +123,51 @@ get_permanova_stats <- function(varname) {
 results_top20 <- dplyr::bind_rows(lapply(meta_vars, get_permanova_stats)) |>
   dplyr::arrange(dplyr::desc(R2)) %>%
   arrange(p_value)
-
-
-
+conflicts_prefer(ggplot2::margin)
+# Create a ggplot table object for patchwork
+permanova_table_plot <- results_top20 %>%
+  mutate(
+    R2 = as.character(round(R2, 3)),
+    p_value = case_when(
+      p_value < 0.001 ~ "< 0.001",
+      TRUE ~ as.character(round(p_value, 3))
+    )
+  ) %>%
+  # Create row positions for plotting
+  mutate(row = row_number()) %>%
+  # Reshape for ggplot
+  pivot_longer(cols = c(Variable, R2, p_value), names_to = "column", values_to = "value") %>%
+  mutate(
+    column = factor(column, levels = c("Variable", "R2", "p_value")),
+    column_label = case_when(
+      column == "Variable" ~ "Variable",
+      column == "R2" ~ "R²",
+      column == "p_value" ~ "P-value"
+    )
+  ) %>%
+  ggplot(aes(x = column, y = -row, label = value)) +
+  geom_text(size = 3.5, hjust = 0.5, family = "Arial") +
+  # Add column headers
+  geom_text(
+    data = data.frame(
+      column = factor(c("Variable", "R2", "p_value"), levels = c("Variable", "R2", "p_value")),
+      row = 0,
+      value = c("Variable", "R²", "P-value")
+    ),
+    aes(x = column, y = 0.5, label = value),
+    fontface = "bold", size = 4, family = "Arial"
+  ) +
+  # Add horizontal lines
+  geom_hline(yintercept = 0, linewidth = 0.8) +
+  geom_hline(yintercept = -nrow(results_top20) - 0.5, linewidth = 0.5) +
+  scale_x_discrete(expand = c(0.1, 0.1)) +
+  scale_y_continuous(expand = c(0.05, 0.05)) +
+  labs(title = "PERMANOVA Results") +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 12, family = "Arial"),
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 10)
+  )
 
   #+ 3.5: Run t-tests for pairwise variant comparisons
     #- 3.5.1: FV-PTC vs PTC comparison
@@ -197,7 +218,7 @@ results_top20 <- dplyr::bind_rows(lapply(meta_vars, get_permanova_stats)) |>
       FVPTC_FTC <- read_xlsx("Outputs/Mummichog Outputs/variant_mummichog.xlsx", sheet = "FVPTC_FTC") %>%
         mutate(Comparisons = "FVPTC_FTC")
     #- 3.6.2: Bind rows then filter to important variables
-    variant_enrichment <- bind_rows(FVPTC_PTC, FTC_PTC, FVPTC_FTC) %>%
+      variant_enrichment <- bind_rows(FVPTC_PTC, FTC_PTC, FVPTC_FTC) %>%
       mutate(enrichment_factor = Hits.sig / Expected) %>%
       select(Comparisons, pathway_name, p_fisher, enrichment_factor) %>%
       filter(p_fisher < 0.05) %>%
@@ -318,22 +339,19 @@ results_top20 <- dplyr::bind_rows(lapply(meta_vars, get_permanova_stats)) |>
           plot.margin = margin(t = 20, r = 40, b = 10, l = 40)
         ) + coord_cartesian(clip = "off") 
     #- 3.6.4: Export Plot
-panel_size <- 0.3 # tweak this until happy
+      panel_size <- 0.3 # tweak this until happy
+      n_rows <- length(unique(variant_enrichment$pathway_name))
+      n_cols <- length(unique(variant_enrichment$Comparisons))
+      # Add space for legends, strip labels, margins
+      extra_width <- 3 # inches for legends on the right
+      extra_height <- 1 # inches for titles/margins
+      total_width <- n_cols * panel_size + extra_width
+      total_height <- n_rows * panel_size + extra_height
 
-n_rows <- length(unique(variant_enrichment$pathway_name))
-n_cols <- length(unique(variant_enrichment$Comparisons))
-
-# Add space for legends, strip labels, margins
-extra_width <- 3 # inches for legends on the right
-extra_height <- 1 # inches for titles/margins
-
-total_width <- n_cols * panel_size + extra_width
-total_height <- n_rows * panel_size + extra_height
-
-ggsave(
-  "variant_enrichment_plot.svg",
-  variant_enrichment_plot,
-  width = total_width,
-  height = total_height,
-  units = "in"
-)
+      ggsave(
+        "variant_enrichment_plot.svg",
+        variant_enrichment_plot,
+        width = total_width,
+        height = total_height,
+        units = "in"
+      )

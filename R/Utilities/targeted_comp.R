@@ -4,9 +4,10 @@
 #' @param grouping_var Character string specifying the column name for grouping (e.g., "Clade", "Variant", "T")
 #' @param test_type Character string specifying test type: "t_test" or "anova"
 #' @param exclude_cols Character vector of column names to exclude from analysis (default: c("Patient_ID"))
+#' @param exclude_isotopes Logical, whether to exclude isotope metabolites (15N, 13C) from analysis (default: TRUE)
 #' @return Tibble with statistical test results including p-values, FDR correction, and group means
 #' @export
-targeted_metabolite_comparison <- function(data, grouping_var, test_type = "t_test", exclude_cols = c("Patient_ID")) {
+targeted_metabolite_comparison <- function(data, grouping_var, test_type = "t_test", exclude_cols = c("Patient_ID"), exclude_isotopes = TRUE) {
   
   # Load required libraries
   library(dplyr)
@@ -15,6 +16,11 @@ targeted_metabolite_comparison <- function(data, grouping_var, test_type = "t_te
   
   # Identify metabolite columns
   metabolite_cols <- names(data)[!names(data) %in% c(exclude_cols, grouping_var)]
+  
+  # Filter out isotopes if requested
+  if (exclude_isotopes) {
+    metabolite_cols <- metabolite_cols[!str_detect(metabolite_cols, "15N|13C")]
+  }
   
   # Check if grouping variable exists
   if (!grouping_var %in% names(data)) {
@@ -141,6 +147,7 @@ targeted_metabolite_comparison <- function(data, grouping_var, test_type = "t_te
   cat("Statistical comparison results:\n")
   cat("Test type:", test_type, "\n")
   cat("Grouping variable:", grouping_var, "\n")
+  cat("Isotopes excluded:", exclude_isotopes, "\n")
   cat("Number of metabolites tested:", nrow(final_results), "\n")
   cat("Significantly different (uncorrected p < 0.05):", n_significant, "\n")
   cat("Significantly different (FDR corrected p < 0.05):", n_significant_fdr, "\n\n")

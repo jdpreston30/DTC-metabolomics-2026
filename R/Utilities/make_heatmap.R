@@ -1,5 +1,5 @@
 #' Create heatmap with optional feature selection (ANOVA / variance / MAD)
-#' and optional T_stage annotation. Adds optional PNG export.
+#' and optional T_stage annotation. Returns plot object for patchwork.
 #'
 #' @param data             Data frame with Patient_ID, Variant, optional T_stage, then feature columns
 #' @param variant_colors   Named color vector for Variant (names = levels)
@@ -7,15 +7,9 @@
 #' @param feature_selector One of c("none","anova","variance","mad"). Default "none".
 #' @param variant_levels   Factor order for Variant (default c("PTC","FV-PTC","FTC"))
 #' @param n_clades         Number of clades to extract from sample HCA (default 2)
-#' @param output_filename  Optional filename (saved to "Outputs/") for SVG
 #' @param annotate_t_stage Logical; if TRUE and T_stage exists, add as column annotation
 #' @param T_stage_colors   Optional named color vector for T_stage; include "T1","T2","T3","T4". "Unknown" added if missing.
-#' @param output_png_filename Optional PNG filename (saved to "Outputs/"). If NULL, no PNG is written.
-#' @param png_width        PNG width in pixels (default 2000)
-#' @param png_height       PNG height in pixels (default 2000)
-#' @param png_res          PNG resolution (dpi-ish; default 220)
-#' @param png_bg           PNG background color (default "white")
-#' @return List with M, Mz, hc_cols, clade_df, clade_lists, ann_col, ann_colors, etc.
+#' @return List with plot object, M, Mz, hc_cols, clade_df, clade_lists, ann_col, ann_colors, etc.
 #' @export
 make_heatmap <- function(
     data,
@@ -24,15 +18,8 @@ make_heatmap <- function(
     feature_selector = c("none", "anova", "variance", "mad"),
     variant_levels = c("PTC", "FV-PTC", "FTC"),
     n_clades = 2,
-    output_filename = NULL, # SVG
     annotate_t_stage = FALSE,
-    T_stage_colors = NULL,
-    # --- NEW: PNG options ---
-    output_png_filename = NULL, # e.g., "heatmap.png"
-    png_width = 2000,
-    png_height = 2000,
-    png_res = 220,
-    png_bg = "white") {
+    T_stage_colors = NULL) {
   feature_selector <- match.arg(feature_selector)
 
   # ---- Checks ----
@@ -153,53 +140,22 @@ make_heatmap <- function(
     na_col = "#DDDDDD"
   )
 
-  # ---- Optional save to SVG ----
-  if (!is.null(output_filename)) {
-    dir.create("Outputs", showWarnings = FALSE)
-    grDevices::svg(file.path("Outputs", output_filename), width = 8, height = 8, pointsize = 12)
-    pheatmap::pheatmap(
-      M,
-      scale = "row",
-      color = colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255),
-      clustering_distance_rows = "euclidean",
-      clustering_distance_cols = "euclidean",
-      clustering_method = "complete",
-      annotation_col = ann_col,
-      annotation_colors = ann_colors,
-      show_rownames = FALSE,
-      show_colnames = FALSE,
-      fontsize = 10,
-      na_col = "#DDDDDD"
-    )
-    grDevices::dev.off()
-    cat("Heatmap saved to:", file.path("Outputs", output_filename), "\n")
-  }
-
-  # ---- NEW: Optional save to PNG ----
-  if (!is.null(output_png_filename)) {
-    dir.create("Outputs", showWarnings = FALSE)
-    grDevices::png(
-      filename = file.path("Outputs", output_png_filename),
-      width = png_width, height = png_height,
-      res = png_res, units = "px", bg = png_bg
-    )
-    pheatmap::pheatmap(
-      M,
-      scale = "row",
-      color = colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255),
-      clustering_distance_rows = "euclidean",
-      clustering_distance_cols = "euclidean",
-      clustering_method = "complete",
-      annotation_col = ann_col,
-      annotation_colors = ann_colors,
-      show_rownames = FALSE,
-      show_colnames = FALSE,
-      fontsize = 10,
-      na_col = "#DDDDDD"
-    )
-    grDevices::dev.off()
-    cat("Heatmap PNG saved to:", file.path("Outputs", output_png_filename), "\n")
-  }
+  # Create heatmap plot object for patchwork
+  heatmap_plot <- pheatmap::pheatmap(
+    M,
+    scale = "row",
+    color = colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255),
+    clustering_distance_rows = "euclidean",
+    clustering_distance_cols = "euclidean",
+    clustering_method = "complete",
+    annotation_col = ann_col,
+    annotation_colors = ann_colors,
+    show_rownames = FALSE,
+    show_colnames = FALSE,
+    fontsize = 10,
+    na_col = "#DDDDDD",
+    silent = TRUE  # Prevents auto-display
+  )
 
   # ---- Sample clustering & clades ----
   Mz <- t(scale(t(M), center = TRUE, scale = TRUE))
@@ -237,6 +193,7 @@ make_heatmap <- function(
     ann_colors = ann_colors,
     clade_df = clade_df,
     clades = clades,
-    clade_lists = clade_lists
+    clade_lists = clade_lists,
+    heatmap_plot = heatmap_plot  # Plot object for patchwork
   )
 }
