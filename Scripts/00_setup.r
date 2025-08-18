@@ -18,3 +18,7 @@
       ),
       source
     )
+  #+ 0.3: Set conflicts
+    conflicts_prefer(ggplot2::margin)
+  #+ 0.4: Set seed for reproducibility
+    set.seed(2025)

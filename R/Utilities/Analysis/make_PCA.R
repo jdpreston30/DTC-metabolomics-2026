@@ -4,11 +4,13 @@
 #' @param plot_title Optional title for the plot (default: "")
 #' @param ellipse_colors Named vector of colors for each variant/group
 #' @param point_size Size of the points (default: 3 for standalone, 0.5 for multi-panel)
+#' @param comp_x Which principal component to plot on x-axis (default: 1)
+#' @param comp_y Which principal component to plot on y-axis (default: 2)
 #' @return List containing the plot, PCA object, scores, scores_df, and explained variance
 #' @export
 make_PCA <- function(data, plot_title = "", 
                         ellipse_colors = c("PTC" = "#DF8D0A", "FV-PTC" = "#23744E", "FTC" = "#194992"),
-                        point_size = 3) {
+                        point_size = 3, comp_x = 1, comp_y = 2) {
       #_Data preparation
       df <- as.data.frame(data)
       cls_col <- if ("Variant" %in% names(df)) "Variant" else names(df)[2]
@@ -26,8 +28,15 @@ make_PCA <- function(data, plot_title = "",
       
       #_Perform PCA
       pca <- stats::prcomp(X, center = TRUE, scale. = TRUE)
-      scores <- pca$x[, 1:2, drop = FALSE]
-      explained <- round((pca$sdev^2 / sum(pca$sdev^2))[1:2] * 100)
+      
+      #_Validate component indices
+      max_comp <- min(ncol(X), nrow(X) - 1)
+      if (comp_x > max_comp || comp_y > max_comp) {
+        stop(paste("Requested components exceed available components. Max components:", max_comp))
+      }
+      
+      scores <- pca$x[, c(comp_x, comp_y), drop = FALSE]
+      explained <- round((pca$sdev^2 / sum(pca$sdev^2))[c(comp_x, comp_y)] * 100)
       
       #_Prepare plot data
       scores_df <- data.frame(
@@ -36,21 +45,42 @@ make_PCA <- function(data, plot_title = "",
         Class = Y
       )
       
+      # Identify NA values and create separate datasets
+      na_mask <- is.na(scores_df$Class)
+      scores_df_complete <- scores_df[!na_mask, , drop = FALSE]
+      scores_df_na <- scores_df[na_mask, , drop = FALSE]
+      
       #_Create PCA plot
-      pca_plot <- ggplot2::ggplot(scores_df, ggplot2::aes(x = Comp1, y = Comp2, color = Class)) +
-        ggplot2::geom_point(
-          size = point_size, shape = 16  # Use parameter for size, solid circles
-        ) +
-        ggplot2::stat_ellipse(
-          geom = "polygon", ggplot2::aes(fill = Class),
-          alpha = 0.3, color = NA
-        ) +
-        ggplot2::scale_color_manual(values = ellipse_colors, drop = FALSE) +
-        ggplot2::scale_fill_manual(values = ellipse_colors, drop = FALSE) +
+      pca_plot <- ggplot2::ggplot() +
+        # Plot complete cases with colors and ellipses
+        {if(nrow(scores_df_complete) > 0) {
+          list(
+            ggplot2::geom_point(
+              data = scores_df_complete,
+              ggplot2::aes(x = Comp1, y = Comp2, color = Class, fill = Class),
+              size = point_size, shape = 16
+            ),
+            ggplot2::stat_ellipse(
+              data = scores_df_complete,
+              ggplot2::aes(x = Comp1, y = Comp2, fill = Class),
+              geom = "polygon", alpha = 0.3, color = NA
+            )
+          )
+        }} +
+        # Plot NA values as open circles without color
+        {if(nrow(scores_df_na) > 0) {
+          ggplot2::geom_point(
+            data = scores_df_na,
+            ggplot2::aes(x = Comp1, y = Comp2),
+            size = point_size, shape = 1, color = "black", fill = NA
+          )
+        }} +
+        ggplot2::scale_color_manual(values = ellipse_colors, drop = TRUE, na.translate = FALSE) +
+        ggplot2::scale_fill_manual(values = ellipse_colors, drop = TRUE, na.translate = FALSE) +
         ggplot2::theme_minimal(base_family = "Arial") +
         ggplot2::labs(
-          x = paste0("PC1 (", explained[1], "%)"),
-          y = paste0("PC2 (", explained[2], "%)")
+          x = paste0("PC", comp_x, " (", explained[1], "%)"),
+          y = paste0("PC", comp_y, " (", explained[2], "%)")
         ) +
         ggplot2::theme(
           axis.title = ggplot2::element_text(size = 25, face = "bold"),

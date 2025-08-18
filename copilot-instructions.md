@@ -20,8 +20,8 @@ Use this exact hierarchy in all R code you generate:
 - `#_` Checks/verification steps
 
 Indentation rules:
-- 2 spaces per hierarchy level
-- Major sections: 0 spaces; subsections: +2; sub-subsections: +4
+- 2 spaces per hierarchy level, except for Major sections and Subsections (`#*` and `#+`)
+- Major sections: 0 spaces; subsections: +0; sub-subsections: +2
 - Code blocks match their comment level
 
 **Example**
@@ -29,12 +29,12 @@ Indentation rules:
 #* 1: Load data
   df <- readr::read_csv("data.csv")
 
-  #+ 1.1: Clean names
-    df <- janitor::clean_names(df)
+#+ 1.1: Clean names
+  df <- janitor::clean_names(df)
 
-    #- 1.1.1: Verify rows
-      #_ Expect > 100 rows
-      stopifnot(nrow(df) > 100)
+  #- 1.1.1: Verify rows
+    #_ Expect > 100 rows
+    stopifnot(nrow(df) > 100)
 ```
 
 ## Special Commands

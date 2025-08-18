@@ -1,357 +1,232 @@
 #* 3: Combined Clustering analysis
-  #+ 3.0: Setup
-    conflicts_prefer(ggplot2::margin)
-  #+ 3.1: Add relevant path data onto UFT
-      merged_tumor_data_joiner <- tumor_pathology %>%
-        mutate(
-          T_computed_bin = case_when(
-            T_computed %in% c("T1", "T2") ~ "T1-T2",
-            T_computed %in% c("T3", "T4") ~ "T3-T4",
-            TRUE ~ NA_character_
-          )
-        ) %>%
-        select(Patient_ID, Sex, Age, MFC,ETE, T_computed_bin, LD, LVI, T_computed)
-      #- 5.1.2: Join with TFT_metaboanalyst_log2
-      TFT_metaboanalyst_log2_path <- UFT_metaboanalyst_log2 %>%
-        left_join(merged_tumor_data_joiner, by = "Patient_ID") %>%
-        select(Patient_ID, T_computed_bin, LD, LVI, Variant, everything(), -T_computed)
-  #+ 3.1: Create PCA plots
-      #- 3.1.1: Generate PCA plot object (using variant colors)
-        variant_pca <- make_PCA(
-          data = TFT_metaboanalyst_log2_path %>% select(-c(T_computed_bin:LVI)),
-          ellipse_colors = variant_colors
-        )
-        T_stage_PCA <- make_PCA(
-          data = TFT_metaboanalyst_log2_path %>% select(-c(LD:Variant)),
-          ellipse_colors = T_stage_colors
-        )
-        LVI_PCA <- make_PCA(
-          data = TFT_metaboanalyst_log2_path %>% select(-c(T_computed_bin, LD, Variant)),
-          ellipse_colors = LVI_colors
-        )
-  #+ 3.3: Combined PCA analysis with hierarchical clusters
-    #- 3.3.1: Create modified dataset with clade assignments
-      #_Create data with clade assignments instead of variants
-      UFT_with_clades <- UFT_metaboanalyst_log2 %>%
-        dplyr::left_join(
-          heatmap_results$clade_df %>% dplyr::select(Patient_ID, Clade),
-          by = "Patient_ID"
-        ) %>%
-        dplyr::mutate(
-          Variant = factor(paste0("Clade_", Clade), levels = c("Clade_1", "Clade_2"))
-        ) %>%
-        dplyr::select(-Clade) %>%
-        dplyr::filter(!is.na(Variant))
-    #- 3.3.2: Run PCA with clade colorss
-      pca_clades_results <- make_PCA(
-        data = UFT_with_clades,
-        output_filename = "Combined_pca_clades.svg",
-        ellipse_colors = clade_colors
-      )
-  #+ 3.4: Create heatmaps
-    #- 3.4.1: Prepare data for heatmap
-      heatmap_data_T <- UFT_metaboanalyst_log2 %>%
-        left_join(tumor_pathology %>% select(Patient_ID, T_computed), by = "Patient_ID") %>%
-        select(Patient_ID, Variant, T_computed, everything()) %>%
-        rename(T_stage = T_computed)
-    #- 3.4.2: Create heatmaps with different feature selections
-        variance_2000 <- make_heatmap(
-          heatmap_data_T,
-          variant_colors = variant_colors,
-          feature_selector = "variance",
-          top_features = 2000,
-          annotate_t_stage = TRUE,
-          T_stage_colors = T_stage_colors_heatmap
-        )
-        variance_500 <- make_heatmap(
-          heatmap_data_T,
-          variant_colors = variant_colors,
-          feature_selector = "variance",
-          top_features = 500,
-          annotate_t_stage = TRUE,
-          T_stage_colors = T_stage_colors_heatmap
-        )
-  #+ PERMANOVA
-    variance_study <- UFT_metaboanalyst_log2 %>%
-      left_join(merged_tumor_data_joiner, by = "Patient_ID") %>%
-      select(Patient_ID, Variant, T_computed, Sex, Age, MFC, LVI, everything()) %>%
-      rename(T_stage = T_computed)
-# --- 1) Define metadata and build feature matrix
-meta_vars <- c("T_stage", "Sex", "Age", "MFC", "LVI", "Variant")
-
-# Clean up metadata types (helps avoid silent coercion issues)
-meta <- variance_study |>
-  dplyr::select(dplyr::all_of(meta_vars)) |>
-  dplyr::mutate(
-    T_stage = as.factor(T_stage),
-    Sex     = as.factor(Sex),
-    MFC     = as.factor(MFC), # ensure factor (fixes rows like "8 MFC 0.0132 0.887")
-    LVI     = as.factor(LVI),
-    Variant = as.factor(Variant),
-    Age     = as.numeric(Age)
+#+ 3.1: Run Exploratory PCAs
+  #- 3.1.1: Define datasets
+    variant_data <- UFT_metaboanalyst_log2_path %>% 
+      select(Patient_ID, Variant, all_of(feature_cols))
+    T_stage_data <- UFT_metaboanalyst_log2_path %>%
+      select(Patient_ID, T_computed_bin, all_of(feature_cols))
+    LVI_data <- UFT_metaboanalyst_log2_path %>%
+      select(Patient_ID, LVI, all_of(feature_cols))
+    Sex_data <- UFT_metaboanalyst_log2_path %>%
+    select(Patient_ID, Sex, all_of(feature_cols))
+  #- 3.1.2: Create variant PCAs
+  variant_pca_12 <- make_PCA(
+    data = variant_data,
+    ellipse_colors = variant_colors,
+    comp_x = 1, comp_y = 2
   )
-
-# Build numeric feature matrix (drop Patient_ID and all metadata columns)
-features_matrix <- variance_study |>
-  dplyr::select(-Patient_ID, -dplyr::all_of(meta_vars)) |>
-  as.data.frame()
-
-# Keep only samples with complete metadata, and align features
-keep <- stats::complete.cases(meta)
-meta_cc <- meta[keep, , drop = FALSE]
-features_cc <- features_matrix[keep, , drop = FALSE]
-# --- 2) Select top 20% by variance (on log2 scale as-is)
-feature_vars <- vapply(features_cc, function(z) stats::var(z, na.rm = TRUE), numeric(1))
-n_keep <- ceiling(0.20 * ncol(features_cc))
-top_idx <- order(feature_vars, decreasing = TRUE)[1:n_keep]
-features_top <- as.matrix(features_cc[, top_idx, drop = FALSE])
-
-# --- 3) Distance matrix (Euclidean on log2; skip scaling since already log2; add scale() if desired)
-dist_mat <- vegan::vegdist(features_top, method = "euclidean")
-
-# --- 4) Run PERMANOVA for EACH metadata variable separately (R2, p)
-get_permanova_stats <- function(varname) {
-  f <- stats::as.formula(paste("dist_mat ~", varname))
-  res <- vegan::adonis2(f, data = meta_cc, permutations = 999)
-  tibble::tibble(
-    Variable = varname,
-    R2       = as.numeric(res$R2[1]),
-    p_value  = as.numeric(res$`Pr(>F)`[1])
+  variant_pca_23 <- make_PCA(
+    data = variant_data,
+    ellipse_colors = variant_colors,
+    comp_x = 2, comp_y = 3
   )
-}
-
-results_top20 <- dplyr::bind_rows(lapply(meta_vars, get_permanova_stats)) |>
-  dplyr::arrange(dplyr::desc(R2)) %>%
-  arrange(p_value)
-conflicts_prefer(ggplot2::margin)
-# Create a ggplot table object for patchwork
-permanova_table_plot <- results_top20 %>%
-  mutate(
-    R2 = as.character(round(R2, 3)),
-    p_value = case_when(
-      p_value < 0.001 ~ "< 0.001",
-      TRUE ~ as.character(round(p_value, 3))
+  variant_pca_34 <- make_PCA(
+    data = variant_data,
+    ellipse_colors = variant_colors,
+    comp_x = 3, comp_y = 4
+  )
+  #- 3.1.3: Create T-stage PCAs
+    T_stage_PCA_12 <- make_PCA(
+      data = T_stage_data,
+      ellipse_colors = T_stage_colors,
+      comp_x = 1, comp_y = 2
     )
-  ) %>%
-  # Create row positions for plotting
-  mutate(row = row_number()) %>%
-  # Reshape for ggplot
-  pivot_longer(cols = c(Variable, R2, p_value), names_to = "column", values_to = "value") %>%
-  mutate(
-    column = factor(column, levels = c("Variable", "R2", "p_value")),
-    column_label = case_when(
-      column == "Variable" ~ "Variable",
-      column == "R2" ~ "R²",
-      column == "p_value" ~ "P-value"
+    T_stage_PCA_23 <- make_PCA(
+      data = T_stage_data,
+      ellipse_colors = T_stage_colors,
+      comp_x = 2, comp_y = 3
     )
-  ) %>%
-  ggplot(aes(x = column, y = -row, label = value)) +
-  geom_text(size = 3.5, hjust = 0.5, family = "Arial") +
-  # Add column headers
-  geom_text(
-    data = data.frame(
-      column = factor(c("Variable", "R2", "p_value"), levels = c("Variable", "R2", "p_value")),
-      row = 0,
-      value = c("Variable", "R²", "P-value")
-    ),
-    aes(x = column, y = 0.5, label = value),
-    fontface = "bold", size = 4, family = "Arial"
-  ) +
-  # Add horizontal lines
-  geom_hline(yintercept = 0, linewidth = 0.8) +
-  geom_hline(yintercept = -nrow(results_top20) - 0.5, linewidth = 0.5) +
-  scale_x_discrete(expand = c(0.1, 0.1)) +
-  scale_y_continuous(expand = c(0.05, 0.05)) +
-  labs(title = "PERMANOVA Results") +
-  theme_void() +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 12, family = "Arial"),
-    plot.margin = margin(t = 10, r = 10, b = 10, l = 10)
-  )
-
-  #+ 3.5: Run t-tests for pairwise variant comparisons
-    #- 3.5.1: FV-PTC vs PTC comparison
-      #_Extract variant assignments (excluding FTC)
-      variant_assignments_FVPTC_PTC <- UFT_metaboanalyst_log2 %>%
-        dplyr::filter(Variant != "FTC") %>%
-        dplyr::select(Patient_ID, Variant)
-      FVPTC_vs_PTC <- mummichog_ttests(
-        data = UFT_metaboanalyst_log2 %>% dplyr::filter(Variant != "FTC"),
-        group_assignments = variant_assignments_FVPTC_PTC,
-        group_column = "Variant",
-        output_filename = "FVPTC_vs_PTC.csv",
-        group1_value = "PTC",
-        group2_value = "FV-PTC"
-      )
-    #- 3.5.2: FTC vs PTC comparison
-      #_Extract variant assignments (excluding FV-PTC)
-      variant_assignments_FTC_PTC <- UFT_metaboanalyst_log2 %>%
-        dplyr::filter(Variant != "FV-PTC") %>%
-        dplyr::select(Patient_ID, Variant)
-      FTC_vs_PTC <- mummichog_ttests(
-        data = UFT_metaboanalyst_log2 %>% dplyr::filter(Variant != "FV-PTC"),
-        group_assignments = variant_assignments_FTC_PTC,
-        group_column = "Variant",
-        output_filename = "FTC_vs_PTC.csv",
-        group1_value = "PTC",
-        group2_value = "FTC"
-      )
-    #- 3.5.3: FTC vs FV-PTC comparison
-      #_Extract variant assignments (excluding PTC)
-      variant_assignments_FTC_FVPTC <- UFT_metaboanalyst_log2 %>%
-        dplyr::filter(Variant != "PTC") %>%
-        dplyr::select(Patient_ID, Variant)
-      FTC_vs_FVPTC <- mummichog_ttests(
-        data = UFT_metaboanalyst_log2 %>% dplyr::filter(Variant != "PTC"),
-        group_assignments = variant_assignments_FTC_FVPTC,
-        group_column = "Variant",
-        output_filename = "FTC_vs_FVPTC.csv",
-        group1_value = "FV-PTC",
-        group2_value = "FTC"
-      )
-  #+ 3.6: Pathway Enrichment Plot
-    #- 3.6.1: Import results from mummichog
-      FVPTC_PTC <- read_xlsx("Outputs/Mummichog Outputs/variant_mummichog.xlsx", sheet = "FVPTC_PTC") %>%
-        mutate(Comparisons = "FVPTC_PTC")
-      FTC_PTC <- read_xlsx("Outputs/Mummichog Outputs/variant_mummichog.xlsx", sheet = "FTC_PTC") %>%
-        mutate(Comparisons = "FTC_PTC")
-      FVPTC_FTC <- read_xlsx("Outputs/Mummichog Outputs/variant_mummichog.xlsx", sheet = "FVPTC_FTC") %>%
-        mutate(Comparisons = "FVPTC_FTC")
-    #- 3.6.2: Bind rows then filter to important variables
-      variant_enrichment <- bind_rows(FVPTC_PTC, FTC_PTC, FVPTC_FTC) %>%
-      mutate(enrichment_factor = Hits.sig / Expected) %>%
-      select(Comparisons, pathway_name, p_fisher, enrichment_factor) %>%
-      filter(p_fisher < 0.05) %>%
+    T_stage_PCA_34 <- make_PCA(
+      data = T_stage_data,
+      ellipse_colors = T_stage_colors,
+      comp_x = 3, comp_y = 4
+    )
+  #- 3.1.4: Create LVI PCAs
+    LVI_PCA_12 <- make_PCA(
+      data = LVI_data,
+      ellipse_colors = LVI_colors,
+      comp_x = 1, comp_y = 2
+    )
+    LVI_PCA_23 <- make_PCA(
+      data = LVI_data,
+      ellipse_colors = LVI_colors,
+      comp_x = 2, comp_y = 3
+    )
+    LVI_PCA_34 <- make_PCA(
+      data = LVI_data,
+      ellipse_colors = LVI_colors,
+      comp_x = 3, comp_y = 4
+    )
+  #- 3.1.5: Create Sex PCAs
+    Sex_PCA_12 <- make_PCA(
+      data = Sex_data,
+      ellipse_colors = sex_colors,
+      comp_x = 1, comp_y = 2
+    )
+    Sex_PCA_23 <- make_PCA(
+      data = Sex_data,
+      ellipse_colors = sex_colors,
+      comp_x = 2, comp_y = 3
+    )
+    Sex_PCA_34 <- make_PCA(
+      data = Sex_data,
+      ellipse_colors = sex_colors,
+      comp_x = 3, comp_y = 4
+    )
+#+ 3.2: Create heatmaps
+  #- 3.2.1: Prepare data for heatmap
+    heatmap_data_T <- UFT_metaboanalyst_log2_path %>%
+    select(Patient_ID, Variant, T_computed_bin, any_of(feature_cols)) %>%
+    rename("T_stage" = T_computed_bin)
+  #- 3.2.2: Create heatmaps with different feature selections
+    variance_1000 <- make_heatmap(
+      heatmap_data_T,
+      variant_colors = variant_colors,
+      feature_selector = "variance",
+      top_features = 1000,
+      annotate_t_stage = TRUE,
+      T_stage_colors = T_stage_bin_colors,
+      cluster_colors = cluster_colors
+    )
+    anova_1000 <- make_heatmap(
+      heatmap_data_T,
+      variant_colors = variant_colors,
+      feature_selector = "anova",
+      top_features = 1000,
+      annotate_t_stage = TRUE,
+      T_stage_colors = T_stage_colors_heatmap,
+      cluster_colors = cluster_colors
+    )
+    variance_full <- make_heatmap(
+      heatmap_data_T,
+      variant_colors = variant_colors,
+      feature_selector = "variance",
+      top_features = FALSE,
+      annotate_t_stage = TRUE,
+      T_stage_colors = T_stage_bin_colors,
+      cluster_colors = cluster_colors
+    )
+  #- 3.2.3: Create cluster data for PCA analysis
+    UFT_with_clusters <- UFT_metaboanalyst_log2_path %>%
+      left_join(variance_1000$cluster_df, by = "Patient_ID") %>%
+      mutate(Cluster = factor(paste0("Cluster ", Cluster), levels = c("Cluster 1", "Cluster 2"))) %>%
+      select(Patient_ID, Cluster, any_of(feature_cols)) %>%
+      arrange(Cluster)
+#+ 3.4: Run PERMANOVA analysis
+  #- 3.4.1: Define feature columns
+    permanova_features <- rownames(variance_1000$M)
+  #- 3.4.1: Extract features and prepare data
+    variance_study <- UFT_metaboanalyst_log2_path %>%
+      left_join(variance_1000$cluster_df, by = "Patient_ID") %>%
+      select(Patient_ID, Cluster, Variant, T_computed_bin, Sex, Age, MFC, LVI, any_of(permanova_features)) %>%
+      rename(T_stage = T_computed_bin) %>%
       mutate(
-        # Label comparisons nicely
-        Comparisons = dplyr::case_when(
-          Comparisons == "FVPTC_PTC" ~ "PTC vs. FV-PTC",
-          Comparisons == "FTC_PTC" ~ "FTC vs. PTC",
-          Comparisons == "FVPTC_FTC" ~ "FTC vs. FV-PTC",
-          TRUE ~ Comparisons
-        ),
-        Comparisons = factor(Comparisons, levels = c("FTC vs. FV-PTC", "FTC vs. PTC", "PTC vs. FV-PTC")),
-        pathway_name = forcats::fct_reorder(pathway_name, enrichment_factor, .fun = max)
+        across(c(Sex, LVI, Variant, MFC), as.factor),
+        Age = as.numeric(Age),
+        T_stage = factor(T_stage, levels = c("T1-T2", "T3-T4")),
+        Cluster = factor(if_else(Cluster == 1, "Cluster 1", "Cluster 2"), 
+                        levels = c("Cluster 1", "Cluster 2"))
       ) %>%
-      tidyr::complete(pathway_name, Comparisons) %>%
-      mutate(enrichment_factor = pmin(enrichment_factor, 7)) %>%
+      arrange(Cluster)
+  #- 3.4.2: Define PERMANOVA variables
+    permanova_variables <-  c("T_stage", "Sex", "LVI", "Variant", "MFC", "Age", "Cluster")
+  #- 3.4.3: Impute missing values
+    #! IMPUTED for LVI variable, one sample missing data
+    meta_i <- variance_study %>% 
+      select(all_of(permanova_variables))
+    meta <- complete(mice(
+      meta_i,
+      m = 1,
+      method = replace(setNames(rep("", ncol(meta_i)), colnames(meta_i)), "LVI", "logreg"),
+      predictorMatrix = {
+        p <- matrix(0, ncol(meta_i), ncol(meta_i),
+          dimnames = list(colnames(meta_i), colnames(meta_i))
+        )
+        p["LVI", c("T_stage", "Sex", "Variant", "MFC", "Age")] <- 1
+        p
+      },
+      seed = 123,
+      printFlag = FALSE
+    ), 1)
+  #- 3.4.4: Extract feature data for analysis
+    features_1000 <- variance_study %>%
+      select(any_of(permanova_features))
+  #- 3.4.5: Prepare metadata for individual tests
+    meta_use <- variance_study %>%
+      select(all_of(permanova_variables)) %>%
       mutate(
-        # First handle Beta/β
-        pathway_name = stringr::str_replace_all(
-          pathway_name,
-          stringr::regex("\\bBeta[- ]Alanine\\b", ignore_case = TRUE),
-          "β-Alanine"
+        across(c(T_stage, Sex, LVI, Variant, MFC, Cluster), as.factor),
+        Age = as.numeric(Age)
+      )
+  #- 3.4.6: Run PERMANOVA for each variable
+    permanova_results_1000 <- bind_rows(lapply(
+      permanova_variables, 
+      get_permanova,
+      feature_data = features_1000,
+      meta_data = meta_use,
+      ctrl = permute::how(nperm = 9999),
+      seed = 2025)) %>%
+      arrange(p_value) %>%
+      mutate(Variable = if_else(Variable == "T_stage", "T stage", Variable))
+  #- 3.4.7: Create PERMANOVA visualiation data
+    permanova_viz <- permanova_results_1000 %>%
+      mutate(
+        Significance = case_when(
+          p_value < 0.001 ~ "p < 0.001",
+          p_value < 0.01 ~ "p < 0.01", 
+          p_value < 0.05 ~ "p < 0.05",
+          p_value < 0.1 ~ "p < 0.1",
+          TRUE ~ "n.s."
         ),
-        # Capitalization fixes
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bmetabolism\\b", TRUE), "Metabolism"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bleucine\\b", TRUE), "Leucine"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bisoleucine\\b", TRUE), "Isoleucine"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bdegradation\\b", TRUE), "Degradation"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bmannose\\b", TRUE), "Mannose"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bacid\\b", TRUE), "Acid"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\boxidation\\b", TRUE), "Oxidation"),
-        pathway_name = stringr::str_replace_all(pathway_name, stringr::regex("\\bperoxisome\\b", TRUE), "Peroxisome")) %>%
-      mutate(
-        pathway_name = stringr::str_replace_all(
-          pathway_name,
-          stringr::regex("\\bretinol\\b", ignore_case = TRUE),
-          "Retinol"
-        )
-      ) %>%
-      mutate(
-        pathway_name = factor(
-          pathway_name,
-          levels = filter(., Comparisons == "FTC vs. FV-PTC") %>%
-            arrange(desc(enrichment_factor)) %>%
-            pull(pathway_name) %>%
-            unique()
+        Significance = factor(Significance, levels = c("p < 0.001", "p < 0.01", "p < 0.05", "p < 0.1", "n.s.")),
+        p_label = case_when(
+          p_value < 0.001 ~ "p < 0.001",
+          p_value < 0.05 ~ paste0("p = ", round(p_value, 3)),
+          TRUE ~ paste0("p = ", round(p_value, 2))
         )
       )
-    #- 3.6.3: Plot
-      variant_enrichment_plot <- ggplot(
-        variant_enrichment,
-        aes(x = 0.5, y = 0.5, size = enrichment_factor, color = p_fisher)
-      ) +
-        # One dummy row per facet -> avoid the warning
-        geom_tile(
-          data = data.frame(x = 0.5, y = 0.5),
-          aes(x = x, y = y),
-          width = 1, height = 1,
-          fill = "white", colour = "grey80", linewidth = 0.3,
-          inherit.aes = FALSE
-        ) +
-        geom_point(
-          alpha = 0.95, shape = 16, stroke = 0,
-          na.rm = TRUE, show.legend = TRUE
-        ) +
-        facet_grid(
-          rows = vars(pathway_name),
-          cols = vars(Comparisons),
-          switch = "y", drop = FALSE
-        ) +
-        coord_fixed(clip = "off") +
-        scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
-        scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
-
-        # Keep limits ascending; reverse legend order via guide
-        scale_size_continuous(
-          range = c(5, 20),
-          limits = c(0, 7),
-          breaks = c(7, 5, 3, 1), # Labels show in this order…
-          name = "Enrichment factor",
-          guide = guide_legend(reverse = TRUE) # …because we reverse the legend
-        ) +
-
-        # Keep p limits ascending; reverse colorbar via guide
-        scale_color_gradient(
-          low = "#0a2256", high = "#c3dbe9", # Dark (small p) -> light (large p)
-          limits = c(0.01, 0.05),
-          oob = scales::squish,
-          name = NULL,
-          guide = guide_colorbar(
-            reverse = TRUE, # 0.01 at top, 0.05 at bottom
-            barheight = unit(5, "cm"),
-            barwidth = unit(0.9, "cm")
-          )
-        ) +
-        labs(x = NULL, y = NULL) +
-        theme_minimal(base_family = "Arial") +
-        theme(
-          text = element_text(family = "Arial"),
-          panel.grid = element_blank(),
-          panel.background = element_blank(),
-          axis.text = element_blank(),
-          axis.ticks = element_blank(),
-          panel.spacing.x = unit(0, "pt"),
-          panel.spacing.y = unit(0, "pt"),
-          strip.placement = "outside",
-          strip.text.x.top = element_text(
-            angle = 0, vjust = 1,
-            face = "bold", family = "Arial", size = 6
-          ),
-          strip.text.y.left = element_text(
-            angle = 0, hjust = 1,
-            face = "bold", family = "Arial", size = 14,
-            margin = margin(r = 6)
-          ),
-          legend.title = element_text(size = 14, face = "bold", family = "Arial"),
-          legend.text = element_text(size = 14, family = "Arial"),
-          plot.margin = margin(t = 20, r = 40, b = 10, l = 40)
-        ) + coord_cartesian(clip = "off") 
-    #- 3.6.4: Export Plot
-      panel_size <- 0.3 # tweak this until happy
-      n_rows <- length(unique(variant_enrichment$pathway_name))
-      n_cols <- length(unique(variant_enrichment$Comparisons))
-      # Add space for legends, strip labels, margins
-      extra_width <- 3 # inches for legends on the right
-      extra_height <- 1 # inches for titles/margins
-      total_width <- n_cols * panel_size + extra_width
-      total_height <- n_rows * panel_size + extra_height
-
-      ggsave(
-        "variant_enrichment_plot.svg",
-        variant_enrichment_plot,
-        width = total_width,
-        height = total_height,
-        units = "in"
-      )
+#+ 3.5: Final Figure Creations
+  #- 3.5.1: Create heatmap for Figure 1
+    heatmap_1A <- patchwork::wrap_elements(variance_1000$heatmap_plot$gtable)
+  #- 3.5.2 PCAs - Safe execution
+    tryCatch({
+      pca_1D <- make_PCA(
+        data = variant_data,
+        ellipse_colors = variant_colors,
+        point_size = 1
+      )$plot + theme_publication_pca()
+      pca_1F <- make_PCA(
+        data = T_stage_data,
+        ellipse_colors = T_stage_bin_colors,
+        point_size = 1
+      )$plot + theme_publication_pca()
+      pca_1E <- make_PCA(
+        data = Sex_data,
+        ellipse_colors = sex_colors,
+        point_size = 1
+      )$plot + theme_publication_pca()
+      pca_1C <- make_PCA(
+        data = UFT_with_clusters,
+        ellipse_colors = cluster_colors,
+        point_size = 1
+      )$plot + theme_publication_pca()
+      cat("✅ All PCA plots created successfully!\n")
+    }, error = function(e) {
+      cat("❌ Error creating PCA plots:", e$message, "\n")
+      cat("Check your data and color definitions.\n")
+    })
+  #- 3.4.8: Create PERMANOVA bar plot (vertical with horizontal bars)
+    permanova_1B <- ggplot(permanova_viz, aes(y = reorder(Variable, -p_value), x = R2)) +
+    geom_col(
+      width = 0.72,
+      fill = "black",
+      color = "black",
+      alpha = 1,
+      linewidth = 1,
+      na.rm = TRUE
+    ) +
+    geom_text(aes(label = p_label), hjust = -0.1, vjust = 0.5, size = 3.0, fontface = "bold") +
+    scale_x_continuous(expand = c(0, 0), limits = c(0, 0.7), breaks = seq(0, 0.7, 0.1)) +
+    coord_cartesian(xlim = c(0, 0.7), clip = "off") +
+    theme_publication_simple() +
+    labs(y = NULL, x = expression(bold("R²"~"(Explained Variance)")))
