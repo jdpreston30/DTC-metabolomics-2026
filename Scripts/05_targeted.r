@@ -70,7 +70,11 @@
         names_to = "Metabolite",
         values_to = "Value"
       ) %>%
-      mutate(Metabolite = factor(Metabolite, levels = metab_cols))
+      mutate(Metabolite = factor(Metabolite, levels = metab_cols)) %>%
+      mutate(Metabolite = forcats::fct_recode(
+        Metabolite,
+        "Indolelactic\nAcid*" = "Indolelactic Acid*"
+      ))
     #_Compute means per metabolite × variant for bar heights
     sum_df <- df_long %>%
       group_by(Metabolite, Variant) %>%
@@ -85,65 +89,93 @@
         names_to = "Metabolite",
         values_to = "Value"
       ) %>%
-      mutate(Metabolite = factor(Metabolite, levels = metab_cols_cluster))
+      mutate(Metabolite = factor(Metabolite, levels = metab_cols_cluster)) %>%
+      mutate(Metabolite = forcats::fct_recode(
+        Metabolite,
+        "Pantothenic\nAcid" = "Pantothenic acid"
+      ))
     #_Compute means per metabolite × cluster for bar heights
     sum_df_cluster <- df_long_cluster %>%
       group_by(Metabolite, Cluster) %>%
-      summarise(mean_value = mean(Value, na.rm = TRUE), .groups = "drop")
+      summarise(mean_value = mean(Value, na.rm = TRUE), .groups = "drop")      
 #+ 5.5: Create dot plot with floating mean bars
-  #- 5.5.1: Create dot plot for variants
-    variant_targ_3C <- ggplot() +
-      geom_col(
-        data = sum_df,
-        mapping = aes(x = Metabolite, y = mean_value, fill = Variant, color = Variant),
-        position = position_dodge(width = 0.8),
-        width = 0.72,
-        alpha = 0.5,
-        linewidth = 0.5,
-        na.rm = TRUE
-      ) +
-      geom_jitter(
-        data = df_long,
-        mapping = aes(x = Metabolite, y = Value, color = Variant),
-        position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
-        size = 0.5,
-        alpha = 0.8,
-        show.legend = FALSE
-      ) +
-      scale_fill_manual(values = variant_colors) +
-      scale_color_manual(values = variant_colors) +
-      scale_y_continuous(expand = c(0, 0)) +
-      coord_cartesian(ylim = c(8, 35), clip = "on") +
-      theme_publication_dotplot(base_size = 12, base_family = "Arial") +
-      labs(x = NULL, y = expression(bold(log[2] ~ "(Spectral Intensity)")), fill = "Variant", color = "Variant") + theme(
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank()
-      )
-  #- 5.5.2: Create dot plot for clusters
-    clusters_targ_3B <- ggplot() +
-      geom_col(
-        data = sum_df_cluster,
-        mapping = aes(x = Metabolite, y = mean_value, fill = Cluster, color = Cluster),
-        position = position_dodge(width = 0.8),
-        width = 0.72,
-        alpha = 0.5,
-        linewidth = 0.5,
-        na.rm = TRUE
-      ) +
-      geom_jitter(
-        data = df_long_cluster,
-        mapping = aes(x = Metabolite, y = Value, color = Cluster),
-        position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
-        size = 0.5,
-        alpha = 0.8,
-        show.legend = FALSE
-      ) +
-      scale_fill_manual(values = cluster_colors) +
-      scale_color_manual(values = cluster_colors) +
-      scale_y_continuous(expand = c(0, 0)) +
-      coord_cartesian(ylim = c(8, 35), clip = "on") +
-      theme_publication_dotplot(base_size = 12, base_family = "Arial") +
-      labs(x = NULL, y = expression(bold(log[2] ~ "(Spectral Intensity)")), fill = "Cluster", color = "Cluster") + theme(
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank()
-      )
+#- 5.5.1: Clusters based targeted top 5
+  clusters_targ_3B <- ggplot() +
+    # mean bars (no SD)
+    geom_col(
+      data = sum_df_cluster,
+      aes(
+        x = Metabolite, y = mean_value,
+        fill = Cluster, color = Cluster, group = Cluster
+      ),
+      position = position_dodge2(width = 0.8, preserve = "single"),
+      width = 0.72,
+      linewidth = 0.5,
+      na.rm = TRUE
+    ) +
+    # mean dots on bar centers
+    geom_point(
+      data = sum_df_cluster,
+      aes(x = Metabolite, y = mean_value, color = Cluster, group = Cluster),
+      position = position_dodge(width = 0.8),
+      size = 1.2
+    ) +
+    # jittered raw points
+    geom_jitter(
+      data = df_long_cluster,
+      aes(x = Metabolite, y = Value, color = Cluster),
+      position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
+      size = 0.5, alpha = 0.8, show.legend = FALSE
+    ) +
+    # palettes (use lighter fills, solid outlines)
+    scale_fill_manual(values = cluster_light, drop = FALSE) +
+    scale_color_manual(values = cluster_colors, drop = FALSE) +
+    # keep bars alive with 0 baseline; zoom view for readability
+    scale_y_pub(lims = c(0, 36), expand = c(0, 0)) +
+    coord_cartesian(ylim = c(9, 36), clip = "on") +
+    theme_pub_dotbar() +
+    theme_pub_barplot() +
+    guides(
+      color = guide_legend(nrow = 1, byrow = TRUE),
+      fill  = guide_legend(nrow = 1, byrow = TRUE)
+    ) +
+    labs(
+      x = NULL,
+      y = expression(bold(log[2] ~ "(Spectral Intensity)")),
+      fill = "Cluster", color = "Cluster"
+    )
+#- 5.5.2: Variant based targeted top 5
+  variant_targ_3C <- ggplot() +
+    geom_col(
+      data = sum_df,
+      aes(x = Metabolite, y = mean_value, fill = Variant, color = Variant, group = Variant),
+      position = position_dodge2(width = 0.8, preserve = "single"),
+      width = 0.72, linewidth = 0.5, na.rm = TRUE
+    ) +
+    geom_point(
+      data = sum_df,
+      aes(x = Metabolite, y = mean_value, color = Variant, group = Variant),
+      position = position_dodge(width = 0.8),
+      size = 1.2
+    ) +
+    geom_jitter(
+      data = df_long,
+      aes(x = Metabolite, y = Value, color = Variant),
+      position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
+      size = 0.5, alpha = 0.8, show.legend = FALSE
+    ) +
+    scale_fill_manual(values = variant_light, drop = FALSE) +
+    scale_color_manual(values = variant_colors, drop = FALSE) +
+    scale_y_pub(lims = c(0, 36), expand = c(0, 0)) +
+    coord_cartesian(ylim = c(9, 36), clip = "on") +
+    theme_pub_dotbar() +
+    theme_pub_barplot() +
+    guides(
+      color = guide_legend(nrow = 1, byrow = TRUE),
+      fill  = guide_legend(nrow = 1, byrow = TRUE)
+    ) +
+    labs(
+      x = NULL,
+      y = expression(bold(log[2] ~ "(Spectral Intensity)")),
+      fill = "Variant", color = "Variant"
+    ) 

@@ -175,14 +175,14 @@
         select(all_of(feature_cols)) %>%
         summarise(across(everything(), ~ sum(.x == 0, na.rm = TRUE) / length(.x))) %>%
         pivot_longer(everything(), names_to = "feature", values_to = "zero_pct")
-      #_Identify features with <= 20% zeros (keep these)
+    #_Identify features with <= 20% zeros (keep these)
       features_to_keep <- zero_percentages %>%
         filter(zero_pct <= 0.20) %>%
         pull(feature)
-      #_Filter UFT_metaboanalyst to keep only good features
+    #_Filter UFT_metaboanalyst to keep only good features (this will proceed for OTHER analyses)
       UFT_metaboanalyst_raw <- UFT_metaboanalyst_i %>%
         select(Patient_ID, Variant, all_of(features_to_keep))
-    #_ 1.6.2.3: Replace 0 values which remain with 1/2 the column minimum
+    #_1.6.2.3: Replace 0 values which remain with 1/2 the column minimum
       UFT_metaboanalyst_halfmin <- UFT_metaboanalyst_raw %>%
         mutate(across(all_of(features_to_keep), ~ ifelse(.x == 0, 0.5 * min(.x[.x > 0], na.rm = TRUE), .x)))
     #_ 1.6.2.4: Log2 transform dataset
@@ -196,12 +196,11 @@
         select(Patient_ID, Variant, all_of(hilic_cols))
       UFT_C18_metaboanalyst_log2 <- UFT_metaboanalyst_log2 %>%
         select(Patient_ID, Variant, all_of(c18_cols))
-  #- 1.6.3: Export for metaboanalyst
-    write.csv(TFT_metaboanalyst_log2, "Raw_Data/Metaboanalyst/TFT_metaboanalyst_log2.csv", row.names = FALSE)
-    write.csv(UFT_metaboanalyst_raw, "Raw_Data/Metaboanalyst/UFT_metaboanalyst_raw.csv", row.names = FALSE)
-    write.csv(UFT_C18_metaboanalyst_log2, "Raw_Data/Metaboanalyst/UFT_C18_metaboanalyst_log2.csv", row.names = FALSE)
-    write.csv(UFT_HILIC_metaboanalyst_log2, "Raw_Data/Metaboanalyst/UFT_HILIC_metaboanalyst_log2.csv", row.names = FALSE)
-    #! Performed HCA with heatmaps in metaboanalyst
+  #- 1.6.3: Prepare a complete UFT for mummichog (half min and log2)
+    UFT_mummichog <- UFT_metaboanalyst_i %>%
+      mutate(across(-c(Patient_ID, Variant), ~ ifelse(.x == 0, 0.5 * min(.x[.x > 0], na.rm = TRUE), .x))) %>%
+      mutate(across(-c(Patient_ID, Variant), ~ log2(.x))) %>%
+      mutate(Variant = as.factor(Variant))
 #+ 1.7: Cleanup tumor pathology data
   #- 1.7.1: Read and preprocess tumor pathology data
     tumor_pathology <- read_excel("Raw_Data/Final/tumor_pathology.xlsx", sheet = "pathology") %>%
