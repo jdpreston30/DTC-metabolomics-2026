@@ -125,7 +125,7 @@ mummichog_ttests <- function(data,
     dplyr::filter(!is.na(m.z) & !is.na(mode))
   
   #_Export results
-  readr::write_csv(results_tibble, paste0("Outputs/", output_filename))
+  readr::write_csv(results_tibble, paste0("Outputs/Mummichog Inputs/", output_filename))
   
   #_Display summary
   cat("T-test results exported to:", paste0("Outputs/", output_filename), "\n")

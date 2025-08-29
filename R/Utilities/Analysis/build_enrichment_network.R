@@ -1,21 +1,56 @@
-# EnrichNet-style plot with:
-# - node color = p-value (blues, dark=small p, light=large p)
-# - solid filled circles with black outlines
-# - all text in black Arial
-# - optional p-value limits for the colorbar (default 0.01–0.05 as you showed)
-# Drop-in replacement for the plotting tail of build_enrichment_network(),
-# or use this full function if you want it turnkey.
-
+#' Build an Enrichment Network Plot
+#'
+#' This function creates an EnrichNet-style network plot from enrichment results,
+#' where nodes represent pathways and edges represent similarity based on shared compounds.
+#' Node colors correspond to p-values, and node sizes correspond to enrichment factors.
+#' The plot includes customizable legends for enrichment factors and p-values,
+#' and supports saving the output to a file.
+#'
+#' @param enrich_df A data frame containing enrichment results. Must include `pathway_ID`, `pathway_name`, `enrichment_factor`, and either `p_value` or `neg_log_p`.
+#' @param edge_thresh Numeric threshold for edge inclusion based on Jaccard similarity of compounds (default 0.10).
+#' @param prefer_hsa Logical indicating whether to prefer human (hsa) KEGG pathway IDs when fetching compounds (default TRUE).
+#' @param term2compound_override Optional data frame to override pathway-to-compound mappings. Must have columns `pathway_ID` and `compound_id` (default NULL).
+#' @param save_path Optional file path to save the plot (default NULL).
+#' @param plot_title Optional title for the plot (default NULL).
+#' @param width Numeric width of saved plot in units (default 8).
+#' @param height Numeric height of saved plot in units (default 6).
+#' @param dpi Numeric resolution for saved plot (default 300).
+#' @param units Units for width and height when saving (default "in").
+#' @param bg Background color for saved plot (default "white").
+#' @param seed Integer seed for reproducible layout (default 123).
+#' @param layout Layout algorithm for graph plotting (default "fr").
+#' @param p_limits Numeric vector of length 2 specifying limits for the p-value color scale (default c(0.01, 0.05)).
+#' @param show_enrichment Logical to toggle the enrichment factor legend (default TRUE).
+#' @param show_pvalue Logical to toggle the p-value legend (default TRUE).
+#'
+#' @return A list containing:
+#' \describe{
+#'   \item{plot}{The ggplot2 object of the enrichment network.}
+#'   \item{graph}{The igraph object representing the network.}
+#'   \item{nodes}{Data frame of node attributes.}
+#'   \item{edges}{Data frame of edge attributes.}
+#'   \item{term2compound}{Data frame mapping pathways to compounds.}
+#' }
+#'
+#' @examples
+#' \dontrun{
+#'   # Assuming enrich_df is a data frame with required columns
+#'   result <- build_enrichment_network(enrich_df)
+#'   print(result$plot)
+#' }
 build_enrichment_network <- function(
-    enrich_df, # cols: pathway_ID, pathway_name, enrichment_factor, neg_log_p OR p_value
+    enrich_df,
     edge_thresh = 0.10,
     prefer_hsa = TRUE,
     term2compound_override = NULL,
     save_path = NULL,
+    plot_title = NULL,
     width = 8, height = 6, dpi = 300, units = "in", bg = "white",
     seed = 123, layout = "fr",
-    p_limits = c(0.01, 0.05) # <- your preferred color scale limits
-    ) {
+    p_limits = c(0.01, 0.05),
+    show_enrichment = TRUE,   # NEW: toggle enrichment factor legend
+    show_pvalue     = TRUE    # NEW: toggle p-value legend
+) {
   pkgs <- c("dplyr", "tidyr", "purrr", "stringr", "igraph", "ggraph", "scales", "ggplot2", "KEGGREST", "memoise", "grid")
   missing <- pkgs[!sapply(pkgs, requireNamespace, quietly = TRUE)]
   if (length(missing)) stop("Install missing packages: ", paste(missing, collapse = ", "))
@@ -105,67 +140,102 @@ build_enrichment_network <- function(
     directed = FALSE
   )
 
-  # ---- PLOT: blue gradient, solid filled circles, black outlines, Arial text ----
-  p <- ggraph::ggraph(g, layout = layout) +
+  # ---- Compute layout coordinates ----
+  set.seed(seed)
+  coords <- switch(
+    layout,
+    fr = igraph::layout_with_fr(g),
+    kk = igraph::layout_with_kk(g),
+    lgl = igraph::layout_with_lgl(g),
+    circle = igraph::layout_in_circle(g),
+    grid = igraph::layout_on_grid(g),
+    stop("Unsupported layout: ", layout)
+  )
+  coords_df <- as.data.frame(coords)
+  colnames(coords_df) <- c("x", "y")
+  coords_df$name <- igraph::V(g)$name
+
+  # ---- PLOT ----
+  p <- ggraph::ggraph(g, layout = coords_df) +
     ggraph::geom_edge_link(aes(width = weight), alpha = 0.5, colour = "grey50") +
 
-    # Nodes: size = enrichment factor, fill = p-value color
+    # Nodes
     ggraph::geom_node_point(aes(size = size_val, fill = p_val),
       shape = 21, stroke = 0.6, colour = "black"
     ) +
 
-    # Labels: bold, below the dots
+    # Labels
     ggraph::geom_node_text(aes(label = Name),
       size = 4, colour = "black",
       family = "Arial", fontface = "bold",
-      vjust = 2.5
-    ) +
-
-    # Enrichment factor (size legend)
-    scale_size_continuous(
-      range = c(3,30),
-      limits = c(0, 5),
-      breaks = c(4, 3, 2, 1), # show big → small
-      name = "\nEnrichment factor",
-      guide = guide_legend(
-        reverse = TRUE, # reverse so 4 is at top
-        override.aes = list(fill = "black", colour = "black")
-      )
-    ) +
-
-    # p-value (fill legend)
-    scale_fill_gradient(
-      low = "#0a2256", high = "#c3dbe9",
-      limits = c(0.01, 0.05), oob = scales::squish,
-      name = "p-value\n",
-      guide = guide_colorbar(
-        reverse = TRUE, # 0.01 at top, 0.05 bottom
-        barheight = grid::unit(5, "cm"),
-        barwidth = grid::unit(0.9, "cm")
-      )
+      vjust = 2.2
     ) +
 
     ggraph::scale_edge_width(range = c(0.2, 2), guide = "none") +
     theme_void(base_family = "Arial") +
     theme(
       legend.position = "right",
-      legend.margin   = margin(l = 50, r = 10, t = 0, b = 0),
-      legend.text     = element_text(size = 12, face = "bold", family = "Arial"), # match node labels
-      legend.title    = element_text(size = 13, face = "bold", family = "Arial"),
+      legend.margin   = margin(l = 40, r = 0, t = 0, b = 0),
+      legend.text     = element_text(size = 13, face = "bold", family = "Arial"),
+      legend.title    = element_text(size = 14, face = "bold", family = "Arial"),
       text            = element_text(color = "black", family = "Arial")
-      # plot.margin     = margin(5, 5, 5, 5)
     ) +
-  ggplot2::coord_equal(clip = "off") +
-  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = 0.15)) + # left/right padding
-  ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.25))
-  #- Saving
+    ggplot2::coord_equal(clip = "off") +
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = 0.07)) +
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0.07)) +
+    {if (!is.null(plot_title)) ggplot2::labs(title = plot_title)} +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(
+        size   = 25,
+        face   = "bold",
+        family = "Arial",
+        hjust  = 0.5,
+        vjust  = 5
+      ),
+      plot.margin = ggplot2::margin(5, 5, 5, 5)
+    )
+
+  # --- Conditional legends ---
+  p <- p +
+    scale_size_continuous(
+      range = c(3, 30),
+      limits = c(0, 5),
+      breaks = c(4, 3, 2, 1),
+      name = "\nEnrichment factor",
+      guide = if (show_enrichment) {
+        guide_legend(
+          reverse = TRUE,
+          override.aes = list(fill = "black", colour = "black")
+        )
+      } else {
+        "none"
+      }
+    )
+
+  p <- p +
+    scale_fill_gradient(
+      low = "#0a2256", high = "#c3dbe9",
+      limits = p_limits, oob = scales::squish,
+      name = "p-value\n",
+      guide = if (show_pvalue) {
+        guide_colorbar(
+          reverse   = TRUE,
+          barheight = grid::unit(8, "cm"),
+          barwidth  = grid::unit(1.3, "cm")
+        )
+      } else {
+        "none"
+      }
+    )
+
+  # --- Saving ---
   if (!is.null(save_path)) {
     ggplot2::ggsave(
       filename = save_path, plot = p,
-      width = width, height = height, dpi = dpi, units = units, bg = bg
+      width = width, height = height,
+      dpi = dpi, units = units, bg = bg
     )
   }
 
   list(plot = p, graph = g, nodes = nodes, edges = edges, term2compound = t2c)
 }
-# keep everything visible beyond the panel; add generous padding

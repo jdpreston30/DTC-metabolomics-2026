@@ -1,6 +1,5 @@
-Raw_Data/
-all_objects.rdsall_objects.rds
-all_objects.rds
-**/all_objects.rds
-all_objects.rds
+# Ignore checkpoints
+**/Checkpoints/
+
+# Ignore all saved object bundles
 **/all_objects.rds
