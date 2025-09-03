@@ -37,7 +37,8 @@
       "stringr",
       "tibble",
       "tidyr",
-      "vegan"
+      "vegan",
+      "conflicted"
     )
   #- 0.1.1: Install missing CRAN packages
     cran_pkgs <- setdiff(pkgs, rownames(installed.packages()))
@@ -56,13 +57,16 @@
     invisible(lapply(sort(pkgs), function(pkg) {
       suppressPackageStartupMessages(library(pkg, character.only = TRUE))
     }))
+    library(grid)
 #+ 0.2: Set conflicts
   conflicts_prefer(ggplot2::margin)
+  conflicts_prefer(dplyr::select)
+  conflicts_prefer(dplyr::filter)
+  conflicts_prefer(igraph::union)
 #+ 0.3: Set seed for reproducibility
   set.seed(2025)
 #+ 0.5: Import Data
-  #- 0.5.1: Define paths
-  raw_path <- "/Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/Manuscripts and Projects/Active Projects/Thyroid Metabolomics/Raw Data"
+  #- 0.5.1: Load data
   final_rds <- file.path(raw_path, "all_objects.rds")
   #- 0.5.2: Define CSVs and corresponding names (no extension here)
   files_csv <- tibble::tribble(
@@ -90,13 +94,13 @@
       "cluster_mummichog", "cluster_KEGG", "cluster_EF_raw"
     )
   #- 0.5.4: Load data
-  if (file.exists(final_rds)) {
-    message(">>> Found final checkpoint, loading: ", final_rds)
-    objs <- readRDS(final_rds)
-    list2env(objs, envir = .GlobalEnv)
-    rm(objs)
-  } else {
-    message(">>> No final checkpoint found, running import pipeline...")
-    load_with_checkpoints(raw_path, files_csv, files_xlsx)
-    promote_checkpoint(raw_path) # promote temporary checkpoint to final + cleanup
-  }
+    if (file.exists(final_rds)) {
+      message(">>> Found final checkpoint, loading: ", final_rds)
+      objs <- readRDS(final_rds)
+      list2env(objs, envir = .GlobalEnv)
+      rm(objs)
+    } else {
+      message(">>> No final checkpoint found, running import pipeline...")
+      load_with_checkpoints(raw_path, files_csv, files_xlsx)
+      promote_checkpoint(raw_path) # promote temporary checkpoint to final + cleanup
+    }
