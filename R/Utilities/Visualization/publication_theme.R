@@ -198,6 +198,19 @@
       "Cluster 1" = "#94001E",
       "Cluster 2" = "#03507D"
     )
+    stage_colors <- c(
+      "I" = "#dfba37",
+      "II" = "#DF8D0A",
+      "III" = "#72061c",
+      "IV" = "#110104")
+    stage_bin_colors <- c(
+      "I-II" = "#dfba37",
+      "III-IV" = "#72061c"
+    )
+    stage_hilo_colors <- c(
+      "Low" = "#dfba37",
+      "High" = "#72061c"
+    )
     cluster_light <- c(
       "Cluster 1" = "#bb697b",
       "Cluster 2" = "#6f96b1"
@@ -206,9 +219,9 @@
       "Male"   = "#0a9af3",
       "Female" = "#d55e70"
     )
-    T_stage_bin_colors <- c(
-      "T1-T2" = "#dfba37",
-      "T3-T4" = "#72061c"
+    stage_bin_colors <- c(
+      "Early" = "#dfba37",
+      "Advanced" = "#72061c"
     )
     T_stage_colors_heatmap <- c(
       "T1" = "#f2a3b3",

@@ -1,20 +1,40 @@
-#' Create PCA plot with ellipses
+#' Create PCA or PLS-DA plot with ellipses
 #'
-#' @param data Data frame with Patient_ID, Variant, and feature columns
+#' @param data Data frame with grouping variable and feature columns
+#' @param group_var Column name to use for grouping (default: "Variant")
+#' @param method Method to use: "PCA" or "PLSDA" (default: "PCA")
+#' @param ncomp Number of components for PLS-DA (default: 2)
 #' @param plot_title Optional title for the plot (default: "")
 #' @param ellipse_colors Named vector of colors for each variant/group
 #' @param point_size Size of the points (default: 3 for standalone, 0.5 for multi-panel)
 #' @param comp_x Which principal component to plot on x-axis (default: 1)
 #' @param comp_y Which principal component to plot on y-axis (default: 2)
-#' @return List containing the plot, PCA object, scores, scores_df, and explained variance
+#' @return List containing the plot, model object, scores, scores_df, and explained variance
 #' @export
-make_PCA <- function(data, plot_title = "", 
+make_PCA <- function(data, group_var = "Variant", method = "PCA", ncomp = 2, plot_title = "", 
                         ellipse_colors = c("PTC" = "#DF8D0A", "FV-PTC" = "#23744E", "FTC" = "#194992"),
                         point_size = 3, comp_x = 1, comp_y = 2) {
       #_Data preparation
       df <- as.data.frame(data)
-      cls_col <- if ("Variant" %in% names(df)) "Variant" else names(df)[2]
-      X <- df[, -c(1, 2), drop = FALSE]
+      
+      # Validate group_var exists
+      if (!group_var %in% names(df)) {
+        stop(paste("Group variable", group_var, "not found in data"))
+      }
+      
+      # Select ONLY metabolomics feature columns (C18 and HILIC)
+      feature_pattern <- "^(C18|HILIC)"
+      feature_cols <- names(df)[grepl(feature_pattern, names(df))]
+      
+      # Check if we have any feature columns
+      if (length(feature_cols) == 0) {
+        stop("No metabolomics feature columns (C18/HILIC) found in data")
+      }
+      
+      # Create clean dataset with only features + grouping variable
+      clean_data <- df[, c(group_var, feature_cols), drop = FALSE]
+      X <- clean_data[, feature_cols, drop = FALSE]
+      Y <- factor(clean_data[[group_var]])
       #_Coerce to numeric safely
       X[] <- lapply(X, function(v) suppressWarnings(as.numeric(v)))
       #_Handle NAs with median imputation
@@ -24,19 +44,52 @@ make_PCA <- function(data, plot_title = "",
           v
         })
       }
-      Y <- factor(df[[cls_col]])
       
-      #_Perform PCA
-      pca <- stats::prcomp(X, center = TRUE, scale. = TRUE)
-      
-      #_Validate component indices
-      max_comp <- min(ncol(X), nrow(X) - 1)
-      if (comp_x > max_comp || comp_y > max_comp) {
-        stop(paste("Requested components exceed available components. Max components:", max_comp))
+      #_Remove zero-variance columns
+      zero_var_cols <- sapply(X, function(col) {
+        var_val <- var(col, na.rm = TRUE)
+        is.na(var_val) || var_val == 0
+      })
+      if (any(zero_var_cols)) {
+        removed_cols <- names(zero_var_cols)[zero_var_cols]
+        cat("Removing", length(removed_cols), "zero-variance columns:\n")
+        cat(paste(removed_cols, collapse = ", "), "\n")
+        X <- X[, !zero_var_cols, drop = FALSE]
       }
       
-      scores <- pca$x[, c(comp_x, comp_y), drop = FALSE]
-      explained <- round((pca$sdev^2 / sum(pca$sdev^2))[c(comp_x, comp_y)] * 100)
+      # Check if we have any columns left
+      if (ncol(X) == 0) {
+        stop("No valid feature columns remaining after filtering")
+      }
+      
+      Y <- factor(df[[group_var]])
+      
+      #_Perform analysis based on method
+      method <- match.arg(method, c("PCA", "PLSDA"))
+      
+      if (method == "PCA") {
+        model <- stats::prcomp(X, center = TRUE, scale. = TRUE)
+        max_comp <- min(ncol(X), nrow(X) - 1)
+        if (comp_x > max_comp || comp_y > max_comp) {
+          stop(paste("Requested components exceed available components. Max components:", max_comp))
+        }
+        scores <- model$x[, c(comp_x, comp_y), drop = FALSE]
+        explained <- round((model$sdev^2 / sum(model$sdev^2))[c(comp_x, comp_y)] * 100)
+        comp_label <- "PC"
+      } else {
+        # PLS-DA using mixOmics
+        if (!requireNamespace("mixOmics", quietly = TRUE)) {
+          stop("Package 'mixOmics' is required for PLS-DA. Please install it.")
+        }
+        model <- mixOmics::plsda(X, Y, ncomp = ncomp)
+        max_comp <- min(ncomp, ncol(X), nrow(X) - 1)
+        if (comp_x > max_comp || comp_y > max_comp) {
+          stop(paste("Requested components exceed available components. Max components:", max_comp))
+        }
+        scores <- model$variates$X[, c(comp_x, comp_y), drop = FALSE]
+        explained <- round(model$prop_expl_var$X[c(comp_x, comp_y)] * 100)
+        comp_label <- "LV"
+      }
       
       #_Prepare plot data
       scores_df <- data.frame(
@@ -79,8 +132,8 @@ make_PCA <- function(data, plot_title = "",
         ggplot2::scale_fill_manual(values = ellipse_colors, drop = TRUE, na.translate = FALSE) +
         ggplot2::theme_minimal(base_family = "Arial") +
         ggplot2::labs(
-          x = paste0("PC", comp_x, " (", explained[1], "%)"),
-          y = paste0("PC", comp_y, " (", explained[2], "%)")
+          x = paste0(comp_label, comp_x, " (", explained[1], "%)"),
+          y = paste0(comp_label, comp_y, " (", explained[2], "%)")
         ) +
         ggplot2::theme(
           axis.title = ggplot2::element_text(size = 25, face = "bold"),
@@ -94,10 +147,12 @@ make_PCA <- function(data, plot_title = "",
       
       #_Return useful objects for further analysis
       return(list(
+        method = method,
         plot = pca_plot,
-        pca = pca,
+        model = model,
         scores = scores,
         scores_df = scores_df,
-        explained = explained
+        explained = explained,
+        comp_label = comp_label
       ))
 }

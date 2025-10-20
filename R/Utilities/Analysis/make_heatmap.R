@@ -1,14 +1,14 @@
 #' Create heatmap with optional feature selection (ANOVA / variance / MAD)
-#' and optional T_stage annotation. Returns plot object for patchwork.
+#' and optional Stage annotation. Returns plot object for patchwork.
 #'
-#' @param data                 Data frame with Patient_ID, Variant, optional T_stage, then feature columns
+#' @param data                 Data frame with ID, Variant, optional Stage, then feature columns
 #' @param variant_colors       Named color vector for Variant (names = levels)
 #' @param top_features         NULL (default: show all features). If numeric >0, keep top N by `feature_selector`.
 #' @param feature_selector     One of c("none","anova","variance","mad"). Default "none".
 #' @param variant_levels       Factor order for Variant (default c("PTC","FV-PTC","FTC"))
 #' @param n_clades             Number of clades to extract from sample HCA (default 2)
-#' @param annotate_t_stage     Logical; if TRUE and T_stage exists, add as column annotation
-#' @param T_stage_colors       Optional named color vector for T_stage; include "T1","T2","T3","T4". "Unknown" added if missing.
+#' @param annotate_stage       Logical; if TRUE and Stage exists, add as column annotation
+#' @param stage_colors         Optional named color vector for Stage; include stage levels like "I","II","III","IV"
 #' @param cluster_colors       Named color vector for cluster annotation (e.g., c("Cluster 1" = "#color1", "Cluster 2" = "#color2"))
 #' @return List with plot object, M, Mz, hc_cols, clade_df, clade_lists, ann_col, ann_colors, etc.
 #' @export
@@ -19,32 +19,32 @@ make_heatmap <- function(
     feature_selector = c("none", "anova", "variance", "mad"),
     variant_levels = c("PTC", "FV-PTC", "FTC"),
     n_clades = 2,
-    annotate_t_stage = FALSE,
-    T_stage_colors = c("T1-T2" = "#dfba37", "T3-T4" = "#72061c"),
+    annotate_stage = TRUE,
+    stage_colors = c("I" = "#dfba37", "II" = "#DF8D0A", "III" = "#72061c", "IV" = "#110104"),
     cluster_colors = c("Cluster 1" = "#94001E", "Cluster 2" = "#03507D")) {
   feature_selector <- match.arg(feature_selector)
 
   # ---- Checks ----
-  stopifnot(all(c("Patient_ID", "Variant") %in% names(data)))
-  has_t <- "T_stage" %in% names(data)
+  stopifnot(all(c("ID", "Variant") %in% names(data)))
+  has_stage <- "Stage" %in% names(data)
 
-  # Keep ID/Variant/(optional)T_stage up front
+  # Keep ID/Variant/(optional)Stage up front
   dat <- dplyr::select(
     data,
-    dplyr::any_of(c("Patient_ID", "Variant", if (has_t) "T_stage")),
+    dplyr::any_of(c("ID", "Variant", if (has_stage) "Stage")),
     dplyr::everything()
   )
 
   # Coerce Variant to factor in desired order
   dat$Variant <- factor(dat$Variant, levels = variant_levels)
 
-  # Build matrix: samples x features (drop ID/Variant/T_stage)
-  drop_cols <- c("Patient_ID", "Variant", if (has_t) "T_stage")
+  # Build matrix: samples x features (drop ID/Variant/Stage)
+  drop_cols <- c("ID", "Variant", if (has_stage) "Stage")
   X <- as.matrix(dplyr::select(dat, -dplyr::all_of(drop_cols)))
   stopifnot(all(vapply(as.data.frame(X), is.numeric, TRUE)))
 
   # Sample IDs (use make.names for uniqueness + valid rownames)
-  sample_ids <- make.names(dat$Patient_ID, unique = TRUE)
+  sample_ids <- make.names(dat$ID, unique = TRUE)
   rownames(X) <- sample_ids
 
   # Group factor for ANOVA ranking
@@ -90,8 +90,8 @@ make_heatmap <- function(
   d_cols <- dist(t(Mz), method = "euclidean")
   hc_cols <- hclust(d_cols, method = "complete")
 
-  # Map back to original Patient_ID
-  id_map <- setNames(dat$Patient_ID, sample_ids)
+  # Map back to original ID
+  id_map <- setNames(dat$ID, sample_ids)
   clades_raw <- stats::cutree(hc_cols, k = n_clades)
   
   # Assign clusters based on dendrogram order: leftmost = Cluster 1, rightmost = Cluster 2
@@ -108,14 +108,14 @@ make_heatmap <- function(
   ids_ordered_orig <- unname(id_map[ids_ordered_clean])
 
   cluster_df <- tibble::tibble(
-    Patient_ID = ids_ordered_orig,
-    Cluster    = unname(clades[ids_ordered_clean])
+    ID = ids_ordered_orig,
+    Cluster = unname(clades[ids_ordered_clean])
   )
 
   cluster_lists <- lapply(seq_len(n_clades), function(i) {
     cluster_df %>%
       dplyr::filter(Cluster == i) %>%
-      dplyr::pull(Patient_ID)
+      dplyr::pull(ID)
   })
   names(cluster_lists) <- paste0("cluster", seq_len(n_clades), "_ids")
 
@@ -124,35 +124,22 @@ make_heatmap <- function(
   # Start with variant annotation (will be on bottom - first column)
   ann_col <- data.frame(Variant = dat$Variant, row.names = sample_ids)
 
-  # Add T-stage annotation if requested (will be in middle - second column)
-  if (annotate_t_stage && has_t) {
-    # Turn T_stage into character - no need to handle NA since dataset is complete
-    t_raw <- as.character(dat$T_stage)
-
-    # Handle both individual T stages (T1, T2, T3, T4) and binned stages (T1-T2, T3-T4)
-    # If values already start with "T" (e.g., "T3" or "T1-T2"), keep them;
-    # if they look numeric (e.g., "3"), prepend "T".
-    needs_T <- grepl("^[0-9]+$", t_raw)
-    t_clean <- ifelse(needs_T, paste0("T", t_raw), t_raw)
-
-    # Factor with canonical order (no Unknown needed since dataset is complete)
-    # First check what format we have in the data
-    unique_vals <- unique(t_clean)
-    if (any(grepl("-", unique_vals))) {
-      # We have binned values like "T1-T2", "T3-T4"
-      t_lvls <- c("T1-T2", "T3-T4")
-    } else {
-      # We have individual values like "T1", "T2", "T3", "T4"
-      t_lvls <- c("T1", "T2", "T3", "T4")
-    }
+  # Add Stage annotation if requested (will be in middle - second column)
+  if (annotate_stage && has_stage) {
+    # Turn Stage into character and factor with canonical order
+    stage_raw <- as.character(dat$Stage)
     
-    ann_col$`T Stage` <- factor(t_clean, levels = t_lvls)  # Use "T Stage" as column name for display
+    # Define stage levels based on what appears in the data
+    unique_vals <- unique(stage_raw)
+    stage_lvls <- c("I", "II", "III", "IV")[c("I", "II", "III", "IV") %in% unique_vals]
+    
+    ann_col$Stage <- factor(stage_raw, levels = stage_lvls)
   }
   
   # Add cluster annotation last (will be on top - last column)
   # Create a mapping from sample_ids to final cluster assignments
-  cluster_mapping <- setNames(cluster_df$Cluster, cluster_df$Patient_ID)
-  original_ids <- unname(id_map[sample_ids])  # Convert sample_ids back to original Patient_IDs
+  cluster_mapping <- setNames(cluster_df$Cluster, cluster_df$ID)
+  original_ids <- unname(id_map[sample_ids])  # Convert sample_ids back to original IDs
   cluster_labels <- paste0("Cluster ", cluster_mapping[original_ids])
   names(cluster_labels) <- sample_ids
   
@@ -170,38 +157,20 @@ make_heatmap <- function(
   # Add variant colors first (matches first column - will display at bottom)
   ann_colors$Variant <- variant_colors
 
-  if (annotate_t_stage && has_t) {
-    # Seed T-stage colors if not provided
-    if (is.null(T_stage_colors)) T_stage_colors <- c()
-    
-    
+  if (annotate_stage && has_stage) {
     # Get the levels that actually appear in the data
-    needed <- levels(ann_col$`T Stage`)  # Use "T Stage" column name
+    needed <- levels(ann_col$Stage)
     
     # Find any missing colors and assign defaults
-    missing <- setdiff(needed, names(T_stage_colors))
+    missing <- setdiff(needed, names(stage_colors))
     if (length(missing)) {
-      # Check if we have binned values and provide appropriate defaults
-      if (any(grepl("-", missing))) {
-        # Default colors for binned values
-        default_binned <- c("T1-T2" = "#4575b4", "T3-T4" = "#d73027")
-        fill_cols <- default_binned[missing]
-        # For any still missing, use grays
-        still_missing <- missing[is.na(fill_cols)]
-        if (length(still_missing)) {
-          gray_cols <- grDevices::gray.colors(length(still_missing), start = 0.3, end = 0.7)
-          names(gray_cols) <- still_missing
-          fill_cols[still_missing] <- gray_cols
-        }
-      } else {
-        # Default for individual T stages
-        fill_cols <- grDevices::gray.colors(length(missing), start = 0.3, end = 0.7)
-        names(fill_cols) <- missing
-      }
-      T_stage_colors <- c(T_stage_colors, fill_cols)
+      # Default colors for missing stages
+      fill_cols <- grDevices::gray.colors(length(missing), start = 0.3, end = 0.7)
+      names(fill_cols) <- missing
+      stage_colors <- c(stage_colors, fill_cols)
     }
     
-    ann_colors$`T Stage` <- T_stage_colors[needed]  # Use "T Stage" as key
+    ann_colors$Stage <- stage_colors[needed]
   }
   
   # Add cluster colors last (matches last column - will display at top)

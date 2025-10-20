@@ -27,9 +27,10 @@ data_files:
   tumor_ids: "{base_data_path}/Clinical/tumor_IDs.csv"
   tumor_pathology: "{base_data_path}/Clinical/tumor_pathology.xlsx"
   # MetaboJanitoR processed files
-  TFT_annot: "{base_data_path}/MetaboJanitoR/3b/TFT_annot.csv"
-  UFT_full: "{base_data_path}/MetaboJanitoR/3b/UFT_full.csv"
-  UFT_filtered: "{base_data_path}/MetaboJanitoR/3b/UFT_filtered.csv"
+  TFT_annot: "{base_data_path}/MetaboJanitoR/3b/MSMICA/global_KEGG/MSMICA_Feature_Tables/MSMICA_20p_halfmin_log2.csv"
+  TFT_annot_key: "{base_data_path}/MetaboJanitoR/3b/MSMICA/global_KEGG/MSMICA_Feature_Tables/MSMICA_feature_key.csv"
+  UFT_full: "{base_data_path}/MetaboJanitoR/3b/Untargeted/UFT_full_halfmin_log2.csv"
+  UFT_filtered: "{base_data_path}/MetaboJanitoR/3b/Untargeted/UFT_20p_halfmin_log2.csv"
 # Analysis settings (same across all computers)
 analysis:
   project_name: "DTC_Metabolomics_2025"
