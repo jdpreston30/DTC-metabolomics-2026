@@ -1,0 +1,44 @@
+# Analysis Configuration - Dynamic Computer Detection
+# Project settings and data paths for reproducible analysis
+# Computer-specific path templates
+computers:
+  laptop:
+    user_home: "/Users/jdp2019"
+    onedrive_path: "Library/CloudStorage/OneDrive-Emory"
+    figures_path: "Outputs/Figures/Final"
+  desktop:
+    user_home: "/Users/JoshsMacbook2015" 
+    onedrive_path: "Library/CloudStorage/OneDrive-EmoryUniversity"
+    figures_path: "Outputs/Figures/Final"
+# Dynamic path templates (will be populated based on computer selection)
+paths:
+  # Raw data path - this is the only dynamic path we need
+  base_data_path: "{user_home}/{onedrive_path}/Research/MS_raw_data/Thyroid_LCMS"
+  # Output paths (relative to project root)
+  output: "./Outputs"
+  figures: "{figures_path}"
+  # Script and utility paths
+  scripts: "R/Scripts/"
+  utils: "R/Utilities/"
+
+# Data file paths (constructed from base_data_path)
+data_files:
+  # Clinical files
+  tumor_ids: "{base_data_path}/Clinical/tumor_IDs.csv"
+  tumor_pathology: "{base_data_path}/Clinical/tumor_pathology.xlsx"
+  # MetaboJanitoR processed files
+  TFT_annot: "{base_data_path}/MetaboJanitoR/3b/TFT_annot.csv"
+  UFT_full: "{base_data_path}/MetaboJanitoR/3b/UFT_full.csv"
+  UFT_filtered: "{base_data_path}/MetaboJanitoR/3b/UFT_filtered.csv"
+# Analysis settings (same across all computers)
+analysis:
+  project_name: "DTC_Metabolomics_2025"
+  description: "Differentiated Thyroid Cancer Metabolomics Analysis"
+  tibble_options:
+    print_max: 100
+    print_min: 100
+    sigfig: 3
+  datatable_options:
+    print_class: true
+    print_keys: true
+    aware: true

@@ -1,0 +1,51 @@
+Package: DTCMetabolomics2025
+Type: Project
+Title: Differentiated Thyroid Cancer Metabolomics Analysis
+Version: 1.0.0
+Authors@R: person("Joshua", "Preston", email = "joshua.preston@emory.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9834-3017"))
+Description: Metabolomics analysis pipeline for differentiated thyroid cancer study.
+    This project contains all code and analysis scripts for metabolomic profiling
+    of thyroid cancer variants including PTC, FTC, and FVPTC.
+License: MIT + file LICENSE
+URL: https://github.com/jdpreston30/DTC-metabolomics-2025
+BugReports: https://github.com/jdpreston30/DTC-metabolomics-2025/issues
+Depends: 
+    R (>= 4.3.0)
+Imports:
+    broom,
+    dplyr,
+    forcats,
+    ggplot2,
+    ggprism,
+    ggraph,
+    gtools,
+    MetaboJanitoR,
+    igraph,
+    magick,
+    memoise,
+    mice,
+    patchwork,
+    permute,
+    pheatmap,
+    purrr,
+    RColorBrewer,
+    readr,
+    readxl,
+    rlang,
+    scales,
+    stringr,
+    tibble,
+    tidyr,
+    vegan,
+    conflicted,
+    grid,
+    here,
+    yaml
+Additional_repositories: 
+    https://bioconductor.org/packages/release/bioc
+Bioconductor:
+    mixOmics,
+    KEGGREST
+Config/renv/snapshot/type: explicit
+Encoding: UTF-8
+RoxygenNote: 7.3.3

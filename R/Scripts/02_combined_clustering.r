@@ -1,6 +1,6 @@
-#* 2: Combined Clustering analysis
-#+ 2.1: Run Exploratory PCAs
-  #- 2.1.1: Define datasets
+#* 1: Combined Clustering analysis
+#+ 1.1: Run Exploratory PCAs
+  #- 1.1.1: Define datasets
     variant_data <- UFT_metaboanalyst_log2_path %>% 
       select(Patient_ID, Variant, all_of(feature_cols))
     T_stage_data <- UFT_metaboanalyst_log2_path %>%
@@ -9,7 +9,7 @@
       select(Patient_ID, LVI, all_of(feature_cols))
     Sex_data <- UFT_metaboanalyst_log2_path %>%
     select(Patient_ID, Sex, all_of(feature_cols))
-  #- 2.1.2: Create variant PCAs
+  #- 1.1.2: Create variant PCAs
     variant_pca_12 <- make_PCA(
       data = variant_data,
       ellipse_colors = variant_colors,
@@ -25,7 +25,7 @@
       ellipse_colors = variant_colors,
       comp_x = 3, comp_y = 4
     )
-  #- 2.1.3: Create T-stage PCAs
+  #- 1.1.3: Create T-stage PCAs
     T_stage_PCA_12 <- make_PCA(
       data = T_stage_data,
       ellipse_colors = T_stage_colors,
@@ -41,7 +41,7 @@
       ellipse_colors = T_stage_colors,
       comp_x = 3, comp_y = 4
     )
-  #- 2.1.4: Create LVI PCAs
+  #- 1.1.4: Create LVI PCAs
     LVI_PCA_12 <- make_PCA(
       data = LVI_data,
       ellipse_colors = LVI_colors,
@@ -57,7 +57,7 @@
       ellipse_colors = LVI_colors,
       comp_x = 3, comp_y = 4
     )
-  #- 2.1.5: Create Sex PCAs
+  #- 1.1.5: Create Sex PCAs
     Sex_PCA_12 <- make_PCA(
       data = Sex_data,
       ellipse_colors = sex_colors,
@@ -73,12 +73,12 @@
       ellipse_colors = sex_colors,
       comp_x = 3, comp_y = 4
     )
-#+ 2.2: Create heatmaps
-  #- 2.2.1: Prepare data for heatmap
+#+ 1.2: Create heatmaps
+  #- 1.2.1: Prepare data for heatmap
     heatmap_data_T <- UFT_metaboanalyst_log2_path %>%
     select(Patient_ID, Variant, T_computed_bin, any_of(feature_cols)) %>%
     rename("T_stage" = T_computed_bin)
-  #- 2.2.2: Create heatmaps with different feature selections
+  #- 1.2.2: Create heatmaps with different feature selections
     variance_1000 <- make_heatmap(
       heatmap_data_T,
       variant_colors = variant_colors,
@@ -106,16 +106,16 @@
       T_stage_colors = T_stage_bin_colors,
       cluster_colors = cluster_colors
     )
-  #- 2.2.3: Create cluster data for PCA analysis
+  #- 1.2.3: Create cluster data for PCA analysis
     UFT_with_clusters <- UFT_metaboanalyst_log2_path %>%
       left_join(variance_1000$cluster_df, by = "Patient_ID") %>%
       mutate(Cluster = factor(paste0("Cluster ", Cluster), levels = c("Cluster 1", "Cluster 2"))) %>%
       select(Patient_ID, Cluster, any_of(feature_cols)) %>%
       arrange(Cluster)
-#+ 2.4: Run PERMANOVA analysis
-  #- 2.4.1: Define feature columns
+#+ 1.4: Run PERMANOVA analysis
+  #- 1.4.1: Define feature columns
     permanova_features <- rownames(variance_1000$M)
-  #- 2.4.1: Extract features and prepare data
+  #- 1.4.1: Extract features and prepare data
     variance_study <- UFT_metaboanalyst_log2_path %>%
       left_join(variance_1000$cluster_df, by = "Patient_ID") %>%
       select(Patient_ID, Cluster, Variant, T_computed_bin, Sex, Age, MFC, LVI, any_of(permanova_features)) %>%
@@ -128,9 +128,9 @@
                         levels = c("Cluster 1", "Cluster 2"))
       ) %>%
       arrange(Cluster)
-  #- 2.4.2: Define PERMANOVA variables
+  #- 1.4.2: Define PERMANOVA variables
     permanova_variables <-  c("T_stage", "Sex", "LVI", "Variant", "MFC", "Age", "Cluster")
-  #- 2.4.3: Impute missing values
+  #- 1.4.3: Impute missing values
     #! IMPUTED for LVI variable, one sample missing data
     meta_i <- variance_study %>% 
       select(all_of(permanova_variables))
@@ -148,17 +148,17 @@
       seed = 123,
       printFlag = FALSE
     ), 1)
-  #- 2.4.4: Extract feature data for analysis
+  #- 1.4.4: Extract feature data for analysis
     features_1000 <- variance_study %>%
       select(any_of(permanova_features))
-  #- 2.4.5: Prepare metadata for individual tests
+  #- 1.4.5: Prepare metadata for individual tests
     meta_use <- variance_study %>%
       select(all_of(permanova_variables)) %>%
       mutate(
         across(c(T_stage, Sex, LVI, Variant, MFC, Cluster), as.factor),
         Age = as.numeric(Age)
       )
-  #- 2.4.6: Run PERMANOVA for each variable
+  #- 1.4.6: Run PERMANOVA for each variable
     permanova_results_1000 <- bind_rows(lapply(
       permanova_variables, 
       get_permanova,
@@ -168,7 +168,7 @@
       seed = 2025)) %>%
       arrange(p_value) %>%
       mutate(Variable = if_else(Variable == "T_stage", "T stage", Variable))
-  #- 2.4.7: Create PERMANOVA visualiation data
+  #- 1.4.7: Create PERMANOVA visualiation data
     permanova_viz <- permanova_results_1000 %>%
       mutate(
         Significance = case_when(
@@ -185,13 +185,13 @@
           TRUE ~ paste0("p = ", round(p_value, 2))
         )
       )
-#+ 2.5: Final Figure Creations
-  #- 2.5.1: Create heatmap for Figure 1
+#+ 1.5: Final Figure Creations
+  #- 1.5.1: Create heatmap for Figure 1
     heatmap_1A <- patchwork::wrap_elements(variance_1000$heatmap_plot$gtable)
     #_Printing off others for interest
     ggsave("Outputs/Heatmaps/variance_heatmap.png", patchwork::wrap_elements(variance_1000$heatmap_plot$gtable), bg = "white")
     ggsave("Outputs/Heatmaps/anova_heatmap.png", patchwork::wrap_elements(anova_1000$heatmap_plot$gtable), bg = "white")
-  #- 2.5.2 PCAs - Safe execution (uses unified theme)
+  #- 1.5.2 PCAs - Safe execution (uses unified theme)
     tryCatch(
       {
         pca_1D <- make_PCA(
@@ -225,7 +225,7 @@
         cat("Check your data and color definitions.\n")
       }
     )
-  #- 2.4.8: Create PERMANOVA bar plot (vertical with horizontal bars)
+  #- 1.4.8: Create PERMANOVA bar plot (vertical with horizontal bars)
     permanova_1B <- ggplot(permanova_viz, aes(y = reorder(Variable, -p_value), x = R2)) +
       geom_col(
         width = 0.72,
