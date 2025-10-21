@@ -62,18 +62,7 @@ if (length(missing_bioc) > 0) {
 #+ 0a.3: Load all required packages 
 all_packages <- c(required_packages, bioc_packages)
 invisible(sapply(all_packages, library, character.only = TRUE, quietly = TRUE))
-#+ 0a.4: Verify critical packages for metabolomics analysis
-critical_packages <- c("dplyr", "ggplot2", "mixOmics", "vegan", "here")
-missing_critical <- critical_packages[!sapply(critical_packages, function(pkg) {
-  requireNamespace(pkg, quietly = TRUE)
-})]
-if (length(missing_critical) > 0) {
-  stop("❌ Critical packages missing: ", paste(missing_critical, collapse = ", "))
-}
-#+ 0a.5: Set up basic R options
-options(repos = c(CRAN = "https://cran.rstudio.com/"))
-options(expressions = 10000)
-#+ 0a.6: Set conflicts
+#+ 0a.4: Set conflicts
 conflicts_prefer(dplyr::select)
 conflicts_prefer(dplyr::filter)
 conflicts_prefer(dplyr::mutate)
@@ -91,4 +80,14 @@ conflicts_prefer(igraph::compose)
 conflicts_prefer(purrr::map)
 conflicts_prefer(readxl::read_xlsx)
 conflicts_prefer(scales::alpha)
-conflicts_prefer(purrr::flatten)
+#+ 0a.5: Verify critical packages for metabolomics analysis
+critical_packages <- c("dplyr", "ggplot2", "mixOmics", "vegan", "here")
+missing_critical <- critical_packages[!sapply(critical_packages, function(pkg) {
+  requireNamespace(pkg, quietly = TRUE)
+})]
+if (length(missing_critical) > 0) {
+  stop("❌ Critical packages missing: ", paste(missing_critical, collapse = ", "))
+}
+#+ 0a.6: Set up basic R options
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
+options(expressions = 10000)

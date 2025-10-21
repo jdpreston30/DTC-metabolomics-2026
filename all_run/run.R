@@ -7,4 +7,7 @@
   source("R/Scripts/00d_FTs.R")
   source("R/Scripts/01_Clustering.R")
   source("R/Scripts/02_pathway_enrichment.R")
+  source("R/Scripts/03_annotated.R")
+  source("R/Scripts/04_visualization.R")
+  source("R/Scripts/05_abstract_data.R")
 }
