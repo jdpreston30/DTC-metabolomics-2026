@@ -28,6 +28,7 @@
 #' @param nudge_labels Named list for custom vjust values (e.g., list(p1 = -3, p5 = 3.5))
 #' @param nudge_labels_vert Named list for vertical nudging/vjust (e.g., list(p1 = -3, p5 = 2))
 #' @param nudge_labels_horiz Named list for horizontal nudging/hjust (e.g., list(p1 = 0.2, p3 = 0.8))
+#' @param nudge_labels_coords Named list of coordinate pairs for label positioning (e.g., list(p1 = c(1.1, 1), p5 = c(-0.2, 0)))
 #' @param color_scale Character string for color scheme: "red" (default) or "blue"
 #' @param background_color Background color: "transparent" (default) or "white"
 #'
@@ -54,6 +55,10 @@
 #' plot_biological_network(network_data,
 #'                         nudge_labels_vert = list(p1 = -3, p5 = 2),
 #'                         nudge_labels_horiz = list(p1 = 0.2, p3 = 0.8))
+#' 
+#' # Inline coordinate pairs (horizontal, vertical)
+#' plot_biological_network(network_data,
+#'                         nudge_labels_coords = list(p1 = c(1.1, 1), p5 = c(-0.2, 0), p10 = c(1.1, 0)))
 #' 
 #' # With blue color scheme
 #' plot_biological_network(network_data, color_scale = "blue")
@@ -90,6 +95,7 @@ plot_biological_network <- function(network_data,
                                     nudge_labels = NULL,
                                     nudge_labels_vert = NULL,
                                     nudge_labels_horiz = NULL,
+                                    nudge_labels_coords = NULL,
                                     color_scale = "red",
                                     background_color = "transparent") {
   
@@ -125,7 +131,8 @@ plot_biological_network <- function(network_data,
     cat("- Bulk below: labels_below = c(4, 6, 9)\n")
     cat("- Custom positioning: custom_label_positions = list(p1 = \"below\", p3 = \"above\")\n")
     cat("- Fine-tune distances: nudge_labels = list(p1 = -3, p5 = 3.5)\n")
-    cat("- Separate controls: nudge_labels_vert = list(p1 = -3), nudge_labels_horiz = list(p1 = 0.2)\n\n")
+    cat("- Separate controls: nudge_labels_vert = list(p1 = -3), nudge_labels_horiz = list(p1 = 0.2)\n")
+    cat("- Inline coordinates: nudge_labels_coords = list(p1 = c(1.1, 1), p5 = c(-0.2, 0))\n\n")
   }
   
   # Determine label vjust based on position (default or custom)
@@ -178,6 +185,22 @@ plot_biological_network <- function(network_data,
       node_num <- paste0("p", i)
       if (node_num %in% names(nudge_labels_horiz)) {
         node_data_clean$label_hjust[i] <- nudge_labels_horiz[[node_num]]
+      }
+    }
+  }
+  
+  # Apply coordinate pairs (horizontal, vertical) - overrides individual settings
+  if (!is.null(nudge_labels_coords)) {
+    for (i in 1:nrow(node_data_clean)) {
+      node_num <- paste0("p", i)
+      if (node_num %in% names(nudge_labels_coords)) {
+        coords <- nudge_labels_coords[[node_num]]
+        if (length(coords) == 2) {
+          node_data_clean$label_hjust[i] <- coords[1]  # horizontal (first value)
+          node_data_clean$label_vjust[i] <- coords[2]  # vertical (second value)
+        } else {
+          warning(paste("nudge_labels_coords for", node_num, "should have exactly 2 values: c(horizontal, vertical)"))
+        }
       }
     }
   }

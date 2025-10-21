@@ -1,22 +1,30 @@
-De novo fatty acid biosynthesis	shared_metabolites_9	Fatty acid activation
-De novo fatty acid biosynthesis	shared_metabolites_6	Fatty Acid Metabolism
+De novo fatty acid biosynthesis	shared_metabolites_11	Fatty Acid Metabolism
+De novo fatty acid biosynthesis	shared_metabolites_14	Fatty acid activation
 De novo fatty acid biosynthesis	shared_metabolites_1	Histidine metabolism
-De novo fatty acid biosynthesis	shared_metabolites_4	Glycerophospholipid metabolism
+De novo fatty acid biosynthesis	shared_metabolites_4	Linoleate metabolism
+De novo fatty acid biosynthesis	shared_metabolites_3	Prostaglandin formation from arachidonate
 De novo fatty acid biosynthesis	shared_metabolites_2	Vitamin A (retinol) metabolism
 De novo fatty acid biosynthesis	shared_metabolites_1	Alanine and Aspartate Metabolism
-De novo fatty acid biosynthesis	shared_metabolites_2	Saturated fatty acids beta-oxidation
-Fatty acid activation	shared_metabolites_6	Fatty Acid Metabolism
+De novo fatty acid biosynthesis	shared_metabolites_1	Bile acid biosynthesis
+Fatty Acid Metabolism	shared_metabolites_9	Fatty acid activation
+Fatty Acid Metabolism	shared_metabolites_2	Linoleate metabolism
+Fatty Acid Metabolism	shared_metabolites_1	Carnitine shuttle
+Fatty Acid Metabolism	shared_metabolites_1	Bile acid biosynthesis
 Fatty acid activation	shared_metabolites_1	Histidine metabolism
-Fatty acid activation	shared_metabolites_3	Glycerophospholipid metabolism
+Fatty acid activation	shared_metabolites_4	Linoleate metabolism
+Fatty acid activation	shared_metabolites_1	Prostaglandin formation from arachidonate
 Fatty acid activation	shared_metabolites_1	Vitamin A (retinol) metabolism
 Fatty acid activation	shared_metabolites_1	Alanine and Aspartate Metabolism
-Fatty acid activation	shared_metabolites_1	Saturated fatty acids beta-oxidation
-Carnitine shuttle	shared_metabolites_2	Saturated fatty acids beta-oxidation
-Biopterin metabolism	shared_metabolites_1	Glycerophospholipid metabolism
-Fatty Acid Metabolism	shared_metabolites_3	Glycerophospholipid metabolism
-Fatty Acid Metabolism	shared_metabolites_2	Saturated fatty acids beta-oxidation
-Histidine metabolism	shared_metabolites_1	Glycerophospholipid metabolism
+Fatty acid activation	shared_metabolites_1	Bile acid biosynthesis
+Histidine metabolism	shared_metabolites_1	Linoleate metabolism
+Histidine metabolism	shared_metabolites_2	Prostaglandin formation from arachidonate
 Histidine metabolism	shared_metabolites_1	Vitamin A (retinol) metabolism
 Histidine metabolism	shared_metabolites_1	Alanine and Aspartate Metabolism
-Glycerophospholipid metabolism	shared_metabolites_1	Vitamin A (retinol) metabolism
+Histidine metabolism	shared_metabolites_1	Bile acid biosynthesis
+Linoleate metabolism	shared_metabolites_2	Prostaglandin formation from arachidonate
+Prostaglandin formation from arachidonate	shared_metabolites_2	Vitamin A (retinol) metabolism
+Prostaglandin formation from arachidonate	shared_metabolites_1	Alanine and Aspartate Metabolism
+Prostaglandin formation from arachidonate	shared_metabolites_1	Bile acid biosynthesis
 Vitamin A (retinol) metabolism	shared_metabolites_1	Alanine and Aspartate Metabolism
+Vitamin A (retinol) metabolism	shared_metabolites_1	Bile acid biosynthesis
+Alanine and Aspartate Metabolism	shared_metabolites_1	Bile acid biosynthesis

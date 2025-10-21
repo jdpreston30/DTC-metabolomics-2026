@@ -3,108 +3,108 @@
     {
       "id": "De novo fatty acid biosynthesis",
       "label": "De novo fatty acid biosynthesis",
-      "pvalue": 0.003,
-      "hits_sig": 13,
+      "pvalue": 0.0007,
+      "hits_sig": 15,
       "hits_total": 30,
       "pathway_total": 106,
-      "enrichment_factor": 1.8797
-    },
-    {
-      "id": "Fatty acid activation",
-      "label": "Fatty acid activation",
-      "pvalue": 0.014,
-      "hits_sig": 9,
-      "hits_total": 26,
-      "pathway_total": 74,
-      "enrichment_factor": 1.7774
-    },
-    {
-      "id": "Carnitine shuttle",
-      "label": "Carnitine shuttle",
-      "pvalue": 0.0157,
-      "hits_sig": 12,
-      "hits_total": 39,
-      "pathway_total": 72,
-      "enrichment_factor": 1.7993
-    },
-    {
-      "id": "Biopterin metabolism",
-      "label": "Biopterin metabolism",
-      "pvalue": 0.0159,
-      "hits_sig": 7,
-      "hits_total": 18,
-      "pathway_total": 22,
-      "enrichment_factor": 1.8893
+      "enrichment_factor": 1.0731
     },
     {
       "id": "Fatty Acid Metabolism",
       "label": "Fatty Acid Metabolism",
-      "pvalue": 0.0197,
-      "hits_sig": 8,
+      "pvalue": 0.0048,
+      "hits_sig": 10,
       "hits_total": 19,
       "pathway_total": 63,
-      "enrichment_factor": 1.7507
+      "enrichment_factor": 1.0828
+    },
+    {
+      "id": "Fatty acid activation",
+      "label": "Fatty acid activation",
+      "pvalue": 0.0062,
+      "hits_sig": 12,
+      "hits_total": 26,
+      "pathway_total": 74,
+      "enrichment_factor": 1.1726
     },
     {
       "id": "Histidine metabolism",
       "label": "Histidine metabolism",
-      "pvalue": 0.0269,
-      "hits_sig": 8,
+      "pvalue": 0.03,
+      "hits_sig": 14,
       "hits_total": 23,
       "pathway_total": 33,
-      "enrichment_factor": 1.1168
+      "enrichment_factor": 0.9671
     },
     {
-      "id": "Glycerophospholipid metabolism",
-      "label": "Glycerophospholipid metabolism",
-      "pvalue": 0.0544,
-      "hits_sig": 17,
-      "hits_total": 50,
-      "pathway_total": 156,
-      "enrichment_factor": 1.2864
+      "id": "Linoleate metabolism",
+      "label": "Linoleate metabolism",
+      "pvalue": 0.0386,
+      "hits_sig": 23,
+      "hits_total": 37,
+      "pathway_total": 46,
+      "enrichment_factor": 1.2452
+    },
+    {
+      "id": "Prostaglandin formation from arachidonate",
+      "label": "Prostaglandin formation from arachidonate",
+      "pvalue": 0.0505,
+      "hits_sig": 29,
+      "hits_total": 54,
+      "pathway_total": 78,
+      "enrichment_factor": 1.9046
+    },
+    {
+      "id": "Carnitine shuttle",
+      "label": "Carnitine shuttle",
+      "pvalue": 0.0531,
+      "hits_sig": 20,
+      "hits_total": 39,
+      "pathway_total": 72,
+      "enrichment_factor": 1.4838
     },
     {
       "id": "Vitamin A (retinol) metabolism",
       "label": "Vitamin A (retinol) metabolism",
-      "pvalue": 0.0598,
-      "hits_sig": 27,
+      "pvalue": 0.077,
+      "hits_sig": 33,
       "hits_total": 46,
       "pathway_total": 67,
-      "enrichment_factor": 5.7531
+      "enrichment_factor": 3.4791
     },
     {
       "id": "Alanine and Aspartate Metabolism",
       "label": "Alanine and Aspartate Metabolism",
-      "pvalue": 0.0972,
+      "pvalue": 0.0825,
       "hits_sig": 9,
       "hits_total": 20,
       "pathway_total": 30,
-      "enrichment_factor": 1.7351
+      "enrichment_factor": 0.8585
     },
     {
-      "id": "Saturated fatty acids beta-oxidation",
-      "label": "Saturated fatty acids beta-oxidation",
-      "pvalue": 0.0998,
-      "hits_sig": 3,
-      "hits_total": 13,
-      "pathway_total": 36,
-      "enrichment_factor": 1.5182
+      "id": "Bile acid biosynthesis",
+      "label": "Bile acid biosynthesis",
+      "pvalue": 0.0853,
+      "hits_sig": 38,
+      "hits_total": 51,
+      "pathway_total": 82,
+      "enrichment_factor": 2.6708
     }
   ],
   "edge_data": [
     {
       "source": "De novo fatty acid biosynthesis",
-      "target": "Fatty acid activation",
+      "target": "Fatty Acid Metabolism",
       "interaction": "shared_metabolites",
-      "weight": 9,
-      "shared_compounds": "EC00028;EC000878;EC000635;EC000636;EC0001496;EC0001493;EC000288;EC000892;EC000893"
+      "weight": 11,
+      "shared_compounds": "EC000930;EC000876;EC000878;EC0001493;EC0001494;EC000288;EC000289;EC0001029;EC0001030;EC000892;EC000893"
     },
     {
       "source": "De novo fatty acid biosynthesis",
-      "target": "Fatty Acid Metabolism",
+      "target": "Fatty acid activation",
       "interaction": "shared_metabolites",
-      "weight": 6,
-      "shared_compounds": "EC000930;EC000878;EC0001493;EC000288;EC000892;EC000893"
+      "weight": 14,
+      "shared_compounds": "EC00028;EC000876;EC000878;EC000635;EC000636;EC0001496;EC0001497;EC0001493;EC0001494;EC000288;EC000289;EC0001078;EC000892;EC000893"
     },
     {
       "source": "De novo fatty acid biosynthesis",
@@ -115,10 +115,17 @@
     },
     {
       "source": "De novo fatty acid biosynthesis",
-      "target": "Glycerophospholipid metabolism",
+      "target": "Linoleate metabolism",
       "interaction": "shared_metabolites",
       "weight": 4,
-      "shared_compounds": "EC0001496;EC000262;EC000892;EC000893"
+      "shared_compounds": "EC0001496;EC0001497;EC000892;EC000893"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Prostaglandin formation from arachidonate",
+      "interaction": "shared_metabolites",
+      "weight": 3,
+      "shared_compounds": "EC00028;EC000262;EC000263"
     },
     {
       "source": "De novo fatty acid biosynthesis",
@@ -136,17 +143,38 @@
     },
     {
       "source": "De novo fatty acid biosynthesis",
-      "target": "Saturated fatty acids beta-oxidation",
+      "target": "Bile acid biosynthesis",
       "interaction": "shared_metabolites",
-      "weight": 2,
-      "shared_compounds": "EC000930;EC000288"
+      "weight": 1,
+      "shared_compounds": "EC00028"
     },
     {
-      "source": "Fatty acid activation",
-      "target": "Fatty Acid Metabolism",
+      "source": "Fatty Acid Metabolism",
+      "target": "Fatty acid activation",
       "interaction": "shared_metabolites",
-      "weight": 6,
-      "shared_compounds": "EC0002067;EC0001493;EC000288;EC000892;EC000893;EC000878"
+      "weight": 9,
+      "shared_compounds": "EC0002067;EC0001493;EC0001494;EC000288;EC000289;EC000892;EC000893;EC000876;EC000878"
+    },
+    {
+      "source": "Fatty Acid Metabolism",
+      "target": "Linoleate metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC000892;EC000893"
+    },
+    {
+      "source": "Fatty Acid Metabolism",
+      "target": "Carnitine shuttle",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC000344"
+    },
+    {
+      "source": "Fatty Acid Metabolism",
+      "target": "Bile acid biosynthesis",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC000238"
     },
     {
       "source": "Fatty acid activation",
@@ -157,10 +185,17 @@
     },
     {
       "source": "Fatty acid activation",
-      "target": "Glycerophospholipid metabolism",
+      "target": "Linoleate metabolism",
       "interaction": "shared_metabolites",
-      "weight": 3,
-      "shared_compounds": "EC0001496;EC000892;EC000893"
+      "weight": 4,
+      "shared_compounds": "EC0001496;EC0001497;EC000892;EC000893"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Prostaglandin formation from arachidonate",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
     },
     {
       "source": "Fatty acid activation",
@@ -178,45 +213,24 @@
     },
     {
       "source": "Fatty acid activation",
-      "target": "Saturated fatty acids beta-oxidation",
+      "target": "Bile acid biosynthesis",
       "interaction": "shared_metabolites",
       "weight": 1,
-      "shared_compounds": "EC000288"
-    },
-    {
-      "source": "Carnitine shuttle",
-      "target": "Saturated fatty acids beta-oxidation",
-      "interaction": "shared_metabolites",
-      "weight": 2,
-      "shared_compounds": "EC0001062;EC0001063"
-    },
-    {
-      "source": "Biopterin metabolism",
-      "target": "Glycerophospholipid metabolism",
-      "interaction": "shared_metabolites",
-      "weight": 1,
-      "shared_compounds": "EC0001074"
-    },
-    {
-      "source": "Fatty Acid Metabolism",
-      "target": "Glycerophospholipid metabolism",
-      "interaction": "shared_metabolites",
-      "weight": 3,
-      "shared_compounds": "EC000892;EC000893;EC000238"
-    },
-    {
-      "source": "Fatty Acid Metabolism",
-      "target": "Saturated fatty acids beta-oxidation",
-      "interaction": "shared_metabolites",
-      "weight": 2,
-      "shared_compounds": "EC000930;EC000288"
+      "shared_compounds": "EC00028"
     },
     {
       "source": "Histidine metabolism",
-      "target": "Glycerophospholipid metabolism",
+      "target": "Linoleate metabolism",
       "interaction": "shared_metabolites",
       "weight": 1,
-      "shared_compounds": "EC00032"
+      "shared_compounds": "EC00057"
+    },
+    {
+      "source": "Histidine metabolism",
+      "target": "Prostaglandin formation from arachidonate",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC00028;EC00057"
     },
     {
       "source": "Histidine metabolism",
@@ -233,15 +247,57 @@
       "shared_compounds": "EC00028"
     },
     {
-      "source": "Glycerophospholipid metabolism",
-      "target": "Vitamin A (retinol) metabolism",
+      "source": "Histidine metabolism",
+      "target": "Bile acid biosynthesis",
       "interaction": "shared_metabolites",
       "weight": 1,
-      "shared_compounds": "EC0001206"
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Linoleate metabolism",
+      "target": "Prostaglandin formation from arachidonate",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC00057;EC00082"
+    },
+    {
+      "source": "Prostaglandin formation from arachidonate",
+      "target": "Vitamin A (retinol) metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC00028;EC0001893"
+    },
+    {
+      "source": "Prostaglandin formation from arachidonate",
+      "target": "Alanine and Aspartate Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Prostaglandin formation from arachidonate",
+      "target": "Bile acid biosynthesis",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
     },
     {
       "source": "Vitamin A (retinol) metabolism",
       "target": "Alanine and Aspartate Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Vitamin A (retinol) metabolism",
+      "target": "Bile acid biosynthesis",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Alanine and Aspartate Metabolism",
+      "target": "Bile acid biosynthesis",
       "interaction": "shared_metabolites",
       "weight": 1,
       "shared_compounds": "EC00028"
@@ -251,6 +307,6 @@
     "min_shared_compounds": 1,
     "p_threshold": 0.1,
     "n_pathways": 10,
-    "n_edges": 22
+    "n_edges": 30
   }
 }

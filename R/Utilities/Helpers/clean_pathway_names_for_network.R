@@ -36,6 +36,7 @@ clean_pathway_names_for_network <- function(pathway_names) {
     pathway_names %>%
       # Handle Greek letters and special cases first
       stringr::str_replace_all(stringr::regex("\\bBeta[- ]Alanine\\b", ignore_case = TRUE), "β-Ala") %>%
+      stringr::str_replace_all(stringr::regex("\\bBile acid\\b", ignore_case = TRUE), "Bile Acid") %>%
       stringr::str_replace_all(stringr::regex("\\balpha[- ]?linolenic\\b", ignore_case = TRUE), "α-Linolenic") %>%
       stringr::str_replace_all(stringr::regex("\\bgamma[- ]?linol", ignore_case = TRUE), "γ-linol") %>%
       stringr::str_replace_all(stringr::regex("\\bbeta[- ]?oxidation\\b", ignore_case = TRUE), "β-Oxidation") %>%
@@ -66,6 +67,7 @@ clean_pathway_names_for_network <- function(pathway_names) {
       # stringr::str_replace_all(stringr::regex("\\bTyrosine\\b", ignore_case = TRUE), "Tyr") %>%
       stringr::str_replace_all(stringr::regex("\\bValine\\b", ignore_case = TRUE), "Val") %>%
       # Specific long pathway abbreviations
+      stringr::str_replace_all(stringr::regex("\\bProstaglandin formation from arachidonate\\b", ignore_case = TRUE), "PG Formation (Arachidonate)") %>%
       stringr::str_replace_all(stringr::regex("\\bArachidonic acid metabolism\\b", ignore_case = TRUE), "Arachidonic Acid Metabolism") %>%
       stringr::str_replace_all(stringr::regex("\\bPolyunsaturated fatty acid\\b", ignore_case = TRUE), "PUFA") %>%
       stringr::str_replace_all(stringr::regex("\\bC21-steroid hormone\\b", ignore_case = TRUE), "C21-Steroid Hormone") %>%
@@ -89,8 +91,8 @@ clean_pathway_names_for_network <- function(pathway_names) {
       stringr::str_replace_all(stringr::regex("\\bVitamin A \\(retinol\\) metabolism\\b", ignore_case = TRUE), "Vitamin A Metabolism") %>%
       stringr::str_replace_all(stringr::regex("\\bVitamin B9 \\(folate\\) metabolism\\b", ignore_case = TRUE), "Vit. B9 (Folate) Metabolism") %>%
       stringr::str_replace_all(stringr::regex("\\bVitamin E metabolism\\b", ignore_case = TRUE), "Vit. E Metabolism") %>%
-      # Fatty Acid abbreviation
-      stringr::str_replace_all(stringr::regex("\\bFatty acid\\b", ignore_case = TRUE), "FA") %>%
+      # Fatty Acid abbreviation - catch all remaining variations
+      stringr::str_replace_all(stringr::regex("\\bFatty acids?\\b", ignore_case = TRUE), "FA") %>%
       # Specific line breaks for long pathway names
       stringr::str_replace_all(stringr::regex("\\bFructose/Mannose Metabolism\\b", ignore_case = TRUE), "Fructose/Mannose Metabolism") %>%
       # Replace all ampersands with forward slashes

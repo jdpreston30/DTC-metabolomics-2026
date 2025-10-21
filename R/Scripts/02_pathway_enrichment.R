@@ -76,16 +76,15 @@ mfn_enrichment_plot <- plot_mummichog_enrichment(
   combine_databases = FALSE,
   p_threshold = 0.1,
   enrichment_cap = 1.75,
-  size_range = c(6, 12),  # Min enrichment (1.36) maps to size 3, max (1.75) maps to size 12
+  size_range = c(8, 12),  # Min enrichment (1.36) maps to size 3, max (1.75) maps to size 12
   size_breaks = c(1.75, 1.5, 1.25),  # Reversed order - largest first
   show_legend = TRUE,
   save_path = "Outputs/Figures/Raw/mfn_enrich.png",
-  plot_width = 6.5,
+  plot_width = 6.55,
   plot_height = 5.4, # ! 6.3 for 3b version
-  dpi = 200,
+  dpi = 600,
   color_scale = "rb",
-  background = "white",
-  use_data_range = TRUE  # This will map your actual min (1.36) to size 0.5
+  use_data_range = TRUE
 )
 #+ 2.4: Run Biological Network Analysis
 mfn_network <- create_biological_network(
@@ -99,20 +98,26 @@ mfn_network <- create_biological_network(
 network_plot <- plot_biological_network(
   network_data = mfn_network,
   output_file = "Outputs/Figures/Raw/mfn_network.png",
-  node_size_range = c(4, 14),
-  text_size = 4.5,
+  node_size_range = c(10, 14),
+  text_size = 5.5,
   show_legend = FALSE,
   plot_width = 10.5,
   plot_height = 10.5,
   dpi = 600,
-  seed = 2025,
+  seed = 2014,
   variable_edge_thickness = TRUE,
   edge_thickness_range = c(0.3, 3),
   max_distance_from_center = 1.5,
   label_position = "above",
   show_node_numbers = FALSE,
-  labels_below = c(3,7,9),
-  nudge_labels_vert = list(p1 = 1, p5 = 0, p10 = 0),
-  nudge_labels_horiz = list(p1 = 1.1, p5 = -0.2, p7 = -0.05, p9 = 0.5, p10 = 1.1),
+  labels_below = c(3,4,8),
+  nudge_labels_coords = list(
+    p1 = c(-0.13,0.5),
+    p2 = c(1.15,0),
+    p3 = c(1.18, 0),
+    p6 = c(0.62, -2),
+    p8 = c(0.5,3),
+    p9 = c(0.5, 3)
+  ),
   color_scale = "rb"
 )
