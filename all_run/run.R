@@ -5,4 +5,6 @@
   source("R/Scripts/00b_setup.R")
   source("R/Scripts/00c_clinical_metadata.R")
   source("R/Scripts/00d_FTs.R")
+  source("R/Scripts/01_Clustering.R")
+  source("R/Scripts/02_pathway_enrichment.R")
 }

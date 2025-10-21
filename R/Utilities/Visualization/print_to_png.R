@@ -7,10 +7,11 @@
 #' @param dpi Resolution in DPI (default: 300 for high quality)
 #' @param output_dir Directory to save the PNG (default: "Outputs")
 #' @param auto_open Whether to automatically open in Preview on first run (default: TRUE)
+#' @param background Background color for the plot (default: "white", can be "transparent")
 #' @return Invisible path to the created PNG file
 #' @export
 print_to_png <- function(plot, filename, width = 8.5, height = 11, dpi = 600,
-                         output_dir = "Figures", auto_open = TRUE) {
+                         output_dir = "Figures", auto_open = TRUE, background = "white") {
   # Ensure filename has .png extension
   if (!grepl("\\.png$", filename, ignore.case = TRUE)) {
     filename <- paste0(filename, ".png")
@@ -35,7 +36,8 @@ print_to_png <- function(plot, filename, width = 8.5, height = 11, dpi = 600,
     height = height,
     dpi = dpi,
     units = "in",
-    device = "png"
+    device = "png",
+    bg = background
   )
 
   # Auto-open in Preview only on first run (or if specified)

@@ -1,0 +1,256 @@
+{
+  "node_data": [
+    {
+      "id": "De novo fatty acid biosynthesis",
+      "label": "De novo fatty acid biosynthesis",
+      "pvalue": 0.003,
+      "hits_sig": 13,
+      "hits_total": 30,
+      "pathway_total": 106,
+      "enrichment_factor": 1.8797
+    },
+    {
+      "id": "Fatty acid activation",
+      "label": "Fatty acid activation",
+      "pvalue": 0.014,
+      "hits_sig": 9,
+      "hits_total": 26,
+      "pathway_total": 74,
+      "enrichment_factor": 1.7774
+    },
+    {
+      "id": "Carnitine shuttle",
+      "label": "Carnitine shuttle",
+      "pvalue": 0.0157,
+      "hits_sig": 12,
+      "hits_total": 39,
+      "pathway_total": 72,
+      "enrichment_factor": 1.7993
+    },
+    {
+      "id": "Biopterin metabolism",
+      "label": "Biopterin metabolism",
+      "pvalue": 0.0159,
+      "hits_sig": 7,
+      "hits_total": 18,
+      "pathway_total": 22,
+      "enrichment_factor": 1.8893
+    },
+    {
+      "id": "Fatty Acid Metabolism",
+      "label": "Fatty Acid Metabolism",
+      "pvalue": 0.0197,
+      "hits_sig": 8,
+      "hits_total": 19,
+      "pathway_total": 63,
+      "enrichment_factor": 1.7507
+    },
+    {
+      "id": "Histidine metabolism",
+      "label": "Histidine metabolism",
+      "pvalue": 0.0269,
+      "hits_sig": 8,
+      "hits_total": 23,
+      "pathway_total": 33,
+      "enrichment_factor": 1.1168
+    },
+    {
+      "id": "Glycerophospholipid metabolism",
+      "label": "Glycerophospholipid metabolism",
+      "pvalue": 0.0544,
+      "hits_sig": 17,
+      "hits_total": 50,
+      "pathway_total": 156,
+      "enrichment_factor": 1.2864
+    },
+    {
+      "id": "Vitamin A (retinol) metabolism",
+      "label": "Vitamin A (retinol) metabolism",
+      "pvalue": 0.0598,
+      "hits_sig": 27,
+      "hits_total": 46,
+      "pathway_total": 67,
+      "enrichment_factor": 5.7531
+    },
+    {
+      "id": "Alanine and Aspartate Metabolism",
+      "label": "Alanine and Aspartate Metabolism",
+      "pvalue": 0.0972,
+      "hits_sig": 9,
+      "hits_total": 20,
+      "pathway_total": 30,
+      "enrichment_factor": 1.7351
+    },
+    {
+      "id": "Saturated fatty acids beta-oxidation",
+      "label": "Saturated fatty acids beta-oxidation",
+      "pvalue": 0.0998,
+      "hits_sig": 3,
+      "hits_total": 13,
+      "pathway_total": 36,
+      "enrichment_factor": 1.5182
+    }
+  ],
+  "edge_data": [
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Fatty acid activation",
+      "interaction": "shared_metabolites",
+      "weight": 9,
+      "shared_compounds": "EC00028;EC000878;EC000635;EC000636;EC0001496;EC0001493;EC000288;EC000892;EC000893"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Fatty Acid Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 6,
+      "shared_compounds": "EC000930;EC000878;EC0001493;EC000288;EC000892;EC000893"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Histidine metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Glycerophospholipid metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 4,
+      "shared_compounds": "EC0001496;EC000262;EC000892;EC000893"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Vitamin A (retinol) metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC00028;EC000952"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Alanine and Aspartate Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "De novo fatty acid biosynthesis",
+      "target": "Saturated fatty acids beta-oxidation",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC000930;EC000288"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Fatty Acid Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 6,
+      "shared_compounds": "EC0002067;EC0001493;EC000288;EC000892;EC000893;EC000878"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Histidine metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Glycerophospholipid metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 3,
+      "shared_compounds": "EC0001496;EC000892;EC000893"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Vitamin A (retinol) metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Alanine and Aspartate Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Fatty acid activation",
+      "target": "Saturated fatty acids beta-oxidation",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC000288"
+    },
+    {
+      "source": "Carnitine shuttle",
+      "target": "Saturated fatty acids beta-oxidation",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC0001062;EC0001063"
+    },
+    {
+      "source": "Biopterin metabolism",
+      "target": "Glycerophospholipid metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC0001074"
+    },
+    {
+      "source": "Fatty Acid Metabolism",
+      "target": "Glycerophospholipid metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 3,
+      "shared_compounds": "EC000892;EC000893;EC000238"
+    },
+    {
+      "source": "Fatty Acid Metabolism",
+      "target": "Saturated fatty acids beta-oxidation",
+      "interaction": "shared_metabolites",
+      "weight": 2,
+      "shared_compounds": "EC000930;EC000288"
+    },
+    {
+      "source": "Histidine metabolism",
+      "target": "Glycerophospholipid metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00032"
+    },
+    {
+      "source": "Histidine metabolism",
+      "target": "Vitamin A (retinol) metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Histidine metabolism",
+      "target": "Alanine and Aspartate Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    },
+    {
+      "source": "Glycerophospholipid metabolism",
+      "target": "Vitamin A (retinol) metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC0001206"
+    },
+    {
+      "source": "Vitamin A (retinol) metabolism",
+      "target": "Alanine and Aspartate Metabolism",
+      "interaction": "shared_metabolites",
+      "weight": 1,
+      "shared_compounds": "EC00028"
+    }
+  ],
+  "metadata": {
+    "min_shared_compounds": 1,
+    "p_threshold": 0.1,
+    "n_pathways": 10,
+    "n_edges": 22
+  }
+}

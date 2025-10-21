@@ -38,21 +38,10 @@ tumor_pathology <- tumor_pathology_raw %>%
     age_col = "Age",
     out_col = "Stage"
   ) %>%
-  # assign_AJCC8_stage(
-  #   t_col = "T_stage_comp",
-  #   n_col = "N", 
-  #   m_col = "M",
-  #   age_col = "Age",
-  #   out_col = "Stage",
-  #   consider_age = FALSE
-  # ) %>%
-  mutate(stage_bin = case_when(
-    Stage == "I" ~ "Early",
-    Stage %in% c("II", "III", "IV") ~ "Advanced",
+  mutate(stage_bin = factor(case_when(
+    Stage %in% c("I", "II") ~ "Early",
+    Stage %in% c("III", "IV") ~ "Advanced",
     TRUE ~ NA_character_
-  )) %>%
+  ), levels = c("Early", "Advanced"))) %>%
   select(ID = Patient_ID, Variant, Sex, Age, T_stage_comp, Stage, stage_bin) %>%
   arrange(Stage)
-#+ 0c.2: Define metadata columns in a vector
-#- 0c.1.3: Define metadata and feature columns
-  metadata_cols <- c("ID", "Variant", "Sex", "Age", "T_stage_comp", "Stage", "stage_bin")

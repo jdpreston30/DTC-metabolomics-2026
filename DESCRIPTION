@@ -20,11 +20,12 @@ Imports:
     ggraph,
     gtools,
     MetaboJanitoR,
+    MetaboAnalystR,
     igraph,
     magick,
     memoise,
     mice,
-    patchwork,
+    cowplot,
     permute,
     pheatmap,
     purrr,
@@ -39,6 +40,7 @@ Imports:
     vegan,
     conflicted,
     grid,
+    jsonlite,
     here,
     yaml
 Additional_repositories: 
@@ -46,6 +48,9 @@ Additional_repositories:
 Bioconductor:
     mixOmics,
     KEGGREST
+Remotes: 
+    jdpreston30/MetaboJanitoR,
+    xia-lab/MetaboAnalystR
 Config/renv/snapshot/type: explicit
 Encoding: UTF-8
 RoxygenNote: 7.3.3

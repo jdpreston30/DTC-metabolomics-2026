@@ -181,6 +181,10 @@
       "FV-PTC" = "#23744E",
       "FTC"    = "#194992"
     )
+    T_stage_bin_colors <- c(
+      "I-II" = "#dfba37",
+      "III-IV" = "#72061c"
+    )
     variant_light <- c(
       "PTC"    = "#e9bb71",
       "FV-PTC" = "#80ac95",
