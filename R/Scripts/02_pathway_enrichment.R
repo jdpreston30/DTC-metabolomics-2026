@@ -14,7 +14,8 @@ mummichog_mfn <- run_mummichog_analysis(
   database = "hsa_mfn",
   instrumentOpt = 5.0,
   msModeOpt = "mixed",
-  force_primary_ion = "yes"
+  force_primary_ion = "yes",
+  p_threshold = 0.05
 )
 #- 2.1.3: Run Mummichog (KEGG)
 mummichog_kegg <- run_mummichog_analysis(
@@ -23,7 +24,8 @@ mummichog_kegg <- run_mummichog_analysis(
   database = "hsa_kegg",
   instrumentOpt = 5.0,
   msModeOpt = "mixed",
-  force_primary_ion = "yes"
+  force_primary_ion = "yes",
+  p_threshold = 0.05
 )
 #+ 2.3: Create Pathway Enrichment Plots
 #- 2.3.1: Define JSON file paths once
@@ -73,15 +75,17 @@ mfn_enrichment_plot <- plot_mummichog_enrichment(
   json_files = mfn_json_files,
   combine_databases = FALSE,
   p_threshold = 0.1,
-  enrichment_cap = 2.5,
-  size_range = c(.11, 12),
-  size_breaks = c(2.5, 2.0, 1.5, 1.0),
+  enrichment_cap = 1.75,
+  size_range = c(6, 12),  # Min enrichment (1.36) maps to size 3, max (1.75) maps to size 12
+  size_breaks = c(1.75, 1.5, 1.25),  # Reversed order - largest first
   show_legend = TRUE,
   save_path = "Outputs/Figures/Raw/mfn_enrich.png",
-  plot_width = 5.9,
+  plot_width = 6.5,
   plot_height = 5.4, # ! 6.3 for 3b version
-  dpi = 600,
-  color_scale = "rb"
+  dpi = 200,
+  color_scale = "rb",
+  background = "white",
+  use_data_range = TRUE  # This will map your actual min (1.36) to size 0.5
 )
 #+ 2.4: Run Biological Network Analysis
 mfn_network <- create_biological_network(

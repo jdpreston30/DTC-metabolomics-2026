@@ -78,7 +78,8 @@ plot_mummichog_enrichment <- function(
     height_base = 2,
     dpi = 600,
     color_scale = "blue",
-    background = "transparent") {
+    background = "transparent",
+    use_data_range = FALSE) {
   # Load required libraries
   library(dplyr)
   library(tidyr)
@@ -297,16 +298,35 @@ plot_mummichog_enrichment <- function(
     )
   }
 
+  # Calculate size scale limits
+  if (use_data_range) {
+    # Use actual data range for better size mapping
+    min_enrichment <- min(enrichment_data$enrichment_factor, na.rm = TRUE)
+    max_enrichment <- min(max(enrichment_data$enrichment_factor, na.rm = TRUE), enrichment_cap)
+    
+    # Expand limits slightly to include all size_breaks if provided
+    if (!is.null(size_breaks)) {
+      min_enrichment <- min(min_enrichment, min(size_breaks))
+      max_enrichment <- max(max_enrichment, max(size_breaks))
+    }
+    
+    size_limits <- c(min_enrichment, max_enrichment)
+    cat("Using data range for size mapping:", min_enrichment, "to", max_enrichment, "\n")
+  } else {
+    # Use traditional 0-to-cap range
+    size_limits <- c(0, enrichment_cap)
+  }
+
   p <- p +
     coord_fixed(clip = "off") +
     scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
     scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
     scale_size_continuous(
       range = size_range,
-      limits = c(0, enrichment_cap),
+      limits = size_limits,
       breaks = size_breaks,
       name = "Enrichment factor",
-      guide = if (show_legend) guide_legend(reverse = FALSE) else "none"
+      guide = if (show_legend) guide_legend(reverse = TRUE) else "none"
     ) +
     scale_color_gradientn(
       colors = if (color_scale == "blue") {

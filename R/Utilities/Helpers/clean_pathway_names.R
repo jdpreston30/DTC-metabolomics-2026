@@ -94,7 +94,7 @@ clean_pathway_names <- function(pathway_names) {
     # Fatty acid abbreviations
     stringr::str_replace_all(stringr::regex("\\bunsaturated fatty acids?\\b", ignore_case = TRUE), "UFAs") %>%
     # Prostaglandin abbreviation
-    stringr::str_replace_all(stringr::regex("\\bProstaglandin\\b", ignore_case = TRUE), "PG") %>%
+    # stringr::str_replace_all(stringr::regex("\\bProstaglandin\\b", ignore_case = TRUE), "PG") %>%
     # Special abbreviations and replacements
     stringr::str_replace_all(stringr::regex("\\bcytochrome P450\\b", ignore_case = TRUE), "Cyp450") %>%
     stringr::str_replace_all(stringr::regex("\\bGlycosylphosphatidylinositol \\(GPI\\)-anchor\\b", ignore_case = TRUE), "GPI-anchor") %>%
