@@ -14,7 +14,7 @@ D.2 <- stage_feature_plots$AMP +
     axis.ticks.x = element_line(color = "transparent"),
     axis.title.y = element_text(color = "transparent")
   )
-D.3 <- stage_feature_plots$`γ-Linolenic acid`
+D.3 <- stage_feature_plots$`γ-Linolenic Acid`
 D.4 <- stage_feature_plots$SAH + 
   theme(
     axis.title.y = element_text(color = "transparent")

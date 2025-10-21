@@ -23,7 +23,7 @@ annot_results_clean <- annot_results %>%
     "(6Z,9Z,12Z)-Octadecatrienoic acid",
     "S-Adenosyl-L-homocysteine"
   )) %>%
-  mutate(`Identified Name` = ifelse(`Identified Name` == "(6Z,9Z,12Z)-Octadecatrienoic acid", "γ-Linolenic acid", `Identified Name`)) %>%
+  mutate(`Identified Name` = ifelse(`Identified Name` == "(6Z,9Z,12Z)-Octadecatrienoic acid", "γ-Linolenic Acid", `Identified Name`)) %>%
   mutate(`Identified Name` = ifelse(`Identified Name` == "S-Adenosyl-L-homocysteine", "SAH", `Identified Name`))
 
 #+ 3.2: Source the plotting function

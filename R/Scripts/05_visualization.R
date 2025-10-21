@@ -15,21 +15,3 @@ print_to_png(ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     C = c(1.08, 6.43),
     D = c(4.40, 6.43)
   )), "fig1.png", width = 8.5, height = 11, dpi = 600)
-
-#+ 5.2: Add caption to figure
-source("R/Utilities/Visualization/add_caption_to_png.R")
-
-# Define the caption text (Option 1 - simple wrapping)
-figure_caption <- "Figure 1. Hierarchical clustering analysis of the top 1000 metabolic features with the greatest variance reveals to distinct clusters (A). Enrichment network plot comparing altered pathways between clusters 1 and 2 where color represents p-value, node size corresponds with enrichment factor, and connecting line thickness/node proximity indicate the number of shared pathway members (B). T-stage composition of cluster 1 versus 2 tumors (C). Annotated metabolites which showed the most significant differences between cluster 1 and 2 tumors (D)."
-
-# Add caption to the figure
-add_caption_to_png(
-  png_path = "Figures/fig1.png",
-  caption_text = figure_caption,
-  output_path = "Figures/fig1_with_caption.png",
-  caption_size = 11,
-  caption_family = "Arial",
-  figure_width = 8.5,
-  figure_height = 11.5,  # Slightly taller to accommodate caption
-  dpi = 300  # High quality
-)
