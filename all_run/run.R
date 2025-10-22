@@ -8,6 +8,7 @@
   source("R/Scripts/01_Clustering.R")
   source("R/Scripts/02_pathway_enrichment.R")
   source("R/Scripts/03_annotated.R")
-  source("R/Scripts/04_visualization.R")
-  source("R/Scripts/05_abstract_data.R")
+  source("R/Scripts/04_assign_plots.R")
+  source("R/Scripts/05_visualization.R")
+  source("R/Scripts/06_abstract_data.R")
 }
