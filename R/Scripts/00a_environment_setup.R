@@ -59,10 +59,9 @@ if (length(missing_bioc) > 0) {
   }
   BiocManager::install(missing_bioc)
 }
-#+ 0a.3: Load all required packages 
-all_packages <- c(required_packages, bioc_packages)
-invisible(sapply(all_packages, library, character.only = TRUE, quietly = TRUE))
-#+ 0a.4: Set conflicts
+#+ 0a.3: Pre-set critical conflicts before loading packages
+library(conflicted, quietly = TRUE)
+conflicts_prefer(purrr::flatten)
 conflicts_prefer(dplyr::select)
 conflicts_prefer(dplyr::filter)
 conflicts_prefer(dplyr::mutate)
@@ -75,11 +74,13 @@ conflicts_prefer(dplyr::first)
 conflicts_prefer(dplyr::rename)
 conflicts_prefer(ggplot2::margin)
 conflicts_prefer(igraph::union)
-conflicts_prefer(purrr::flatten)
 conflicts_prefer(igraph::compose)
 conflicts_prefer(purrr::map)
 conflicts_prefer(readxl::read_xlsx)
 conflicts_prefer(scales::alpha)
+#+ 0a.4: Load all required packages 
+all_packages <- c(required_packages, bioc_packages)
+invisible(sapply(all_packages, library, character.only = TRUE, quietly = TRUE))
 #+ 0a.5: Verify critical packages for metabolomics analysis
 critical_packages <- c("dplyr", "ggplot2", "mixOmics", "vegan", "here")
 missing_critical <- critical_packages[!sapply(critical_packages, function(pkg) {
