@@ -2,7 +2,7 @@
 #+ 5.1: Variant Type Distribution
 #- 5.1.0: Join FT with path data
 path_joined <- UFT_filtered %>%
-  left_join(tumor_pathology, by = "ID")
+  left_join(tumor_pathology |> select(-stage_bin), by = "ID")
 #- 5.1.1: Compute variant counts and percentages
 variant_summary <- path_joined %>%
   group_by(Variant) %>%
@@ -16,6 +16,13 @@ variant_counts_sentence <- paste0(
     collapse = ", "
   ), "."
 )
+#- 5.1.3: Early vs Advanced stage variant counts
+variant_counts_stage <- path_joined |>
+  select(Variant, stage_bin) |>
+  group_by(Variant, stage_bin) |>
+  summarise(n = n()) |>
+  pivot_wider(names_from = stage_bin, values_from = n, values_fill = 0) |>
+  ungroup()
 #+ 5.2: Stage Distribution  
 #- 5.2.1: Compute stage summary
 stage_summary <- path_joined %>%
@@ -113,7 +120,6 @@ summary_stats <- data.frame(
     if (exists("total_sig_fc")) total_sig_fc else "Not calculated"
   )
 )
-
 cat("\033[1;33mSUMMARY STATISTICS TABLE:\033[0m\n")
 print(summary_stats, row.names = FALSE)
 cat("\n")
