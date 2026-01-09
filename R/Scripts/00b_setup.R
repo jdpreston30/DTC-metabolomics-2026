@@ -28,10 +28,13 @@ options(
 .datatable.aware = config$analysis$datatable_options$aware
 #+ 0b.5: Set random seed for reproducibility
 set.seed(2025)
-#+ 0b.6: Import all data files
-#- 0b.6.1: Load clinical files
+#+ 0b.6: Import All Clinical and Path Data
+#- 0b.6.1: Tumor IDs
 tumor_IDs <- readr::read_csv(config$data_files$tumor_ids, show_col_types = FALSE)
+#- 0b.6.1: Tumor Path
 tumor_pathology_raw <- readxl::read_excel(config$data_files$tumor_pathology, sheet = "Logan Update")
+#- 0b.6.1.1: Demographics
+demographics_raw <- read_excel(config$paths$manifest, sheet = "Manifest")
 #- 0b.6.2: Load MetaboJanitoR processed CSV files  
 TFT_annot_import <- readr::read_csv(config$data_files$TFT_annot, show_col_types = FALSE)
 TFT_annot_key <- readr::read_csv(config$data_files$TFT_annot_key, show_col_types = FALSE)

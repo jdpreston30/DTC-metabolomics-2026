@@ -31,6 +31,8 @@ data_files:
   TFT_annot_key: "{base_data_path}/MetaboJanitoR/3b/MSMICA/global_KEGG/MSMICA_Feature_Tables/MSMICA_feature_key.csv"
   UFT_full: "{base_data_path}/MetaboJanitoR/3b/Untargeted/UFT_full_halfmin_log2.csv"
   UFT_filtered: "{base_data_path}/MetaboJanitoR/3b/Untargeted/UFT_20p_halfmin_log2.csv"
+  # Tissue manifest
+  manifest: "{user_home}/{onedrive_path}/Research/MS_raw_data/GCMS/Thyroid_GCMS/DTC_2022/metadata_files/manifest.xlsx"
 # Analysis settings (same across all computers)
 analysis:
   project_name: "DTC_Metabolomics_2025"

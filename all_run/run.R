@@ -1,4 +1,5 @@
 {
+  source("R/Utilities/Setup/restore_renv.R")
   source("R/Utilities/Helpers/load_dynamic_config.R")
   config <- load_dynamic_config(computer = "auto", config_path = "all_run/config_dynamic.yaml")
   source("R/Scripts/00a_environment_setup.R")
@@ -8,7 +9,8 @@
   source("R/Scripts/01_Clustering.R")
   source("R/Scripts/02_pathway_enrichment.R")
   source("R/Scripts/03_annotated.R")
-  source("R/Scripts/04_assign_plots.R")
-  source("R/Scripts/05_visualization.R")
-  source("R/Scripts/06_abstract_data.R")
+  source("R/Scripts/04_assign_figures.R")
+  source("R/Scripts/05_render_figures.R")
+  source("R/Scripts/06_tables.R")
+  source("R/Scripts/07_data_not_shown.R")
 }

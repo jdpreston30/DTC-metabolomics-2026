@@ -3,3 +3,5 @@
 
 # Ignore all saved object bundles
 **/all_objects.rds
+
+example/

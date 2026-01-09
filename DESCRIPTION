@@ -1,16 +1,13 @@
-Package: DTCMetabolomics2025
 Type: Project
-Title: Differentiated Thyroid Cancer Metabolomics Analysis
-Version: 1.0.0
+Title: Metabolomic Profiling Identifies Functional Tumor Subtypes in Differentiated Thyroid Cancer
 Authors@R: person("Joshua", "Preston", email = "joshua.preston@emory.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9834-3017"))
 Description: Metabolomics analysis pipeline for differentiated thyroid cancer study.
     This project contains all code and analysis scripts for metabolomic profiling
     of thyroid cancer variants including PTC, FTC, and FVPTC.
 License: MIT + file LICENSE
-URL: https://github.com/jdpreston30/DTC-metabolomics-2025
-BugReports: https://github.com/jdpreston30/DTC-metabolomics-2025/issues
+URL: https://github.com/jdpreston30/DTC-metabolomics-2026
 Depends: 
-    R (>= 4.3.0)
+    R (>= 4.5.1)
 Imports:
     broom,
     dplyr,
@@ -19,7 +16,6 @@ Imports:
     ggprism,
     ggraph,
     gtools,
-    MetaboJanitoR,
     MetaboAnalystR,
     igraph,
     magick,
@@ -42,14 +38,14 @@ Imports:
     grid,
     jsonlite,
     here,
-    yaml
+    yaml,
+    openxlsx
 Additional_repositories: 
     https://bioconductor.org/packages/release/bioc
 Bioconductor:
     mixOmics,
     KEGGREST
 Remotes: 
-    jdpreston30/MetaboJanitoR,
     xia-lab/MetaboAnalystR
 Config/renv/snapshot/type: explicit
 Encoding: UTF-8
