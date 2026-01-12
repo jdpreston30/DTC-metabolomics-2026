@@ -4,12 +4,32 @@
 #' math expressions in x=, y=, width=, height= parameters, replacing them
 #' with their exact decimal values.
 #'
-#' @param file Path to file to process. Defaults to R/Scripts/06_render_figures.R
+#' @param file Path to file to process. If NULL, automatically finds any file 
+#'   with "render_figure" in its name in R/Scripts/
 #' @export
 #' @examples
-#' m()  # Process render_figures.R
+#' m()  # Auto-find and process render_figures.R
 #' m("R/Scripts/14_render_supplementary_figures.R")  # Process specific file
-m <- function(file = "R/Scripts/06_render_figures.R") {
+m <- function(file = NULL) {
+  
+  # If no file specified, find any file with "render_figure" in its name
+  if (is.null(file)) {
+    render_files <- list.files("R/Scripts", pattern = "render_figure.*\\.R$", 
+                               full.names = TRUE, ignore.case = TRUE)
+    
+    if (length(render_files) == 0) {
+      stop("No render_figure*.R files found in R/Scripts/")
+    } else if (length(render_files) > 1) {
+      cat("Multiple render_figure files found:\n")
+      for (i in seq_along(render_files)) {
+        cat(sprintf("  [%d] %s\n", i, render_files[i]))
+      }
+      stop("Please specify which file to process")
+    }
+    
+    file <- render_files[1]
+    cat("Processing:", file, "\n")
+  }
   
   if (!file.exists(file)) {
     stop("File not found: ", file)
@@ -19,13 +39,20 @@ m <- function(file = "R/Scripts/06_render_figures.R") {
   lines <- readLines(file, warn = FALSE)
   
   # Pattern 1: x =, y =, width =, height = followed by math expressions
-  pattern1 <- "(x|y|width|height)(\\s*=\\s*)([0-9+*/.()\\-]+)(,)"
+  # Allow spaces in expression, be more explicit
+  pattern1 <- "(width|height|x|y)(\\s*=\\s*)([0-9.]+\\s*[+*/\\-]\\s*[0-9.]+(?:\\s*[+*/\\-]\\s*[0-9.]+)*)(\\s*[,)])"
   
   # Pattern 2: expressions inside c() like c(0.76, 8.75-0.25) - expression in 2nd position
   pattern2 <- "c\\(([0-9.]+),\\s*([0-9+*/.()\\-]+)\\)"
   
   # Pattern 3: expressions inside c() like c(0.76-100/800, 10.00) - expression in 1st position
   pattern3 <- "c\\(([0-9+*/.()\\-]+),\\s*([0-9.]+)\\)"
+  
+  # Debug: Check for any lines with division
+  debug_lines <- grep("/", lines)
+  if (length(debug_lines) > 0) {
+    cat("Lines with division found:", debug_lines, "\n")
+  }
   
   modified <- FALSE
   

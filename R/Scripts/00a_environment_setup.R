@@ -31,10 +31,8 @@ conflicts_prefer(base::rbind)
 #+ 0a.2: Load all packages from DESCRIPTION file
 source("R/Utilities/Setup/load_packages_from_description.R")
 load_packages_from_description()
-
 #+ 0a.3: Load GitHub Packages explicitly for renv detection
 library(MetaboAnalystR)
-
 #+ 0a.4: Check system dependencies
 source("R/Utilities/Setup/check_system_dependencies.R")
 check_system_dependencies()

@@ -1,41 +1,27 @@
 #' Reload All Utility Functions and Config
 #'
 #' Quick helper to re-source all utility functions from R/Utilities/ and reload config
-#' Optionally run a numbered script after updating
+#' Excludes Setup/ directory (one-time setup scripts, not utilities)
 #' Useful during development when making changes to utility functions or config
 #'
-#' @param n Optional script number to run after updating (e.g., 2 for 02_*.R)
 #' @export
 #' @examples
-#' u() # Just update utilities and config
-#' u(2) # Update utilities/config, then run script 02
-u <- function(n = NULL) {
+#' u() # Update utilities and config
+u <- function() {
+  # Load config
+  source("R/Utilities/Helpers/load_dynamic_config.R")
+  config <<- load_dynamic_config(computer = "auto", config_path = "all_run/config_dynamic.yaml")
+  
+  # Load all utilities (excluding Setup/ directory)
   utils_path <- "R/Utilities/"
-  if (dir.exists(utils_path)) {
-    purrr::walk(
-      list.files(utils_path, pattern = "\\.[rR]$", full.names = TRUE, recursive = TRUE),
-      source
-    )
-    cat("✅ Utility functions updated\n")
-  } else {
-    cat("⚠️  Utilities directory not found: ", utils_path, "\n")
-  }
-
-  #- Reload config
-  config_path <- "All_Run/config_dynamic.yaml"
-  if (file.exists(config_path)) {
-    config <<- load_dynamic_config(computer = "auto", config_path = config_path)
-    .GlobalEnv$config <- config
-    cat("✅ Config reloaded\n")
-  } else {
-    cat("⚠️  Config file not found: ", config_path, "\n")
-  }
-
-  # If script number provided, run that script
-  if (!is.null(n)) {
-    r(n)
-  }
-
+  all_files <- list.files(utils_path, pattern = "\\.[rR]$", full.names = TRUE, recursive = TRUE)
+  
+  # Exclude only Setup/ directory (one-time setup scripts)
+  utility_files <- all_files[!grepl("Setup/", all_files)]
+  
+  purrr::walk(utility_files, source)
+  
+  cat("✅ Config and utilities reloaded\n")
   invisible(NULL)
 }
 
