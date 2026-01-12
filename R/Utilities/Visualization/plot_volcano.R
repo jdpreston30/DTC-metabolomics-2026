@@ -69,8 +69,18 @@ plot_volcano <- function(volcano_results,
     }
   } else {
     # Auto-scale y-axis
-    y_range <- c(-0.25, max(volcano_data$neg_log10_p, na.rm = TRUE) * 1.1)
+    y_max <- max(volcano_data$neg_log10_p, na.rm = TRUE)
+    y_range <- c(-0.25, y_max)
   }
+  
+  # Apply 1.5% extension to y-axis upper limit
+  y_extension <- y_range[2] * 0.015
+  y_range_extended <- c(y_range[1], y_range[2] + y_extension)
+  
+  # Calculate x-axis extension (3% beyond the max absolute value)
+  x_max_abs <- max(abs(x_range))
+  x_extension <- x_max_abs * 0.03
+  x_range_extended <- c(x_range[1], x_range[2] + x_extension)
   
   # ---- Create plot ----
   volcano_plot <- ggplot2::ggplot(
@@ -97,7 +107,7 @@ plot_volcano <- function(volcano_results,
     ggplot2::geom_hline(yintercept = -log10(p_threshold), linetype = "dashed", color = "black") +
     ggplot2::geom_vline(xintercept = c(-fc_threshold, fc_threshold), linetype = "dashed", color = "black") +
     ggplot2::scale_x_continuous(
-      limits = x_range,
+      limits = x_range_extended,
       breaks = function(x) {
         range_val <- diff(range(x))
         if (range_val <= 2) seq(ceiling(x[1]), floor(x[2]), 0.5)
@@ -113,7 +123,7 @@ plot_volcano <- function(volcano_results,
       expand = c(0, 0)
     ) +
     ggplot2::scale_y_continuous(
-      limits = y_range,
+      limits = y_range_extended,
       breaks = function(x) {
         range_val <- diff(range(x))
         if (range_val <= 3) seq(0, ceiling(x[2]), 0.5)

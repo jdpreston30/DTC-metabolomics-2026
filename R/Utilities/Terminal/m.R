@@ -118,8 +118,8 @@ m <- function(file = NULL) {
           first_val <- match[2]
           expr <- match[3]
           
-          # Check if this expression has operators
-          if (grepl("[+*/\\-]", expr)) {
+          # Check if this expression has operators between numbers (not just a leading minus)
+          if (grepl("[0-9]\\s*[+*/\\-]\\s*[0-9]", expr)) {
             # Try to evaluate the expression
             tryCatch({
               result <- eval(parse(text = expr))
@@ -128,16 +128,19 @@ m <- function(file = NULL) {
                 result_str <- format(result, digits = 10, nsmall = 0)
                 result_str <- gsub("\\s+", "", result_str)
                 
-                # Build replacement
-                old_c <- paste0("c(", first_val, ", ", expr, ")")
-                new_c <- paste0("c(", first_val, ", ", result_str, ")")
-                
-                # Replace just this match in actual line
-                lines[i] <- sub(old_c, new_c, lines[i], fixed = TRUE)
-                
-                cat(sprintf("Line %d: c(..., %s)  →  c(..., %s)\n", i, expr, result_str))
-                modified <- TRUE
-                line_changed <- TRUE
+                # Only replace if result is different from original
+                if (result_str != gsub("\\s+", "", expr)) {
+                  # Build replacement
+                  old_c <- paste0("c(", first_val, ", ", expr, ")")
+                  new_c <- paste0("c(", first_val, ", ", result_str, ")")
+                  
+                  # Replace just this match in actual line
+                  lines[i] <- sub(old_c, new_c, lines[i], fixed = TRUE)
+                  
+                  cat(sprintf("Line %d: c(..., %s)  →  c(..., %s)\n", i, expr, result_str))
+                  modified <- TRUE
+                  line_changed <- TRUE
+                }
               }
             }, error = function(e) {})
           }
@@ -152,8 +155,8 @@ m <- function(file = NULL) {
           expr <- match[2]
           second_val <- match[3]
           
-          # Check if this expression has operators
-          if (grepl("[+*/\\-]", expr)) {
+          # Check if this expression has operators between numbers (not just a leading minus)
+          if (grepl("[0-9]\\s*[+*/\\-]\\s*[0-9]", expr)) {
             # Try to evaluate the expression
             tryCatch({
               result <- eval(parse(text = expr))
@@ -162,16 +165,19 @@ m <- function(file = NULL) {
                 result_str <- format(result, digits = 10, nsmall = 0)
                 result_str <- gsub("\\s+", "", result_str)
                 
-                # Build replacement
-                old_c <- paste0("c(", expr, ", ", second_val, ")")
-                new_c <- paste0("c(", result_str, ", ", second_val, ")")
-                
-                # Replace just this match in actual line
-                lines[i] <- sub(old_c, new_c, lines[i], fixed = TRUE)
-                
-                cat(sprintf("Line %d: c(%s, ...)  →  c(%s, ...)\n", i, expr, result_str))
-                modified <- TRUE
-                line_changed <- TRUE
+                # Only replace if result is different from original
+                if (result_str != gsub("\\s+", "", expr)) {
+                  # Build replacement
+                  old_c <- paste0("c(", expr, ", ", second_val, ")")
+                  new_c <- paste0("c(", result_str, ", ", second_val, ")")
+                  
+                  # Replace just this match in actual line
+                  lines[i] <- sub(old_c, new_c, lines[i], fixed = TRUE)
+                  
+                  cat(sprintf("Line %d: c(%s, ...)  →  c(%s, ...)\n", i, expr, result_str))
+                  modified <- TRUE
+                  line_changed <- TRUE
+                }
               }
             }, error = function(e) {})
           }

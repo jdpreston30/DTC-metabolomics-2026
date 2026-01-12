@@ -9,7 +9,7 @@
   source("R/Scripts/01_clustering.R")
   source("R/Scripts/02_pathway_enrichment.R")
   source("R/Scripts/03_annotated.R")
-  source("R/Scripts/04_assign_figures.R")
+  source("R/Scripts/04_assign_plots.R")
   source("R/Scripts/05_render_figures.R")
   source("R/Scripts/06_tables.R")
   source("R/Scripts/07_data_not_shown.R")

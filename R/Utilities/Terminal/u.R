@@ -27,15 +27,16 @@ u <- function() {
 
 #' Update, Run Script, and Render Figures
 #'
-#' Convenience wrapper that runs u(n) then f()
-#' Updates utilities/config, runs the specified script, then renders figures
+#' Convenience wrapper that updates utilities/config, runs a numbered script, then renders figures
 #'
-#' @param n Script number to run (e.g., 5 for 05_*.R)
+#' @param n Script number to run (e.g., 1 for 01_*.R, 5 for 05_*.R)
 #' @export
 #' @examples
-#' uf(5) # Equivalent to u(5) then f()
+#' uf(1) # Update, run 01_clustering.R, then render figures
+#' uf(5) # Update, run 05_render_figures.R, then render figures
 uf <- function(n) {
-  u(n)
+  u()
+  r(n)
   f()
   invisible(NULL)
 }
