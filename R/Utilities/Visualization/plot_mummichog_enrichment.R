@@ -113,9 +113,9 @@ plot_mummichog_enrichment <- function(
           log10_p = log10_p_values,
           enrichment_factor = json_data$enr,
           Comparisons = comparison_name
-        ) %>%
+        ) |>
           # Clean pathway names
-          mutate(pathway_name = clean_pathway_names(pathway_name)) %>%
+          mutate(pathway_name = clean_pathway_names(pathway_name)) |>
           # Filter for significance (higher -log10 values = more significant)
           filter(log10_p >= log10_threshold)
       },
@@ -145,12 +145,12 @@ plot_mummichog_enrichment <- function(
           log10_p = log10_p_values,
           enrichment_factor = json_data$enr,
           Comparisons = comparison_name
-        ) %>%
+        ) |>
           # Clean pathway names and add database suffix
           mutate(
             pathway_name = clean_pathway_names(pathway_name),
             pathway_name = paste0(pathway_name, " (", toupper(database_name), ")")
-          ) %>%
+          ) |>
           # Filter for significance (higher -log10 values = more significant)
           filter(log10_p >= log10_threshold)
       },
@@ -189,8 +189,8 @@ plot_mummichog_enrichment <- function(
   }
 
   # Process data using the same logic as original plot_pathway_enrichment
-  enrichment_data <- combined_data %>%
-    tidyr::complete(pathway_name, Comparisons) %>%
+  enrichment_data <- combined_data |>
+    tidyr::complete(pathway_name, Comparisons) |>
     mutate(
       Comparisons = dplyr::case_when(
         Comparisons == "nosev" ~ "0v3",
@@ -199,7 +199,7 @@ plot_mummichog_enrichment <- function(
         TRUE ~ Comparisons
       ),
       Comparisons = factor(Comparisons, levels = c("0v3", "1-2v3", "0-2v3"))
-    ) %>%
+    ) |>
     # Apply enrichment factor cap
     mutate(enrichment_factor = pmin(enrichment_factor, enrichment_cap))
 
@@ -208,31 +208,31 @@ plot_mummichog_enrichment <- function(
     # For combined databases: Sort by database first (KEGG then MFN), then by enrichment within each database
 
     # Find the comparison with most pathways overall
-    pathway_counts <- enrichment_data %>%
-      filter(!is.na(enrichment_factor)) %>%
-      group_by(Comparisons) %>%
-      summarise(n_pathways = n_distinct(pathway_name), .groups = "drop") %>%
+    pathway_counts <- enrichment_data |>
+      filter(!is.na(enrichment_factor)) |>
+      group_by(Comparisons) |>
+      summarise(n_pathways = n_distinct(pathway_name), .groups = "drop") |>
       arrange(desc(n_pathways))
 
     dominant_comparison <- pathway_counts$Comparisons[1]
 
     # Extract database from pathway names and sort
-    kegg_pathways <- enrichment_data %>%
+    kegg_pathways <- enrichment_data |>
       filter(str_detect(pathway_name, "\\(KEGG\\)") &
         Comparisons == dominant_comparison &
-        !is.na(enrichment_factor)) %>%
-      arrange(desc(enrichment_factor)) %>%
-      pull(pathway_name) %>%
-      as.character() %>%  # Convert factor to character to preserve order
+        !is.na(enrichment_factor)) |>
+      arrange(desc(enrichment_factor)) |>
+      pull(pathway_name) |>
+      as.character() |>  # Convert factor to character to preserve order
       unique()
 
-    mfn_pathways <- enrichment_data %>%
+    mfn_pathways <- enrichment_data |>
       filter(str_detect(pathway_name, "\\(MFN\\)") &
         Comparisons == dominant_comparison &
-        !is.na(enrichment_factor)) %>%
-      arrange(desc(enrichment_factor)) %>%
-      pull(pathway_name) %>%
-      as.character() %>%  # Convert factor to character to preserve order
+        !is.na(enrichment_factor)) |>
+      arrange(desc(enrichment_factor)) |>
+      pull(pathway_name) |>
+      as.character() |>  # Convert factor to character to preserve order
       unique()
 
     # Combine: KEGG first, then MFN
@@ -241,11 +241,11 @@ plot_mummichog_enrichment <- function(
     pathway_order <- c(kegg_pathways, mfn_pathways, remaining_pathways)
   } else {
     # For single database: Simple sorting by enrichment factor
-    pathway_order <- enrichment_data %>%
-      filter(!is.na(enrichment_factor)) %>%
-      arrange(desc(enrichment_factor)) %>%
-      pull(pathway_name) %>%
-      as.character() %>%
+    pathway_order <- enrichment_data |>
+      filter(!is.na(enrichment_factor)) |>
+      arrange(desc(enrichment_factor)) |>
+      pull(pathway_name) |>
+      as.character() |>
       unique()
     
     # Add any remaining pathways that might not have enrichment factors
@@ -254,7 +254,7 @@ plot_mummichog_enrichment <- function(
     pathway_order <- c(pathway_order, remaining_pathways)
   }
   # Apply the pathway ordering
-  enrichment_data <- enrichment_data %>%
+  enrichment_data <- enrichment_data |>
     mutate(pathway_name = factor(pathway_name, levels = pathway_order))
 
   # Auto-generate size breaks if not provided (same as original)
@@ -462,7 +462,8 @@ plot_mummichog_enrichment <- function(
       height = calc_height,
       units = "in",
       dpi = dpi,
-      bg = if (background == "transparent") "transparent" else "white"
+      bg = if (background == "transparent") "transparent" else "white",
+      device = ragg::agg_png
     )
 
     message("Plot saved to: ", save_path, " (", calc_width, " x ", calc_height, " inches)")

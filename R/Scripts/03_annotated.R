@@ -1,7 +1,7 @@
 #* 3: Annotated Plots
 #+ 3.1: T-tests for all metabolomic features against PGD status
 #- 3.1.1: Transform feature table and run T-test function
-TFT_annot_transformed <- TFT_annot %>% 
+TFT_annot_transformed <- TFT_annot |> 
   mutate(stage_bin = ifelse(stage_bin == "Early", "Stage I/II", "Stage III/IV"))
 
 annot_results <- run_targeted_ttests(
@@ -10,20 +10,20 @@ annot_results <- run_targeted_ttests(
   fc_ref_group = "Stage I/II"
 )
 #- 3.1.2: Clean up annotated results
-annot_results_clean <- annot_results %>%
-  filter(low_detect_likely != "Y") %>%
-  select(-low_detect_likely) %>%
-  left_join(TFT_annot_key %>% select(feature = Feature, `Identified Name`, Isomer), by = "feature") %>%
-  arrange(p_value) %>%
-  select(`Identified Name`, Isomer, log2FC, p_value, p_value_fdr, everything()) %>%
-  filter(p_value_fdr < 0.05) %>%
+annot_results_clean <- annot_results |>
+  filter(low_detect_likely != "Y") |>
+  select(-low_detect_likely) |>
+  left_join(TFT_annot_key |> select(feature = Feature, `Identified Name`, Isomer), by = "feature") |>
+  arrange(p_value) |>
+  select(`Identified Name`, Isomer, log2FC, p_value, p_value_fdr, everything()) |>
+  filter(p_value_fdr < 0.05) |>
   filter(`Identified Name` %in% c(
     "GMP",
     "AMP",
     "(6Z,9Z,12Z)-Octadecatrienoic acid",
     "S-Adenosyl-L-homocysteine"
-  )) %>%
-  mutate(`Identified Name` = ifelse(`Identified Name` == "(6Z,9Z,12Z)-Octadecatrienoic acid", "γ-Linolenic Acid", `Identified Name`)) %>%
+  )) |>
+  mutate(`Identified Name` = ifelse(`Identified Name` == "(6Z,9Z,12Z)-Octadecatrienoic acid", "γ-Linolenic Acid", `Identified Name`)) |>
   mutate(`Identified Name` = ifelse(`Identified Name` == "S-Adenosyl-L-homocysteine", "SAH", `Identified Name`))
 
 #+ 3.2: Source the plotting function

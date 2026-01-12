@@ -21,7 +21,7 @@
 #'   results <- read_mummichog_json("path/to/mummichog_results.json")
 #'   
 #'   # View top enriched pathways
-#'   results %>% arrange(p_value) %>% head(10)
+#'   results |> arrange(p_value) |> head(10)
 #' }
 #'
 #' @importFrom jsonlite fromJSON

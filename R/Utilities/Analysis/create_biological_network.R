@@ -30,9 +30,9 @@ create_biological_network <- function(pathway_csv, min_shared_compounds = 2,
   pathway_data <- read.csv(pathway_csv, stringsAsFactors = FALSE, row.names = 1)
   
   # Filter significant pathways and limit to top pathways
-  significant_pathways <- pathway_data %>%
-    filter(P.Fisher. <= p_threshold) %>%
-    arrange(P.Fisher.) %>%
+  significant_pathways <- pathway_data |>
+    filter(P.Fisher. <= p_threshold) |>
+    arrange(P.Fisher.) |>
     head(max_pathways)
   
   if (nrow(significant_pathways) == 0) {

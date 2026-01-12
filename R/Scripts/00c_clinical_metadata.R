@@ -1,8 +1,8 @@
 #* 0c: Clinical metadata processing
 #+ 0c.1: Cleanup tumor pathology data; compute T stage; compute overall stage
-tumor_pathology <- tumor_pathology_raw %>%
-  select(-T) %>%
-  assign_T_stage(ld_col = "LD", ete_col = "ETE", units = "cm", out_col = "T_stage_comp") %>%
+tumor_pathology <- tumor_pathology_raw |>
+  select(-T) |>
+  assign_T_stage(ld_col = "LD", ete_col = "ETE", units = "cm", out_col = "T_stage_comp") |>
   mutate(
     Variant = factor(case_when(
       str_detect(Patient_ID, "^FVPTC\\d+$") ~ "FV-PTC",
@@ -30,20 +30,20 @@ tumor_pathology <- tumor_pathology_raw %>%
       levels = c("Female", "Male")
     ),
     Age = as.numeric(Age)
-  ) %>%
+  ) |>
   assign_AJCC8_stage(
     t_col = "T_stage_comp",
     n_col = "N", 
     m_col = "M",
     age_col = "Age",
     out_col = "Stage"
-  ) %>%
+  ) |>
   mutate(stage_bin = factor(case_when(
     Stage %in% c("I", "II") ~ "Early",
     Stage %in% c("III", "IV") ~ "Advanced",
     TRUE ~ NA_character_
-  ), levels = c("Early", "Advanced"))) %>%
-  select(ID = Patient_ID, Variant, Sex, Age, T_stage_comp, Stage, stage_bin) %>%
+  ), levels = c("Early", "Advanced"))) |>
+  select(ID = Patient_ID, Variant, Sex, Age, T_stage_comp, Stage, stage_bin) |>
   arrange(Stage)
 #+ 0c.2: Read in demographics
 demographics <- demographics_raw |>

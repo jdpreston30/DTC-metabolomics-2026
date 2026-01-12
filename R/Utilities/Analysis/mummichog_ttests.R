@@ -15,8 +15,8 @@ mummichog_ttests <- function(data,
                              group1_value = "N",
                              group2_value = "Y") {
   # _Prepare data for t-tests - data already has grouping column
-  ttest_data <- data %>%
-    dplyr::rename(Group_Test = !!rlang::sym(group_column)) %>%
+  ttest_data <- data |>
+    dplyr::rename(Group_Test = !!rlang::sym(group_column)) |>
     dplyr::filter(!is.na(Group_Test))
 
   # _Get feature names (exclude Group_Test, Patient, and any other non-numeric columns)
@@ -95,7 +95,7 @@ mummichog_ttests <- function(data,
   results_tibble <- tibble::tibble(
     Feature = names(ttest_results),
     p.value = unlist(ttest_results)
-  ) %>%
+  ) |>
     dplyr::mutate(
       # _Extract mode and convert: HILIC -> pos, C18 -> neg
       mode = dplyr::case_when(
@@ -106,14 +106,14 @@ mummichog_ttests <- function(data,
       # _Extract m.z (first number after underscore)
       m.z = stringr::str_extract(Feature, "(?<=_)[0-9.]+"),
       # _Extract rt (second number - after second underscore)
-      r.t = stringr::str_extract(Feature, "_[0-9.]+_([0-9.]+)") %>%
+      r.t = stringr::str_extract(Feature, "_[0-9.]+_([0-9.]+)") |>
         stringr::str_extract("[0-9.]+$")
-    ) %>%
-    dplyr::select(m.z, p.value, mode, r.t) %>%
+    ) |>
+    dplyr::select(m.z, p.value, mode, r.t) |>
     dplyr::mutate(
       m.z = as.numeric(m.z),
       r.t = as.numeric(r.t)
-    ) %>%
+    ) |>
     # _Remove rows where feature parsing failed (invalid feature names)
     dplyr::filter(!is.na(m.z) & !is.na(mode))
 

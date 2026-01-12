@@ -95,7 +95,7 @@ plot_stage_targeted <- function(feature_table,
   # Function to create a single plot
   create_single_plot <- function(feature_name) {
     # Get metadata for this feature
-    feature_meta <- metadata_table %>%
+    feature_meta <- metadata_table |>
       filter(feature == feature_name)
     
     if (nrow(feature_meta) == 0) {
@@ -133,8 +133,8 @@ plot_stage_targeted <- function(feature_table,
     )
     
     # Calculate summary statistics
-    summary_data <- plot_data %>%
-      group_by(Group) %>%
+    summary_data <- plot_data |>
+      group_by(Group) |>
       summarise(
         mean_value = mean(Feature_Value, na.rm = TRUE),
         max_value = max(Feature_Value, na.rm = TRUE),
@@ -287,7 +287,7 @@ plot_stage_targeted <- function(feature_table,
   
   # Name the plots using Identified Name if available
   plot_names <- map_chr(available_features, function(feat) {
-    meta_row <- metadata_table %>% filter(feature == feat)
+    meta_row <- metadata_table |> filter(feature == feat)
     if (nrow(meta_row) > 0) {
       # Use Identified Name if available, otherwise fall back to feature name
       if (use_identified_name && "Identified Name" %in% colnames(metadata_table) && !is.na(meta_row$`Identified Name`[1])) {

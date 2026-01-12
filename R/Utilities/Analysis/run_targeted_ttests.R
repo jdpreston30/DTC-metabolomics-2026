@@ -232,15 +232,15 @@ run_targeted_ttests <- function(feature_table,
   ttest_results <- map_dfr(metabolomic_features, perform_ttest)
   
   # Apply FDR correction
-  ttest_results <- ttest_results %>%
+  ttest_results <- ttest_results |>
     mutate(
       p_value_fdr = p.adjust(p_value, method = p_adjust_method)
-    ) %>%
+    ) |>
     # Reorder columns to put p_value_fdr right after p_value
     select(feature:p_value, p_value_fdr, everything())
   
   # Join with TFT_annot key to get feature annotations (columns already in snake_case)
-  final_results <- ttest_results %>%
+  final_results <- ttest_results |>
     arrange(p_value)
   
   # Convert group names to snake_case for column names

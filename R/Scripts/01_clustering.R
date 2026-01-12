@@ -16,17 +16,3 @@ volcano <- plot_volcano(
   y_limits = c(0, 8),
   down_color = "#113d6a"
 )
-#+ 1.3: Heatmaps
-{
-source("make_heatmap.R")
-result <- make_heatmap(
-  data = UFT_filtered,
-  id_col = "ID",
-  feature_selector = "ttest",
-  annotation_col = "stage_bin",
-  top_features = 200,
-  annotation_colors = c("Early" = "#113d6a", "Advanced" = "#800017"
-  )
-)
-print_to_png(result$heatmap_plot, "UFT_stage_heatmap.png", width = 6, height = 4, dpi = 400)
-}
