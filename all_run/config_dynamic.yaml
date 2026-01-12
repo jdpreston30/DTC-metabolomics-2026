@@ -13,7 +13,7 @@ computers:
 # Dynamic path templates (will be populated based on computer selection)
 paths:
   # Raw data path - this is the only dynamic path we need
-  base_data_path: "{user_home}/{onedrive_path}/Research/MS_raw_data/Thyroid_LCMS"
+  base_data_path: "{user_home}/{onedrive_path}/Research/MS_raw_data/LCMS/Thyroid_LCMS"
   # Output paths (relative to project root)
   output: "./Outputs"
   figures: "{figures_path}"

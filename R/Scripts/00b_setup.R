@@ -34,7 +34,7 @@ tumor_IDs <- readr::read_csv(config$data_files$tumor_ids, show_col_types = FALSE
 #- 0b.6.1: Tumor Path
 tumor_pathology_raw <- readxl::read_excel(config$data_files$tumor_pathology, sheet = "Logan Update")
 #- 0b.6.1.1: Demographics
-demographics_raw <- read_excel(config$paths$manifest, sheet = "Manifest")
+demographics_raw <- read_excel(config$data_files$manifest, sheet = "Manifest")
 #- 0b.6.2: Load MetaboJanitoR processed CSV files  
 TFT_annot_import <- readr::read_csv(config$data_files$TFT_annot, show_col_types = FALSE)
 TFT_annot_key <- readr::read_csv(config$data_files$TFT_annot_key, show_col_types = FALSE)

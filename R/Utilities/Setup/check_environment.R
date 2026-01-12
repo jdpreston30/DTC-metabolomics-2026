@@ -44,7 +44,7 @@ for (pkg in critical_packages) {
 
 # System dependencies
 cat("\n🔧 System Dependencies:\n")
-source("R/Utilities/Helpers/check_system_dependencies.R")
+source("R/Utilities/Setup/check_system_dependencies.R")
 
 # Summary
 cat("\n=== Summary ===\n")

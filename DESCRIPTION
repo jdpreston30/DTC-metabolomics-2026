@@ -44,7 +44,8 @@ Additional_repositories:
     https://bioconductor.org/packages/release/bioc
 Bioconductor:
     mixOmics,
-    KEGGREST
+    KEGGREST,
+    MSnbase
 Remotes: 
     xia-lab/MetaboAnalystR
 Config/renv/snapshot/type: explicit
