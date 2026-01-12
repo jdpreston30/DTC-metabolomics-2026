@@ -24,7 +24,10 @@ conflicts_prefer(readxl::read_xlsx)
 conflicts_prefer(igraph::union)
 conflicts_prefer(igraph::compose)
 conflicts_prefer(scales::alpha)
-
+conflicts_prefer(base::setdiff)
+conflicts_prefer(base::intersect)
+conflicts_prefer(base::as.factor)
+conflicts_prefer(base::rbind)
 #+ 0a.2: Load all packages from DESCRIPTION file
 source("R/Utilities/Setup/load_packages_from_description.R")
 load_packages_from_description()

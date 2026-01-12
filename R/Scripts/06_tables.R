@@ -1,35 +1,40 @@
 #* 6: Tables
-#+ 6.1: Demographics Table
-#- 6.1.1: Summarize Age
-age <- demographics |>
-  group_by(variant) |>
-  summarise(Mean_Stdev = paste0(round(mean(age_collection), 1), " ± ", round(sd(age_collection), 1))) |>
-  pivot_wider(names_from = variant, values_from = Mean_Stdev) |>
-  mutate(Variable = "Age") |>
-  bind_cols(
-    tibble(Total = paste0(round(mean(demographics$age_collection), 1), " ± ", round(sd(demographics$age_collection), 1)))
-  ) |>
-  select(Variable, Follicular, FVPTC, Papillary, Total)
-#- 6.1.2: Summarize Sex
-sex <- demographics |>
-  group_by(variant) |>
-  summarise(n_female = sum(sex == "Female"), total = n(), .groups = "drop") |>
+#+ 6.1: Table 1
+#- 6.1.0: Create vector of included samples
+used_samples <- UFT_filtered |>
+  pull(ID)
+#- 6.1.1: Filter to used samples; order rows; clean data
+tumor_pathology_table <- tumor_pathology_full |>
+  rename(ID = Patient_ID) |>
+  filter(ID %in% used_samples) |>
   mutate(
-    percent = round((n_female / total) * 100),
-    count_percent = paste0(n_female, " (", percent, "%)")
+    ETE = case_when(
+      ETE == 0 ~ "Negative",
+      ETE == 1 ~ "Minimal",
+      ETE == 2 ~ "Extensive",
+      TRUE ~ as.character(ETE)
+    ),
+    LVI = case_when(
+      LVI == 0 ~ "N",
+      LVI == 1 ~ "Y",
+      LVI == 2 ~ "N", #Indeterminate treated as No
+      TRUE ~ as.character(LVI)
+    ),
+    MFC = case_when(
+      MFC == 0 ~ "No",
+      MFC == 1 ~ "Yes",
+      TRUE ~ as.character(MFC)
+    )
   ) |>
-  select(variant, count_percent) |>
-  pivot_wider(names_from = variant, values_from = count_percent) |>
-  mutate(Variable = "Sex (Female)") |>
-  bind_cols(
-    demographics |>
-      summarise(n_female = sum(sex == "Female"), total = n()) |>
-      mutate(Total = paste0(n_female, " (", round((n_female / total) * 100), "%)")) |>
-      select(Total)
-  ) |>
-  select(Variable, Follicular, FVPTC, Papillary, Total)
-#- 6.1.3: Build Table
-table_1 <- build_table_1(
-  data = rbind(age, sex),
-  export_path = "Outputs/Tables/T1.xlsx"
+  select(Age, Sex, Variant, stage_bin, Stage, T = T_stage_comp, N, M, `Extrathyroidal extension` = ETE, `Lymphovascular invasion` = LVI, Multifocality = MFC)
+#- 6.1.2: Build Table 1
+T1 <- ternG(
+  data = tumor_pathology_table,
+  group_var = "stage_bin",
+  descriptive = TRUE,
+  output_docx = "Outputs/Tables/T1.docx",
+  consider_normality = TRUE,
+  show_test = FALSE,
+  round_intg = FALSE,
+  insert_subheads = TRUE
 )

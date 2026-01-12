@@ -1,6 +1,7 @@
 #* 0c: Clinical metadata processing
 #+ 0c.1: Cleanup tumor pathology data; compute T stage; compute overall stage
-tumor_pathology <- tumor_pathology_raw |>
+#- 0c.1.1: Create full version
+tumor_pathology_full <- tumor_pathology_raw |>
   select(-T) |>
   assign_T_stage(ld_col = "LD", ete_col = "ETE", units = "cm", out_col = "T_stage_comp") |>
   mutate(
@@ -42,14 +43,8 @@ tumor_pathology <- tumor_pathology_raw |>
     Stage %in% c("I", "II") ~ "Early",
     Stage %in% c("III", "IV") ~ "Advanced",
     TRUE ~ NA_character_
-  ), levels = c("Early", "Advanced"))) |>
+  ), levels = c("Early", "Advanced")))
+#- 0c.1.2: Create cleanup version
+tumor_pathology <- tumor_pathology_full |>
   select(ID = Patient_ID, Variant, Sex, Age, T_stage_comp, Stage, stage_bin) |>
   arrange(Stage)
-#+ 0c.2: Read in demographics
-demographics <- demographics_raw |>
-  select(ID, variant, sex, age_collection, year_collection) |>
-  mutate(year_bin = cut(as.numeric(year_collection),
-    breaks = seq(2006, 2022, length.out = 5),
-    labels = c("2006-2009", "2010-2013", "2014-2017", "2018-2021"),
-    include.lowest = TRUE
-  ))

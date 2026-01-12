@@ -40,7 +40,8 @@ Imports:
     ragg,
     here,
     yaml,
-    openxlsx
+    openxlsx,
+    TernTablesR
 Additional_repositories: 
     https://bioconductor.org/packages/release/bioc
 Bioconductor:
@@ -48,7 +49,8 @@ Bioconductor:
     KEGGREST,
     MSnbase
 Remotes: 
-    xia-lab/MetaboAnalystR
+    xia-lab/MetaboAnalystR,
+    jdpreston30/TernTablesR
 Config/renv/snapshot/type: explicit
 Encoding: UTF-8
 RoxygenNote: 7.3.3
