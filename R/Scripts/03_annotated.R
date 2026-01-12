@@ -16,14 +16,25 @@ annot_results_clean <- annot_results |>
   arrange(p_value) |>
   select(`Identified Name`, Isomer, log2FC, p_value, p_value_fdr, everything()) |>
   filter(p_value_fdr < 0.05) |>
+  mutate(`Identified Name` = ifelse(`Identified Name` == "(6Z,9Z,12Z)-Octadecatrienoic acid", "γ-Linolenic Acid", `Identified Name`)) |>
+  mutate(`Identified Name` = ifelse(`Identified Name` == "S-Adenosyl-L-homocysteine", "SAH", `Identified Name`))
+
+
+annot_results_clean |>
+  select(`Identified Name`) |>
+  arrange(`Identified Name`)
+
+
+
   filter(`Identified Name` %in% c(
     "GMP",
     "AMP",
     "(6Z,9Z,12Z)-Octadecatrienoic acid",
     "S-Adenosyl-L-homocysteine"
   )) |>
-  mutate(`Identified Name` = ifelse(`Identified Name` == "(6Z,9Z,12Z)-Octadecatrienoic acid", "γ-Linolenic Acid", `Identified Name`)) |>
-  mutate(`Identified Name` = ifelse(`Identified Name` == "S-Adenosyl-L-homocysteine", "SAH", `Identified Name`))
+
+                                                        
+
 #+ 3.2: Source the plotting function
 source("R/Utilities/Visualization/plot_stage_targeted.R")
 #+ 3.3: Create individual feature plots
