@@ -19,20 +19,54 @@ annot_results_w_meta <- annot_results |>
 #- 3.1.4: Export as Excel for QC
 write.xlsx(annot_results_w_meta, "Outputs/Annotation/annot_results.xlsx")
 #! QC done externally and read in as a parameter in the yaml
-#+ 3.2: Clean up annotated results
-annot_results_clean <- annot_results_w_meta |>
-  filter(p_value_fdr < 0.05) |>
-
-# C18_111.020034388403_22.4025506549185
-# HILIC_113.034612327566_41.2111075102199
-# both of these are uracil, choose the graph that looks better                                           
-
-
-
+#+ 3.2: Make Correlations Matrix (Full Version)
+#- 3.2.1: Subset to selected features for matrix
+QC_matrix_full <- QC_dedup |>
+  filter(!is.na(feature))
+#- 3.2.2: Create data for correlation matrix
+TFT_cor_matrix_data_full <- TFT_annot_transformed |>
+  select(ID, all_of(QC_matrix_full$feature))
+#- 3.2.3: Create correlation matrix plot
+corr_mat <- plot_corr_matrix(
+  p_threshold = 0.05,
+  feature_table = TFT_cor_matrix_data_full,
+  metadata_table = QC_matrix_full,
+  output_path = "Outputs/Figures/Raw/corr_matrix_full.png",
+  show_labels = FALSE
+)
+#- 3.2.4: Inspect tibble of results
+corr_mat$metabolite_stats  |>
+  arrange(desc(n_negative_corr), n_positive_corr)
+#+ 3.2: Make Correlations Matrix (Curated Version)
+#- 3.2.1: Subset to selected features for matrix
+QC_matrix <- QC_dedup |>
+  filter(matrix_plot == "Y")
+#- 3.2.2: Create data for correlation matrix
+TFT_cor_matrix_data <- TFT_annot_transformed |>
+  select(ID, all_of(QC_matrix$feature))
+#- 3.2.3: Create correlation matrix plot
+corr_mat <- plot_corr_matrix(
+  p_threshold = 0.05,
+  feature_table = TFT_cor_matrix_data,
+  metadata_table = QC_matrix,
+  output_path = "Outputs/Figures/Raw/corr_matrix.png"
+)
 #+ 3.3: Create individual feature plots
+QC_dedup <- read_xlsx(config$data_files$QC, sheet = "QC") |>
+  group_by(display_name) |>
+  slice_min(p_value, n = 1, with_ties = FALSE) |>
+  ungroup()
+
+#- 3.3.1: Subset to features for scatter plots
+QC_scatter <- QC_dedup |>
+  filter(scatter_plot == "Y")
+#- 3.3.2: Select only scatter plot features
+TFT_scatter <- TFT_annot_transformed |>
+  select(ID, stage_bin, all_of(QC_scatter$feature))
+#- 3.3.3: Create relevant scatter plots
 stage_feature_plots <- plot_stage_targeted(
   feature_table = TFT_annot_transformed,  # Use the same transformed data
-  metadata_table = annot_results_clean,
+  metadata_table = QC_scatter,
   include_individual_points = TRUE,
   undo_log = TRUE,
   text_scale = 0.6,

@@ -22,6 +22,7 @@ Imports:
     memoise,
     mice,
     cowplot,
+    corrplot,
     permute,
     pheatmap,
     purrr,

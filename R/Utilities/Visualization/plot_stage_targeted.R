@@ -146,11 +146,11 @@ plot_stage_targeted <- function(feature_table,
     p_value <- feature_meta$p_value[1]
     p_value_fdr <- feature_meta$p_value_fdr[1]
     
-    # Determine plot title
-    if (use_identified_name && "Identified Name" %in% colnames(feature_meta) && !is.na(feature_meta$`Identified Name`[1])) {
-      plot_title <- feature_meta$`Identified Name`[1]
-    } else if ("display_name" %in% colnames(feature_meta) && !is.na(feature_meta$display_name[1])) {
+    # Determine plot title (prioritize display_name)
+    if ("display_name" %in% colnames(feature_meta) && !is.na(feature_meta$display_name[1])) {
       plot_title <- feature_meta$display_name[1]
+    } else if (use_identified_name && "Identified Name" %in% colnames(feature_meta) && !is.na(feature_meta$`Identified Name`[1])) {
+      plot_title <- feature_meta$`Identified Name`[1]
     } else {
       plot_title <- feature_name  # fallback to feature name
     }
@@ -251,8 +251,8 @@ plot_stage_targeted <- function(feature_table,
     
     # Add p-value annotations in top right corner
     p_annotation_text <- paste0(
-      "p = ", ifelse(p_value < 0.001, "< 0.001", formatC(p_value, format = "f", digits = 3)), ", ",
-      "q = ", ifelse(p_value_fdr < 0.001, "< 0.001", formatC(p_value_fdr, format = "f", digits = 3))
+      ifelse(p_value < 0.001, "p < 0.001", paste0("p = ", formatC(p_value, format = "f", digits = 3))), ", ",
+      ifelse(p_value_fdr < 0.001, "q < 0.001", paste0("q = ", formatC(p_value_fdr, format = "f", digits = 3)))
     )
     
     # Position in top right corner without expanding plot area
@@ -285,15 +285,15 @@ plot_stage_targeted <- function(feature_table,
   # Create plots for all available features
   plots <- map(available_features, create_single_plot)
   
-  # Name the plots using Identified Name if available
+  # Name the plots using display_name if available
   plot_names <- map_chr(available_features, function(feat) {
     meta_row <- metadata_table |> filter(feature == feat)
     if (nrow(meta_row) > 0) {
-      # Use Identified Name if available, otherwise fall back to feature name
-      if (use_identified_name && "Identified Name" %in% colnames(metadata_table) && !is.na(meta_row$`Identified Name`[1])) {
-        return(meta_row$`Identified Name`[1])
-      } else if ("display_name" %in% colnames(metadata_table) && !is.na(meta_row$display_name[1])) {
+      # Use display_name if available, otherwise fall back to Identified Name or feature name
+      if ("display_name" %in% colnames(metadata_table) && !is.na(meta_row$display_name[1])) {
         return(meta_row$display_name[1])
+      } else if (use_identified_name && "Identified Name" %in% colnames(metadata_table) && !is.na(meta_row$`Identified Name`[1])) {
+        return(meta_row$`Identified Name`[1])
       } else {
         return(feat)
       }

@@ -38,5 +38,8 @@ TFT_annot_import <- readr::read_csv(config$data_files$TFT_annot, show_col_types 
 TFT_annot_key <- readr::read_csv(config$data_files$TFT_annot_key, show_col_types = FALSE)
 UFT_full_import <- readr::read_csv(config$data_files$UFT_full, show_col_types = FALSE)
 UFT_filtered_import <- readr::read_csv(config$data_files$UFT_filtered, show_col_types = FALSE)
-#- 0b.6.4: Read in QC that goes with annotated TFT
-QC <- read_xlsx(config$data_files$QC, sheet = "QC")
+#- 0b.6.4: Read in QC that goes with annotated TFT; deduplicate with lower p-value
+QC_dedup <- read_xlsx(config$data_files$QC, sheet = "QC") |>
+  group_by(display_name) |>
+  slice_min(p_value, n = 1, with_ties = FALSE) |>
+  ungroup()
