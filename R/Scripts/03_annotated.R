@@ -76,7 +76,7 @@ QC_matrix_full <- QC_dedup |>
 TFT_cor_matrix_data_full <- TFT_annot_transformed |>
   select(ID, all_of(QC_matrix_full$feature))
 #- 3.4.3: Create correlation matrix plot
-corr_mat <- plot_corr_matrix(
+corr_mat_full <- plot_corr_matrix(
   p_threshold = 0.05,
   feature_table = TFT_cor_matrix_data_full,
   metadata_table = QC_matrix_full,
@@ -84,7 +84,7 @@ corr_mat <- plot_corr_matrix(
   show_labels = FALSE
 )
 #- 3.4.4: Inspect tibble of results
-corr_mat$metabolite_stats  |>
+corr_mat_full$metabolite_stats  |>
   arrange(desc(n_negative_corr), n_positive_corr)
 #+ 3.5: Make Correlations Matrix (Curated Version)
 #- 3.5.1: Subset to selected features for matrix
