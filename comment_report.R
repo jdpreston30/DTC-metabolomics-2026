@@ -83,6 +83,9 @@
 #- 3.5.2: Create data for correlation matrix
 #- 3.5.3: Create correlation matrix plot
 
+#! 04_MtM_analysis.R
+#* 4: Metabolite to Metabolome Analysis
+
 #! 05_assign_plots.R
 #* 5: Assign and Render Plots
 #+ 5.1: Figure 1

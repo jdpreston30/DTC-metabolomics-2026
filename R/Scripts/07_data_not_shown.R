@@ -50,7 +50,7 @@ stage_counts_sentence <- paste0(
 )
 #+ 7.3: Metabolite Feature Counts
 
-#- 7.3.2: Count QC-filtered features by chromatography method  
+#- 7.3.1: Count QC-filtered features by chromatography method  
 hilic_count_filtered <- UFT_filtered |> 
   select(starts_with("HILIC")) |> 
   ncol()

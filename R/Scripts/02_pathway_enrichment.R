@@ -27,8 +27,8 @@ mummichog_kegg <- run_mummichog_analysis(
   force_primary_ion = "yes",
   p_threshold = 0.05
 )
-#+ 2.3: Create Pathway Enrichment Plots (MFN)
-#- 2.3.1: Define JSON file paths once
+#+ 2.2: Create Pathway Enrichment Plots (MFN)
+#- 2.2.1: Define JSON file paths once
 mfn_json_files <- list(
   eva = "Outputs/mummichog/MFN/scattermum.json"
 )
@@ -39,14 +39,14 @@ combined_json_files <- list(
   mfn = mfn_json_files,
   kegg = kegg_json_files
 )
-#- 2.3.2: Import tibbles for inspection
+#- 2.2.2: Import tibbles for inspection
 mfn_tibbles <- map(mfn_json_files, read_mummichog_json)
 kegg_tibbles <- map(kegg_json_files, read_mummichog_json)
 combined_tibbles <- list(
   MFN = mfn_tibbles,
   KEGG = kegg_tibbles
 )
-#- 2.3.3: Make MFN inspection tibble for visualization
+#- 2.2.3: Make MFN inspection tibble for visualization
 mfn_inspect <- mfn_tibbles$eva |>
   arrange(desc(enrichment)) |>
   filter(p_value >= 1)
@@ -70,7 +70,7 @@ cat(
   "   Enrichment range: ", min(combined_inspection$enrichment), " to ", max(combined_inspection$enrichment), "\n\n",
   strrep("=", 60), "\n\n"
 )
-#- 2.3.6: Make MFN only plot
+#- 2.2.6: Make MFN only plot
 mfn_enrichment_plot <- plot_mummichog_enrichment(
   json_files = mfn_json_files,
   combine_databases = FALSE,
@@ -86,12 +86,12 @@ mfn_enrichment_plot <- plot_mummichog_enrichment(
   color_scale = "rb",
   use_data_range = TRUE
 )
-#+ 2.4: Create Pathway Enrichment Plots (KEGG)
-#- 2.4.1: Make KEGG inspection tibble for visualization
+#+ 2.3: Create Pathway Enrichment Plots (KEGG)
+#- 2.3.1: Make KEGG inspection tibble for visualization
 kegg_inspect <- kegg_tibbles$eva |>
   arrange(desc(enrichment)) |>
   filter(p_value >= 1)
-#- 2.4.2: Print min and max of KEGG p values and enrichment for visualization scaling
+#- 2.3.2: Print min and max of KEGG p values and enrichment for visualization scaling
 cat(
   "\n", strrep("=", 60), "\n",
   "KEGG PATHWAY ENRICHMENT RANGES FOR VISUALIZATION SCALING\n",
@@ -101,7 +101,7 @@ cat(
   "   Enrichment range: ", min(kegg_inspect$enrichment), " to ", max(kegg_inspect$enrichment), "\n\n",
   strrep("=", 60), "\n\n"
 )
-#- 2.4.3: Make KEGG only plot
+#- 2.3.3: Make KEGG only plot
 source("R/Utilities/Visualization/plot_mummichog_enrichment.R")
 kegg_enrichment_plot <- plot_mummichog_enrichment(
   json_files = kegg_json_files,
@@ -118,7 +118,7 @@ kegg_enrichment_plot <- plot_mummichog_enrichment(
   color_scale = "rb",
   use_data_range = TRUE
 )
-#+ 2.5: Run Biological Network Analysis (MFN)
+#+ 2.4: Run Biological Network Analysis (MFN)
 mfn_network <- create_biological_network(
   pathway_csv = "Outputs/mummichog/MFN/mummichog_pathway_enrichment_mummichog.csv",
   min_shared_compounds = 1,
@@ -126,7 +126,7 @@ mfn_network <- create_biological_network(
   max_pathways = 20,
   network_name = "mfn_biological"
 )
-#+ 2.6: Plot Biological Networks (MFN)
+#+ 2.5: Plot Biological Networks (MFN)
 network_plot <- plot_biological_network(
   network_data = mfn_network,
   output_file = "Outputs/Figures/Raw/mfn_network.png",
