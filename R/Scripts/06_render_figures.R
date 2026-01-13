@@ -31,20 +31,17 @@ fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   ))
 #+ 6.3: Figure 3
 fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
-  draw_plot(ggdraw() + draw_grob(p3A), x = 1.543333333-3.5/300, y = 5.780000001, width = 4.44, height = 4)+
-  draw_plot(p3A_legend, x = 6.09-3.5/300, y = 5.420000001, width = 1, height = 4.65) +
+  #- 3A
+  draw_plot(p3A_legend, x = 6.235+1/300, y = 6.333333335, width = 0.9, height = 4.185) +
+  draw_plot(ggdraw() + draw_grob(p3A), x = 2.023333333, y = 6.636666668, width = 3.996, height = 3.6)+
+  #- 3B
+  draw_plot(p3B_legend, x = 6.391666666, y = 1.055, width = 0.9, height = 4.185) +
+  draw_plot(ggdraw() + draw_grob(p3B), x = 1.116666667, y = 0.5366666667, width = 4.9269699, height = 5.9463432) +
   figure_labels(list(
-    A = c(0.88, 9.88),
+    A = c(1.36+2/3, 9.88+50/300),
+    B = c(2.026666667, 6.226666667),
     "Figure 3" = c(0.49, 10.43)
   ))
-print_to_png(fig3, "Final/fig3.png", dpi = 300)
-#+ 6.4: Figure 4
-fig4 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
-  draw_plot(ggdraw() + draw_grob(p4), x = 1.543333333-3.5/300, y = 5.780000001, width = 4.44, height = 4) +
-  figure_labels(list(
-    "Figure 4" = c(0.49, 10.43)
-  ))
-print_to_png(fig4, "Final/fig4.png", dpi = 300)
 #+ 6.5: Print all figures
 print_to_tiff(fig1, "Final/fig1.tiff")
 print_to_tiff(fig2, "Final/fig2.tiff")

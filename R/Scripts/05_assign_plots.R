@@ -1,7 +1,7 @@
 #* 5: Assign and Render Plots
 #+ 5.1: Figure 1
 p1A <- volcano
-p1B <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/mfn_enrich.png")))
+p1B <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1B.png")))
 p1C <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/mfn_network_laptop.png")))
 #+ 5.2: Figure 2
 p2A <- div_bars
@@ -16,9 +16,12 @@ p2C.2 <- stage_feature_plots$`α-Ketoisocaproate`
 p2C.3 <- stage_feature_plots$`Acetyl phosphate`
 p2C.4 <- stage_feature_plots$Adrenaline
 #+ 5.3: Figure 3
+#- 5.3.1: Read in raw
 p3A_legend <- plot_corr_legend()
 p3A <- grid::rasterGrob(as.raster(
   magick::image_read("Outputs/Figures/Raw/p3A.png") %>%
   magick::image_crop("5412x4601+0+1065")))
-#+ 5.5: Supplementary 1
-kegg_enrichment_plot
+p3B_legend <- plot_corr_mummi_legend()
+p3B <- grid::rasterGrob(as.raster(
+  magick::image_read("Outputs/Figures/Raw/p3B.png") %>%
+  magick::image_crop("5800x7000+900+0")))

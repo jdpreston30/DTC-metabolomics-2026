@@ -79,46 +79,14 @@ mfn_enrichment_plot <- plot_mummichog_enrichment(
   size_range = c(8, 12),  # Min enrichment (1.36) maps to size 3, max (1.75) maps to size 12
   size_breaks = c(1.75, 1.5, 1.25),  # Reversed order - largest first
   show_legend = TRUE,
-  save_path = "Outputs/Figures/Raw/mfn_enrich.png",
+  save_path = "Outputs/Figures/Raw/p1B.png",
   plot_width = 6.55,
   plot_height = 5.4, # ! 6.3 for 3b version
   dpi = 600,
   color_scale = "rb",
   use_data_range = TRUE
 )
-#+ 2.3: Create Pathway Enrichment Plots (KEGG)
-#- 2.3.1: Make KEGG inspection tibble for visualization
-kegg_inspect <- kegg_tibbles$eva |>
-  arrange(desc(enrichment)) |>
-  filter(p_value >= 1)
-#- 2.3.2: Print min and max of KEGG p values and enrichment for visualization scaling
-cat(
-  "\n", strrep("=", 60), "\n",
-  "KEGG PATHWAY ENRICHMENT RANGES FOR VISUALIZATION SCALING\n",
-  strrep("=", 60), "\n\n",
-  "📊 KEGG Database:\n",
-  "   P-value range:    ", min(kegg_inspect$p_value), " to ", max(kegg_inspect$p_value), "\n",
-  "   Enrichment range: ", min(kegg_inspect$enrichment), " to ", max(kegg_inspect$enrichment), "\n\n",
-  strrep("=", 60), "\n\n"
-)
-#- 2.3.3: Make KEGG only plot
-source("R/Utilities/Visualization/plot_mummichog_enrichment.R")
-kegg_enrichment_plot <- plot_mummichog_enrichment(
-  json_files = kegg_json_files,
-  combine_databases = FALSE,
-  p_threshold = 0.1,
-  enrichment_cap = 1.75,
-  size_range = c(8, 12),  # Min enrichment maps to size 8, max maps to size 12
-  size_breaks = c(1.5, 1.75, 2),  # Reversed order - largest first
-  show_legend = TRUE,
-  save_path = "Outputs/Figures/Raw/kegg_enrich.png",
-  plot_width = 5.601667,  # Adjusted for ragg rendering
-  plot_height = 5.888333,
-  dpi = 600,
-  color_scale = "rb",
-  use_data_range = TRUE
-)
-#+ 2.4: Run Biological Network Analysis (MFN)
+#+ 2.3: Run Biological Network Analysis (MFN)
 mfn_network <- create_biological_network(
   pathway_csv = "Outputs/mummichog/ttests_MFN/mummichog_pathway_enrichment_mummichog.csv",
   min_shared_compounds = 1,
@@ -126,10 +94,10 @@ mfn_network <- create_biological_network(
   max_pathways = 20,
   network_name = "mfn_biological"
 )
-#+ 2.5: Plot Biological Networks (MFN)
+#+ 2.4: Plot Biological Networks (MFN)
 network_plot <- plot_biological_network(
   network_data = mfn_network,
-  output_file = "Outputs/Figures/Raw/mfn_network.png",
+  output_file = "Outputs/Figures/Raw/p1C_local.png",
   node_size_range = c(10, 14),
   text_size = 5.5,
   show_legend = FALSE,
