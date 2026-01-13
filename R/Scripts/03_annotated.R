@@ -51,19 +51,47 @@ corr_mat <- plot_corr_matrix(
   metadata_table = QC_matrix,
   output_path = "Outputs/Figures/Raw/corr_matrix.png"
 )
-#+ 3.3: Create individual feature plots
-QC_dedup <- read_xlsx(config$data_files$QC, sheet = "QC") |>
-  group_by(display_name) |>
-  slice_min(p_value, n = 1, with_ties = FALSE) |>
-  ungroup()
-
-#- 3.3.1: Subset to features for scatter plots
+#+ 3.3: Create Diverging Bar Plots
+#- 3.3.1: Prepare data for diverging bars
+QC_div <- QC_dedup |>
+  filter(diverging_plot == "Y") |>
+  select(display_name, log2FC, p_value, main_group) |>
+  # Rename groups to match desired labels
+  mutate(main_group = case_when(
+    main_group == "Steroid Metabolism" ~ "Steroid Flux",
+    TRUE ~ main_group
+  )) |>
+  # Set custom group order from top to bottom
+  mutate(main_group = factor(main_group, levels = c(
+    "Nucleotide Flux",
+    "Epigenetic Signaling",
+    "Protein/AA Turnover",
+    "Lipid Remodeling",
+    "Membrane Integrity",
+    "Glycan Defense",
+    "Steroid Flux",
+    "Immune/Signaling",
+    "Fatty Acid Oxidation",
+    "Bioenergetic Flux",
+    "Redox Homeostasis"
+  )))
+#- 3.3.2: Create Plot
+div_bars <- plot_diverging_bars(QC_div, 
+  group_ordering = TRUE, 
+  add_group_labels = TRUE,
+  max_features = 55,  
+  fc_threshold = 0,
+  x_max = 5.05,
+  lower_expand = 0.0001,
+  label_pos = 0.78)
+#+ 3.4: Create individual feature plots
+#- 3.4.1: Subset to features for scatter plots
 QC_scatter <- QC_dedup |>
   filter(scatter_plot == "Y")
-#- 3.3.2: Select only scatter plot features
+#- 3.4.2: Select only scatter plot features
 TFT_scatter <- TFT_annot_transformed |>
   select(ID, stage_bin, all_of(QC_scatter$feature))
-#- 3.3.3: Create relevant scatter plots
+#- 3.4.3: Create relevant scatter plots
 stage_feature_plots <- plot_stage_targeted(
   feature_table = TFT_annot_transformed,  # Use the same transformed data
   metadata_table = QC_scatter,

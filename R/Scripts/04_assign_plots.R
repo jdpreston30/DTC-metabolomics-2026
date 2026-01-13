@@ -4,6 +4,7 @@ p1A <- volcano
 p1B <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/mfn_enrich.png")))
 p1C <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/mfn_network_laptop.png")))
 #+ 4.1: Figure 2
+p2A <- div_bars
 p2B.1 <- stage_feature_plots$GMP
 p2B.2 <- stage_feature_plots$AMP
 p2B.3 <- stage_feature_plots$Oleate
