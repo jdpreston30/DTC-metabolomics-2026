@@ -32,6 +32,24 @@ mummichog_correlations <- function(data, target_metabolites, feature_lookup) {
   library(purrr)
   library(stringr)
   
+  # Check config to see if we should skip correlations
+  skip_mummichog <- FALSE
+  if (exists("config") && !is.null(config$analysis$run_mummichog)) {
+    skip_mummichog <- !config$analysis$run_mummichog
+  }
+  
+  # If skip enabled and cached results exist, load and return them
+  cache_dir <- "Outputs/mummichog/inputs/"
+  cache_file <- file.path(cache_dir, "correlations_results.rds")
+  if (skip_mummichog && file.exists(cache_file)) {
+    cat("\n", strrep("=", 60), "\n")
+    cat("⏭️  SKIPPING CORRELATIONS (run_mummichog: false in config)\n")
+    cat("   Loading cached results from:", cache_file, "\n")
+    cat(strrep("=", 60), "\n\n")
+    cached_results <- readRDS(cache_file)
+    return(cached_results)
+  }
+  
   # Get all metabolite columns once (exclude ID and stage_bin)
   metabolite_cols <- setdiff(names(data), c("ID", "stage_bin"))
   
@@ -60,21 +78,38 @@ mummichog_correlations <- function(data, target_metabolites, feature_lookup) {
     # Extract m/z and retention time from feature names
     mz_rt_matrix <- str_match(metabolite_cols, "(.+)_(\\d+\\.\\d+)_(\\d+\\.\\d+)")
     
+    # Extract mode from feature prefix
+    mode_values <- case_when(
+      str_starts(metabolite_cols, "HILIC") ~ "positive",
+      str_starts(metabolite_cols, "C18") ~ "negative",
+      TRUE ~ NA_character_
+    )
+    
     # Build results tibble
     cor_results <- tibble(
-      feature = metabolite_cols,
       m.z = as.numeric(mz_rt_matrix[, 3]),
-      r.t = as.numeric(mz_rt_matrix[, 4]),
       p.value = as.vector(p_values),
-      statistic = as.vector(cor_coefficients),
-      method = "pearson"
-    )
+      mode = mode_values,
+      r.t = as.numeric(mz_rt_matrix[, 4])
+    ) |>
+      # Replace NA p-values with 1 (not significant) and filter invalid rows
+      mutate(p.value = if_else(is.na(p.value), 1, p.value)) |>
+      filter(!is.na(m.z) & !is.na(mode))
     
     return(cor_results)
   })
   
   # Name results using feature_lookup
   names(results) <- feature_lookup[target_metabolites]
+  
+  # Cache results for future runs
+  cache_dir <- "Outputs/mummichog/inputs/"
+  if (!dir.exists(cache_dir)) {
+    dir.create(cache_dir, recursive = TRUE)
+  }
+  cache_file <- file.path(cache_dir, "correlations_results.rds")
+  saveRDS(results, cache_file)
+  cat("Cached correlation results to:", cache_file, "\n")
   
   return(results)
 }

@@ -50,6 +50,26 @@ run_mummichog_analysis <- function(
   
   library(MetaboAnalystR)
   
+  # Check config to see if we should skip mummichog
+  skip_mummichog <- FALSE
+  if (exists("config") && !is.null(config$analysis$run_mummichog)) {
+    skip_mummichog <- !config$analysis$run_mummichog
+  }
+  
+  # If skip enabled and results exist, skip analysis
+  if (skip_mummichog && dir.exists(output_dir)) {
+    expected_json <- file.path(output_dir, "scattermum.json")
+    if (file.exists(expected_json)) {
+      cat("\n", strrep("=", 60), "\n")
+      cat("⏭️  SKIPPING MUMMICHOG (run_mummichog: false in config)\n")
+      cat("   Using existing results in:", output_dir, "\n")
+      cat(strrep("=", 60), "\n\n")
+      return(invisible(NULL))
+    } else {
+      cat("⚠️  run_mummichog is false but results not found - running analysis\n")
+    }
+  }
+  
   # FIRST: Create output directory and change to it immediately
   cat("Original working directory:", getwd(), "\n")
   cat("Trying to create output directory:", output_dir, "\n")

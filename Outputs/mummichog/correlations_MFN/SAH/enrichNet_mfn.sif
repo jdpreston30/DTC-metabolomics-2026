@@ -1,0 +1,9 @@
+N-Glycan biosynthesis	pathway_similarity	Bile acid biosynthesis
+Bile acid biosynthesis	pathway_similarity	Drug metabolism - cytochrome P450
+Drug metabolism - cytochrome P450	pathway_similarity	Glycosphingolipid biosynthesis - globoseries
+Glycosphingolipid biosynthesis - globoseries	pathway_similarity	N-Glycan Degradation
+N-Glycan Degradation	pathway_similarity	Aminosugars metabolism
+Aminosugars metabolism	pathway_similarity	Aspartate and asparagine metabolism
+Aspartate and asparagine metabolism	pathway_similarity	Urea cycle/amino group metabolism
+Urea cycle/amino group metabolism	pathway_similarity	Keratan sulfate degradation
+Keratan sulfate degradation	pathway_similarity	Glycolysis and Gluconeogenesis

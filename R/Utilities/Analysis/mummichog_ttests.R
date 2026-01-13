@@ -11,9 +11,27 @@
 mummichog_ttests <- function(data,
                              group_column = "PGD",
                              output_filename = NULL,
-                             output_dir = "Outputs/mummichog_inputs/",
+                             output_dir = "Outputs/mummichog/inputs/",
                              group1_value = "N",
                              group2_value = "Y") {
+  
+  # Check config to see if we should skip t-tests
+  skip_mummichog <- FALSE
+  if (exists("config") && !is.null(config$analysis$run_mummichog)) {
+    skip_mummichog <- !config$analysis$run_mummichog
+  }
+  
+  # If skip enabled and cached results exist, load and return them
+  cache_file <- file.path(output_dir, paste0("ttests_", group1_value, "_vs_", group2_value, ".rds"))
+  if (skip_mummichog && file.exists(cache_file)) {
+    cat("\n", strrep("=", 60), "\n")
+    cat("⏭️  SKIPPING T-TESTS (run_mummichog: false in config)\n")
+    cat("   Loading cached results from:", cache_file, "\n")
+    cat(strrep("=", 60), "\n\n")
+    cached_results <- readRDS(cache_file)
+    return(cached_results)
+  }
+  
   # _Prepare data for t-tests - data already has grouping column
   ttest_data <- data |>
     dplyr::rename(Group_Test = !!rlang::sym(group_column)) |>
@@ -147,11 +165,21 @@ mummichog_ttests <- function(data,
   print(head(results_tibble, 10))
 
   # _Return results
-  return(list(
+  result_list <- list(
     results = results_tibble,
     n_features = nrow(results_tibble),
     output_file = output_path, # Will be NULL if no CSV written
     group1_value = group1_value,
     group2_value = group2_value
-  ))
+  )
+  
+  # _Cache results for future runs
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+  cache_file <- file.path(output_dir, paste0("ttests_", group1_value, "_vs_", group2_value, ".rds"))
+  saveRDS(result_list, cache_file)
+  cat("Cached t-test results to:", cache_file, "\n")
+  
+  return(result_list)
 }

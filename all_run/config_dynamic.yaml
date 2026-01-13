@@ -37,6 +37,7 @@ data_files:
 analysis:
   project_name: "DTC_Metabolomics_2025"
   description: "Differentiated Thyroid Cancer Metabolomics Analysis"
+  run_mummichog: false  # Set to false to skip time-intensive mummichog runs and use existing results
   tibble_options:
     print_max: 100
     print_min: 100

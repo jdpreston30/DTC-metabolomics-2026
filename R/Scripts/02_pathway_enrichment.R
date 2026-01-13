@@ -10,7 +10,7 @@ pathway_enrichment_ttests <- mummichog_ttests(
 #- 2.1.2: Run Mummichog (MFN Only)
 mummichog_mfn <- run_mummichog_analysis(
   ttest_results = pathway_enrichment_ttests$results,
-  output_dir = "Outputs/mummichog/MFN",
+  output_dir = "Outputs/mummichog/ttests_MFN",
   database = "hsa_mfn",
   instrumentOpt = 5.0,
   msModeOpt = "mixed",
@@ -20,7 +20,7 @@ mummichog_mfn <- run_mummichog_analysis(
 #- 2.1.3: Run Mummichog (KEGG)
 mummichog_kegg <- run_mummichog_analysis(
   ttest_results = pathway_enrichment_ttests$results,
-  output_dir = "Outputs/mummichog/KEGG",
+  output_dir = "Outputs/mummichog/ttests_KEGG",
   database = "hsa_kegg",
   instrumentOpt = 5.0,
   msModeOpt = "mixed",
@@ -30,10 +30,10 @@ mummichog_kegg <- run_mummichog_analysis(
 #+ 2.2: Create Pathway Enrichment Plots (MFN)
 #- 2.2.1: Define JSON file paths once
 mfn_json_files <- list(
-  eva = "Outputs/mummichog/MFN/scattermum.json"
+  eva = "Outputs/mummichog/ttests_MFN/scattermum.json"
 )
 kegg_json_files <- list(
-  eva = "Outputs/mummichog/KEGG/scattermum.json"
+  eva = "Outputs/mummichog/ttests_KEGG/scattermum.json"
 )
 combined_json_files <- list(
   mfn = mfn_json_files,
@@ -50,14 +50,14 @@ combined_tibbles <- list(
 mfn_inspect <- mfn_tibbles$eva |>
   arrange(desc(enrichment)) |>
   filter(p_value >= 1)
-#- 2.3.4: Inspect combined for visualization
+#- 2.2.4: Inspect combined for visualization
 combined_inspection <- bind_rows(
   mfn_tibbles$eva |> mutate(database = "MFN"),
   kegg_tibbles$eva |> mutate(database = "KEGG")
 ) |>
   arrange(enrichment) |>
   filter(p_value >= 1)
-#- 2.3.5: Print min and max of MFN and combined p values and enrichment for visualization scaling
+#- 2.2.5: Print min and max of MFN and combined p values and enrichment for visualization scaling
 cat(
   "\n", strrep("=", 60), "\n",
   "PATHWAY ENRICHMENT RANGES FOR VISUALIZATION SCALING\n",
@@ -120,7 +120,7 @@ kegg_enrichment_plot <- plot_mummichog_enrichment(
 )
 #+ 2.4: Run Biological Network Analysis (MFN)
 mfn_network <- create_biological_network(
-  pathway_csv = "Outputs/mummichog/MFN/mummichog_pathway_enrichment_mummichog.csv",
+  pathway_csv = "Outputs/mummichog/ttests_MFN/mummichog_pathway_enrichment_mummichog.csv",
   min_shared_compounds = 1,
   p_threshold = 0.1,
   max_pathways = 20,

@@ -20,3 +20,5 @@ p3A_legend <- plot_corr_legend()
 p3A <- grid::rasterGrob(as.raster(
   magick::image_read("Outputs/Figures/Raw/p3A.png") %>%
   magick::image_crop("5412x4601+0+1065")))
+#+ 5.5: Supplementary 1
+kegg_enrichment_plot

@@ -1,0 +1,9 @@
+beta-Alanine metabolism	pathway_similarity	Histidine metabolism
+Histidine metabolism	pathway_similarity	Selenocompound metabolism
+Selenocompound metabolism	pathway_similarity	D-Amino acid metabolism
+D-Amino acid metabolism	pathway_similarity	Arachidonic acid metabolism
+Arachidonic acid metabolism	pathway_similarity	Pantothenate and CoA biosynthesis
+Pantothenate and CoA biosynthesis	pathway_similarity	Arginine biosynthesis
+Arginine biosynthesis	pathway_similarity	Pyrimidine metabolism
+Pyrimidine metabolism	pathway_similarity	Biosynthesis of unsaturated fatty acids
+Biosynthesis of unsaturated fatty acids	pathway_similarity	Butanoate metabolism
