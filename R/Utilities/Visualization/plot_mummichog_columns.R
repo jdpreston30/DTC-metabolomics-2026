@@ -37,6 +37,7 @@ plot_mummichog_columns <- function(
     enrichment_data,
     p_threshold = 0.05,
     enrichment_cap = 5,
+    max_logp = 5,  # Maximum -log10(p) value for color scale
     size_range = c(5, 10),
     size_breaks = NULL,
     show_legend = TRUE,
@@ -106,7 +107,39 @@ plot_mummichog_columns <- function(
     )
   
   # Color scale based on color_scale parameter
-  if (color_scale == "blue") {
+  if (color_scale == "rb") {
+    # Red-to-blue gradient using PGD colors (matches plot_mummichog_enrichment)
+    # Maps to -log10(p-value) which is in p_fisher column
+    # Scale starts at p=0.05 (1.301) and goes to max_logp
+    
+    # Generate breaks dynamically
+    color_breaks <- seq(2, max_logp, by = 1)
+    color_breaks <- c(1.301, color_breaks)  # Start with asterisk
+    
+    # Generate labels dynamically
+    color_labels <- c("✱", as.character(seq(2, max_logp - 1)), paste0(max_logp, "+"))
+    
+    p <- p + scale_color_gradientn(
+      colors = c("#113d6a", "#D8919A", "#800017", "#800017"), # Blue to red gradient
+      values = c(0, 0.3, 0.75, 1),
+      limits = c(1.301, max_logp), # -log10(p) from 1.301 (p=0.05) to max_logp
+      breaks = color_breaks,
+      labels = color_labels,
+      oob = scales::squish,
+      name = "-log10(p-value)\n",
+      guide = guide_colorbar(
+        reverse = FALSE, # Low (blue) at bottom, high (red) at top
+        barheight = unit(5 * scale_factor, "cm"),
+        barwidth = unit(0.9 * scale_factor, "cm"),
+        ticks.colour = "black",
+        ticks.linewidth = 0.5 * scale_factor,
+        frame.colour = NA,
+        frame.linewidth = 0,
+        draw.ulim = TRUE,
+        draw.llim = TRUE
+      )
+    )
+  } else if (color_scale == "blue") {
     p <- p + scale_color_gradient(
       low = "#0a2256", high = "#c3dbe9", # Dark (small p) -> light (large p)
       limits = c(0.01, p_threshold),
@@ -159,7 +192,7 @@ plot_mummichog_columns <- function(
       panel.spacing.y = unit(0, "pt"),
       strip.placement = "outside",
       strip.text.x.top = element_text(
-        angle = 0, vjust = 1,
+        angle = 90, vjust = 0.5, hjust = 0,
         face = "bold", family = "Arial", size = 13 * scale_factor
       ),
       strip.text.y.left = element_text(

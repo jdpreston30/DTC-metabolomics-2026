@@ -106,12 +106,14 @@ correlation_combined_inspect <- bind_rows(
   arrange(metabolite, database, desc(enrichment))
 #+ 4.5: Visualize MFN Correlation Enrichment
 #- 4.5.1: Prepare data for plot_mummichog_columns
+p_display_threshold <- 0.05  # Raw p-value threshold for display
 correlation_mfn_plot_data <- correlation_mfn_inspect |>
+  filter(p_value >= -log10(p_display_threshold)) |>  # Filter by threshold
   rename(
     pathway_name = pathway,
     Comparisons = metabolite,
     enrichment_factor = enrichment,
-    p_fisher = p_value
+    p_fisher = p_value  # Already -log10(p) from mummichog
   )
 #- 4.5.2: Inspect data ranges for plot parameters
 cat(
@@ -126,25 +128,30 @@ cat(
   strrep("=", 60), "\n\n"
 )
 #- 4.5.3: Create multi-column enrichment plot
+u()
 correlation_mfn_plot <- plot_mummichog_columns(
   enrichment_data = correlation_mfn_plot_data,
-  p_threshold = 0.05,
-  enrichment_cap = 5,
-  size_range = c(5, 10),
-  color_scale = "blue",
+  p_threshold = 0.1,
+  enrichment_cap = 2.25,
+  max_logp = 3,
+  size_range = c(1, 8),
+  size_breaks = c(2.5, 2, 1.5, 1),
+  color_scale = "rb",
   save_path = "Outputs/Figures/Raw/correlation_mfn_columns.png",
-  plot_width = 14,
+  plot_width = 11,
   plot_height = 8,
-  dpi = 600
+  dpi = 300
 )
 #+ 4.6: Visualize KEGG Correlation Enrichment
 #- 4.6.1: Prepare data for plot_mummichog_columns
+p_display_threshold <- 0.05  # Raw p-value threshold for display
 correlation_kegg_plot_data <- correlation_kegg_inspect |>
+  filter(p_value >= -log10(p_display_threshold)) |>  # Filter by threshold
   rename(
     pathway_name = pathway,
     Comparisons = metabolite,
     enrichment_factor = enrichment,
-    p_fisher = p_value
+    p_fisher = p_value  # Already -log10(p) from mummichog
   )
 #- 4.6.2: Inspect data ranges for plot parameters
 cat(
@@ -164,7 +171,7 @@ correlation_kegg_plot <- plot_mummichog_columns(
   p_threshold = 0.05,
   enrichment_cap = 5,
   size_range = c(5, 10),
-  color_scale = "red",
+  color_scale = "rb",
   save_path = "Outputs/Figures/Raw/correlation_kegg_columns.png",
   plot_width = 14,
   plot_height = 8,
