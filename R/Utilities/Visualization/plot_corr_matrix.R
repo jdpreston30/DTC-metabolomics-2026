@@ -8,7 +8,7 @@
 #' @param p_threshold Numeric p-value threshold for display (default 0.1, no dot if p > threshold)#' @param show_labels Logical whether to show metabolite labels (default TRUE, set FALSE for large matrices)#' @param output_path Optional path to save as PNG (default NULL for display only)
 #' @param width Width in inches for saved plot (default 10)
 #' @param height Height in inches for saved plot (default 10)
-#' @param dpi Resolution for saved plot (default 600)
+#' @param dpi Resolution for saved plot (default 1000)
 #'
 #' @return List with two elements:
 #'   - summary: Overall statistics
@@ -42,9 +42,9 @@ plot_corr_matrix <- function(
     p_threshold = 0.05,
     show_labels = TRUE,
     output_path = NULL,
-    width = 10,
-    height = 10,
-    dpi = 600) {
+    width = 4,
+    height = 4,
+    dpi = 1000) {
   
   # Load required libraries
   library(dplyr)
@@ -71,7 +71,7 @@ plot_corr_matrix <- function(
   colnames(p_matrix) <- display_names
   rownames(p_matrix) <- display_names
   
-  # If output path specified, save to file
+  # Save to file if output path specified
   if (!is.null(output_path)) {
     # Ensure directory exists
     output_dir <- dirname(output_path)
@@ -85,34 +85,32 @@ plot_corr_matrix <- function(
       width = width,
       height = height,
       units = "in",
-      res = dpi
+      res = dpi,
+      bg = "transparent"
     )
-  }
-  
-  # Set Arial font
-  par(family = "Arial")
-  
-  # Create the correlation plot
-  corrplot(
-    cor_matrix, 
-    type = "lower",           # Lower triangle
-    order = "hclust",         # Hierarchical clustering
-    tl.col = if (show_labels) "black" else NA,  # Label color (NA hides labels)
-    tl.srt = 90,              # Rotate bottom labels 90 degrees
-    tl.cex = 0.8,             # Label size
-    method = "circle",        # Use circles
-    col = colorRampPalette(c("#113d6a", "white", "#800017"))(200),  # Blue to red
-    p.mat = p_matrix,         # P-value matrix
-    sig.level = p_threshold,  # Significance threshold
-    insig = "blank",          # Hide non-significant
-    diag = FALSE,             # Hide diagonal
-    tl.pos = if (show_labels) "ld" else "n",  # Labels on left/diagonal or none
-    cl.pos = "r",             # Color legend on right
-    addCoef.col = NULL        # Don't add correlation coefficients
-  )
-  
-  # Close device if saving
-  if (!is.null(output_path)) {
+    
+    # Set Arial font
+    par(family = "Arial")
+    
+    # Create the correlation plot
+    corrplot(
+      cor_matrix, 
+      type = "lower",           # Lower triangle
+      order = "hclust",         # Hierarchical clustering
+      tl.col = if (show_labels) "black" else NA,  # Label color (NA hides labels)
+      tl.srt = 90,              # Rotate bottom labels 90 degrees
+      tl.cex = 0.8,             # Label size
+      method = "circle",        # Use circles
+      col = colorRampPalette(c("#113d6a", "white", "#800017"))(200),  # Blue to red
+      p.mat = p_matrix,         # P-value matrix
+      sig.level = p_threshold,  # Significance threshold
+      insig = "blank",          # Hide non-significant
+      diag = FALSE,             # Hide diagonal
+      tl.pos = if (show_labels) "ld" else "n",  # Labels on left/diagonal or none
+      cl.pos = "r",             # Color legend on right
+      addCoef.col = NULL        # Don't add correlation coefficients
+    )
+    
     dev.off()
     cat("Correlation matrix saved to:", output_path, "\n")
   }
@@ -167,7 +165,7 @@ plot_corr_matrix <- function(
   cat("  - Negative correlations:", summary$negative_correlations, "\n")
   cat("==================================\n\n")
   
-  # Return both summary and per-metabolite stats
+  # Return summary and per-metabolite stats
   invisible(list(
     summary = summary,
     metabolite_stats = metabolite_stats

@@ -1,6 +1,6 @@
 # Mummichog Analysis Parameters
 
-**Analysis Date:** 2026-01-12
+**Analysis Date:** 2026-01-13
 
 **Database:** hsa_kegg
 

@@ -1,14 +1,14 @@
-#* 5: Abstract Data Generation
-#+ 5.1: Variant Type Distribution
-#- 5.1.0: Join FT with path data
+#* 7: Abstract Data Generation
+#+ 7.1: Variant Type Distribution
+#- 7.1.0: Join FT with path data
 path_joined <- UFT_filtered |>
   left_join(tumor_pathology |> select(-stage_bin), by = "ID")
-#- 5.1.1: Compute variant counts and percentages
+#- 7.1.1: Compute variant counts and percentages
 variant_summary <- path_joined |>
   group_by(Variant) |>
   summarise(n = n()) |>
   mutate(percentage = round_half_up(n / sum(n) * 100))
-#- 5.1.2: Create variant distribution sentence
+#- 7.1.2: Create variant distribution sentence
 variant_counts_sentence <- paste0(
   "Of the ", sum(variant_summary$n), " patients, ",
   paste(
@@ -16,31 +16,31 @@ variant_counts_sentence <- paste0(
     collapse = ", "
   ), "."
 )
-#- 5.1.3: Early vs Advanced stage variant counts
+#- 7.1.3: Early vs Advanced stage variant counts
 variant_counts_stage <- path_joined |>
   select(Variant, stage_bin) |>
   group_by(Variant, stage_bin) |>
   summarise(n = n()) |>
   pivot_wider(names_from = stage_bin, values_from = n, values_fill = 0) |>
   ungroup()
-#+ 5.2: Stage Distribution  
-#- 5.2.1: Compute stage summary
+#+ 7.2: Stage Distribution  
+#- 7.2.1: Compute stage summary
 stage_summary <- path_joined |>
   group_by(Stage) |>
   summarise(n = n()) |>
   mutate(percentage = round_half_up(n / sum(n) * 100)) |>
   arrange(Stage)
-#- 5.2.2: Individual stage counts
+#- 7.2.2: Individual stage counts
 stage_counts_individual <- paste(
   paste0("Stage ", stage_summary$Stage, " (n=", stage_summary$n, ", ", stage_summary$percentage, "%)"),
   collapse = ", "
 )
-#- 5.2.3: Early vs Advanced stage grouping
+#- 7.2.3: Early vs Advanced stage grouping
 early_stages <- stage_summary |> filter(Stage %in% c("I", "II"))
 advanced_stages <- stage_summary |> filter(Stage %in% c("III", "IV"))
 early_total <- sum(early_stages$n)
 advanced_total <- sum(advanced_stages$n)
-#- 5.2.4: Create stage distribution sentence with early vs advanced grouping
+#- 7.2.4: Create stage distribution sentence with early vs advanced grouping
 stage_counts_sentence <- paste0(
   early_total, " patients had early-stage disease (",
   paste(paste0("n=", early_stages$n, " Stage ", early_stages$Stage), collapse = ", "),
@@ -48,9 +48,9 @@ stage_counts_sentence <- paste0(
   paste(paste0("n=", advanced_stages$n, " Stage ", advanced_stages$Stage), collapse = ", "),
   ")."
 )
-#+ 5.3: Metabolite Feature Counts
+#+ 7.3: Metabolite Feature Counts
 
-#- 5.3.2: Count QC-filtered features by chromatography method  
+#- 7.3.2: Count QC-filtered features by chromatography method  
 hilic_count_filtered <- UFT_filtered |> 
   select(starts_with("HILIC")) |> 
   ncol()
@@ -58,19 +58,19 @@ c18_count_filtered <- UFT_filtered |>
   select(starts_with("C18")) |> 
   ncol()
 total_filtered_features <- hilic_count_filtered + c18_count_filtered
-#+ 5.4: Volcano Plot Statistics
-#- 5.4.1: Extract volcano plot results (assuming you have volcano analysis results)
+#+ 7.4: Volcano Plot Statistics
+#- 7.4.1: Extract volcano plot results (assuming you have volcano analysis results)
 sig_up_fc <- volcano_data$volcano_data |>
   filter(p_value < 0.05 & log2_fc > log2(1.5)) |>
   nrow()
 sig_down_fc <- volcano_data$volcano_data  |>
   filter(p_value < 0.05 & log2_fc < -log2(1.5)) |>
   nrow()
-#+ 5.5: Stage Binning Summary (Early vs Advanced)
-#- 5.5.1: Compute early vs advanced stage distribution
+#+ 7.5: Stage Binning Summary (Early vs Advanced)
+#- 7.5.1: Compute early vs advanced stage distribution
 mfn_inspect |>
   filter(p_value >= -log10(0.05))
-#+ 5.6: Display Manuscript Sentences
+#+ 7.6: Display Manuscript Sentences
 cat(
   "\n",
   strrep("=", 70), "\n",
@@ -96,8 +96,8 @@ cat(
   "\n"
 )
 
-#+ 5.7: Summary Statistics Table
-#- 5.7.1: Create summary statistics for abstract/manuscript
+#+ 7.7: Summary Statistics Table
+#- 7.7.1: Create summary statistics for abstract/manuscript
 summary_stats <- data.frame(
   Metric = c(
     "Total Patients",

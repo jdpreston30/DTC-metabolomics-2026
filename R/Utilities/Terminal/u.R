@@ -138,3 +138,52 @@ r <- function(n) {
 #' @rdname u
 #' @export
 U <- u
+
+#' Create Comment Report
+#'
+#' Crawls through all Scripts/ files in order and creates a comment_report.R file
+#' that contains all section headings (lines starting with #*, #+, or #-)
+#'
+#' @export
+#' @examples
+#' cr() # Creates comment_report.R with all section headings
+cr <- function() {
+  scripts_dir <- "R/Scripts/"
+  output_file <- "comment_report.R"
+  
+  # Get all R files in Scripts directory
+  all_files <- list.files(scripts_dir, pattern = "\\.[rR]$", full.names = TRUE)
+  
+  # Sort files by name (which will sort by number prefix)
+  all_files <- sort(all_files)
+  
+  # Open output file for writing
+  output_lines <- c()
+  
+  # Process each file
+  for (file_path in all_files) {
+    # Add file header
+    output_lines <- c(output_lines, paste0("#! ", basename(file_path)))
+    
+    # Read file contents
+    file_contents <- readLines(file_path, warn = FALSE)
+    
+    # Extract lines starting with #*, #+, or #-
+    comment_lines <- file_contents[grepl("^#[*+-]", file_contents)]
+    
+    # Add to output
+    output_lines <- c(output_lines, comment_lines)
+    
+    # Add blank line between files
+    output_lines <- c(output_lines, "")
+  }
+  
+  # Write to output file
+  writeLines(output_lines, output_file)
+  
+  cat("✅ Comment report created:", output_file, "\n")
+  cat("   Total files processed:", length(all_files), "\n")
+  cat("   Total comment lines extracted:", sum(grepl("^#[*+-]", output_lines)), "\n")
+  
+  invisible(NULL)
+}

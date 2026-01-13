@@ -28,7 +28,7 @@ print_to_tiff <- function(plot, filename, width = 8.5, height = 11, dpi = 600,
   # Check if file already exists (for auto-open logic)
   file_exists <- file.exists(filepath)
 
-  # Save the plot as TIFF
+  # Save the plot as TIFF with LZW compression
   ggplot2::ggsave(
     filename = filepath,
     plot = plot,
@@ -36,7 +36,8 @@ print_to_tiff <- function(plot, filename, width = 8.5, height = 11, dpi = 600,
     height = height,
     dpi = dpi,
     units = "in",
-    device = "tiff",
+    device = ragg::agg_tiff,
+    compression = "lzw",
     bg = background
   )
 

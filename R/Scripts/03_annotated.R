@@ -19,40 +19,8 @@ annot_results_w_meta <- annot_results |>
 #- 3.1.4: Export as Excel for QC
 write.xlsx(annot_results_w_meta, "Outputs/Annotation/annot_results.xlsx")
 #! QC done externally and read in as a parameter in the yaml
-#+ 3.2: Make Correlations Matrix (Full Version)
-#- 3.2.1: Subset to selected features for matrix
-QC_matrix_full <- QC_dedup |>
-  filter(!is.na(feature))
-#- 3.2.2: Create data for correlation matrix
-TFT_cor_matrix_data_full <- TFT_annot_transformed |>
-  select(ID, all_of(QC_matrix_full$feature))
-#- 3.2.3: Create correlation matrix plot
-corr_mat <- plot_corr_matrix(
-  p_threshold = 0.05,
-  feature_table = TFT_cor_matrix_data_full,
-  metadata_table = QC_matrix_full,
-  output_path = "Outputs/Figures/Raw/corr_matrix_full.png",
-  show_labels = FALSE
-)
-#- 3.2.4: Inspect tibble of results
-corr_mat$metabolite_stats  |>
-  arrange(desc(n_negative_corr), n_positive_corr)
-#+ 3.2: Make Correlations Matrix (Curated Version)
-#- 3.2.1: Subset to selected features for matrix
-QC_matrix <- QC_dedup |>
-  filter(matrix_plot == "Y")
-#- 3.2.2: Create data for correlation matrix
-TFT_cor_matrix_data <- TFT_annot_transformed |>
-  select(ID, all_of(QC_matrix$feature))
-#- 3.2.3: Create correlation matrix plot
-corr_mat <- plot_corr_matrix(
-  p_threshold = 0.05,
-  feature_table = TFT_cor_matrix_data,
-  metadata_table = QC_matrix,
-  output_path = "Outputs/Figures/Raw/corr_matrix.png"
-)
-#+ 3.3: Create Diverging Bar Plots
-#- 3.3.1: Prepare data for diverging bars
+#+ 3.2: Create Diverging Bar Plots
+#- 3.2.1: Prepare data for diverging bars
 QC_div <- QC_dedup |>
   filter(diverging_plot == "Y") |>
   select(display_name, log2FC, p_value, main_group) |>
@@ -75,7 +43,7 @@ QC_div <- QC_dedup |>
     "Bioenergetic Flux",
     "Redox Homeostasis"
   )))
-#- 3.3.2: Create Plot
+#- 3.2.2: Create Plot
 div_bars <- plot_diverging_bars(QC_div, 
   group_ordering = TRUE, 
   add_group_labels = TRUE,
@@ -84,14 +52,14 @@ div_bars <- plot_diverging_bars(QC_div,
   x_max = 5.05,
   lower_expand = 0.0001,
   label_pos = 0.78)
-#+ 3.4: Create individual feature plots
-#- 3.4.1: Subset to features for scatter plots
+#+ 3.3: Create individual feature plots
+#- 3.3.1: Subset to features for scatter plots
 QC_scatter <- QC_dedup |>
   filter(scatter_plot == "Y")
-#- 3.4.2: Select only scatter plot features
+#- 3.3.2: Select only scatter plot features
 TFT_scatter <- TFT_annot_transformed |>
   select(ID, stage_bin, all_of(QC_scatter$feature))
-#- 3.4.3: Create relevant scatter plots
+#- 3.3.3: Create relevant scatter plots
 stage_feature_plots <- plot_stage_targeted(
   feature_table = TFT_annot_transformed,  # Use the same transformed data
   metadata_table = QC_scatter,
@@ -99,4 +67,38 @@ stage_feature_plots <- plot_stage_targeted(
   undo_log = TRUE,
   text_scale = 0.6,
   use_identified_name = TRUE
+)
+#+ 3.4: Make Correlations Matrix (Full Version)
+#- 3.4.1: Subset to selected features for matrix
+QC_matrix_full <- QC_dedup |>
+  filter(!is.na(feature))
+#- 3.4.2: Create data for correlation matrix
+TFT_cor_matrix_data_full <- TFT_annot_transformed |>
+  select(ID, all_of(QC_matrix_full$feature))
+#- 3.4.3: Create correlation matrix plot
+corr_mat <- plot_corr_matrix(
+  p_threshold = 0.05,
+  feature_table = TFT_cor_matrix_data_full,
+  metadata_table = QC_matrix_full,
+  output_path = "Outputs/Figures/Raw/corr_matrix_full.png",
+  show_labels = FALSE
+)
+#- 3.4.4: Inspect tibble of results
+corr_mat$metabolite_stats  |>
+  arrange(desc(n_negative_corr), n_positive_corr)
+#+ 3.5: Make Correlations Matrix (Curated Version)
+#- 3.5.1: Subset to selected features for matrix
+QC_matrix <- QC_dedup |>
+  filter(matrix_plot == "Y")
+#- 3.5.2: Create data for correlation matrix
+TFT_cor_matrix_data <- TFT_annot_transformed |>
+  select(ID, all_of(QC_matrix$feature))
+#- 3.5.3: Create correlation matrix plot
+corr_mat <- plot_corr_matrix(
+  p_threshold = 0.05,
+  feature_table = TFT_cor_matrix_data,
+  metadata_table = QC_matrix,
+  output_path = "Outputs/Figures/Raw/p3A.png",
+  width = 6,
+  height = 6
 )

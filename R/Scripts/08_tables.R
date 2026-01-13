@@ -1,9 +1,9 @@
-#* 6: Tables
-#+ 6.1: Table 1
-#- 6.1.0: Create vector of included samples
+#* 8: Tables
+#+ 8.1: Table 1
+#- 8.1.0: Create vector of included samples
 used_samples <- UFT_filtered |>
   pull(ID)
-#- 6.1.1: Filter to used samples; order rows; clean data
+#- 8.1.1: Filter to used samples; order rows; clean data
 tumor_pathology_table <- tumor_pathology_full |>
   rename(ID = Patient_ID) |>
   filter(ID %in% used_samples) |>
@@ -27,7 +27,7 @@ tumor_pathology_table <- tumor_pathology_full |>
     )
   ) |>
   select(Age, Sex, Variant, stage_bin, Stage, T = T_stage_comp, N, M, `Extrathyroidal extension` = ETE, `Lymphovascular invasion` = LVI, Multifocality = MFC)
-#- 6.1.2: Build Table 1
+#- 8.1.2: Build Table 1
 T1 <- ternG(
   data = tumor_pathology_table,
   group_var = "stage_bin",
