@@ -38,3 +38,6 @@ T1 <- ternG(
   round_intg = FALSE,
   insert_subheads = TRUE
 )
+#+ 8.2: Supplementary Table 1
+#- 8.2.1: Build Supplementary Table 1
+pdf generation of st1

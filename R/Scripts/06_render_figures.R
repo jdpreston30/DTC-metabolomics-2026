@@ -62,24 +62,50 @@ print_to_png(fig3, "Final/PNG/fig3.png")
 print_to_tiff(fig1, "Final/TIFF/fig1.tiff")
 print_to_tiff(fig2, "Final/TIFF/fig2.tiff")
 print_to_tiff(fig3, "Final/TIFF/fig3.tiff")
-#+ 6.6: Create PDFs from PNGs
+#- 6.5.3: Print PDFs
 {
   # Figure 1
-  pdf("Outputs/Figures/Final/PDF/Figure 1.pdf", width = 8.5, height = 11)
-  img1 <- readPNG("Outputs/Figures/Final/PNG/fig1.png")
-  grid.newpage()
-  grid.raster(img1, width = unit(8.5, "inches"), height = unit(11, "inches"))
-  dev.off()
+  tryCatch({
+    pdf("Outputs/Figures/Final/PDF/Figure 1.pdf", width = 8.5, height = 11)
+    img1 <- readPNG("Outputs/Figures/Final/PNG/fig1.png", native = TRUE)
+    grid.newpage()
+    grid.raster(img1, width = unit(8.5, "inches"), height = unit(11, "inches"), interpolate = TRUE)
+    dev.off()
+  }, error = function(e) {
+    dev.off()
+    cat("Warning: Figure 1 PDF failed:", e$message, "\n")
+  })
   # Figure 2
-  pdf("Outputs/Figures/Final/PDF/Figure 2.pdf", width = 8.5, height = 11)
-  img2 <- readPNG("Outputs/Figures/Final/PNG/fig2.png")
-  grid.newpage()
-  grid.raster(img2, width = unit(8.5, "inches"), height = unit(11, "inches"))
-  dev.off()
+  tryCatch({
+    pdf("Outputs/Figures/Final/PDF/Figure 2.pdf", width = 8.5, height = 11)
+    img2 <- readPNG("Outputs/Figures/Final/PNG/fig2.png", native = TRUE)
+    grid.newpage()
+    grid.raster(img2, width = unit(8.5, "inches"), height = unit(11, "inches"), interpolate = TRUE)
+    dev.off()
+  }, error = function(e) {
+    dev.off()
+    cat("Warning: Figure 2 PDF failed:", e$message, "\n")
+  })
+  
   # Figure 3
-  pdf("Outputs/Figures/Final/PDF/Figure 3.pdf", width = 8.5, height = 11)
-  img3 <- readPNG("Outputs/Figures/Final/PNG/fig3.png")
-  grid.newpage()
-  grid.raster(img3, width = unit(8.5, "inches"), height = unit(11, "inches"))
-  dev.off()
+  tryCatch({
+    pdf("Outputs/Figures/Final/PDF/Figure 3.pdf", width = 8.5, height = 11)
+    img3 <- readPNG("Outputs/Figures/Final/PNG/fig3.png", native = TRUE)
+    grid.newpage()
+    grid.raster(img3, width = unit(8.5, "inches"), height = unit(11, "inches"), interpolate = TRUE)
+    dev.off()
+  }, error = function(e) {
+    dev.off()
+    cat("Warning: Figure 3 PDF failed:", e$message, "\n")
+  })
+  cat("✓ PDF generation complete\n")
 }
+#+ 6.6: Create compiled PDF
+pdf_combine(
+  input = c(
+    "Outputs/Figures/Final/PDF/Figure 1.pdf",
+    "Outputs/Figures/Final/PDF/Figure 2.pdf",
+    "Outputs/Figures/Final/PDF/Figure 3.pdf"
+  ),
+  output = "Outputs/Figures/Final/Figs1-4.pdf"
+)
