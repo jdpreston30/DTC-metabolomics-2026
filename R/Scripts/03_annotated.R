@@ -1,5 +1,5 @@
 #* 3: Annotated Plots
-#+ 3.1: T-tests for all metabolomic features against PGD status
+#+ 3.1: T-tests for all metabolomic features against stage
 #- 3.1.1: Transform feature table
 TFT_annot_transformed <- TFT_annot |> 
   mutate(stage_bin = ifelse(stage_bin == "Early", "Stage I/II", "Stage III/IV"))

@@ -1,125 +1,64 @@
-#* 7: Abstract Data Generation
-#+ 7.1: Variant Type Distribution
-#- 7.1.0: Join FT with path data
-path_joined <- UFT_filtered |>
-  left_join(tumor_pathology |> select(-stage_bin), by = "ID")
-#- 7.1.1: Compute variant counts and percentages
-variant_summary <- path_joined |>
-  group_by(Variant) |>
-  summarise(n = n()) |>
-  mutate(percentage = round_half_up(n / sum(n) * 100))
-#- 7.1.2: Create variant distribution sentence
-variant_counts_sentence <- paste0(
-  "Of the ", sum(variant_summary$n), " patients, ",
-  paste(
-    paste0(variant_summary$n, " (", variant_summary$percentage, "%) had ", variant_summary$Variant),
-    collapse = ", "
-  ), "."
-)
-#- 7.1.3: Early vs Advanced stage variant counts
-variant_counts_stage <- path_joined |>
-  select(Variant, stage_bin) |>
-  group_by(Variant, stage_bin) |>
-  summarise(n = n()) |>
-  pivot_wider(names_from = stage_bin, values_from = n, values_fill = 0) |>
-  ungroup()
-#+ 7.2: Stage Distribution  
-#- 7.2.1: Compute stage summary
-stage_summary <- path_joined |>
-  group_by(Stage) |>
-  summarise(n = n()) |>
-  mutate(percentage = round_half_up(n / sum(n) * 100)) |>
-  arrange(Stage)
-#- 7.2.2: Individual stage counts
-stage_counts_individual <- paste(
-  paste0("Stage ", stage_summary$Stage, " (n=", stage_summary$n, ", ", stage_summary$percentage, "%)"),
-  collapse = ", "
-)
-#- 7.2.3: Early vs Advanced stage grouping
-early_stages <- stage_summary |> filter(Stage %in% c("I", "II"))
-advanced_stages <- stage_summary |> filter(Stage %in% c("III", "IV"))
-early_total <- sum(early_stages$n)
-advanced_total <- sum(advanced_stages$n)
-#- 7.2.4: Create stage distribution sentence with early vs advanced grouping
-stage_counts_sentence <- paste0(
-  early_total, " patients had early-stage disease (",
-  paste(paste0("n=", early_stages$n, " Stage ", early_stages$Stage), collapse = ", "),
-  ") and ", advanced_total, " had advanced-stage disease (",
-  paste(paste0("n=", advanced_stages$n, " Stage ", advanced_stages$Stage), collapse = ", "),
-  ")."
-)
-#+ 7.3: Metabolite Feature Counts
-
-#- 7.3.1: Count QC-filtered features by chromatography method  
-hilic_count_filtered <- UFT_filtered |> 
-  select(starts_with("HILIC")) |> 
-  ncol()
-c18_count_filtered <- UFT_filtered |> 
-  select(starts_with("C18")) |> 
-  ncol()
-total_filtered_features <- hilic_count_filtered + c18_count_filtered
-#+ 7.4: Volcano Plot Statistics
-#- 7.4.1: Extract volcano plot results (assuming you have volcano analysis results)
-sig_up_fc <- volcano_data$volcano_data |>
-  filter(p_value < 0.05 & log2_fc > log2(1.5)) |>
-  nrow()
-sig_down_fc <- volcano_data$volcano_data  |>
-  filter(p_value < 0.05 & log2_fc < -log2(1.5)) |>
-  nrow()
-#+ 7.5: Stage Binning Summary (Early vs Advanced)
-#- 7.5.1: Compute early vs advanced stage distribution
-mfn_inspect |>
-  filter(p_value >= -log10(0.05))
-#+ 7.6: Display Manuscript Sentences
-cat(
-  "\n",
-  strrep("=", 70), "\n",
-  "MANUSCRIPT SENTENCES FOR THYROID CANCER METABOLOMICS STUDY\n",
-  strrep("=", 70), "\n",
-  "\n",
-  "\033[1;31mVariant Distribution:\033[0m\n",
-  "\033[3;31m", variant_counts_sentence, "\033[0m\n",
-  "\n",
-  "\033[1;32mStage Distribution:\033[0m\n",
-  "\033[3;32m", stage_counts_sentence, "\033[0m\n",
-  "\n",
-  "\033[1;34mStage Grouping (Early vs Advanced):\033[0m\n",
-  "\033[3;34m", stage_binning_sentence, "\033[0m\n",
-  "\n",
-  "\033[1;35mMetabolite Feature Quality Control:\033[0m\n",
-  "\033[3;35m", metabolite_qc_sentence, "\033[0m\n",
-  "\n",
-  "\033[1;36mDifferential Analysis Results:\033[0m\n",
-  "\033[3;36m", volcano_results_sentence, "\033[0m\n",
-  "\n",
-  strrep("=", 70), "\n",
-  "\n"
-)
-
-#+ 7.7: Summary Statistics Table
-#- 7.7.1: Create summary statistics for abstract/manuscript
-summary_stats <- data.frame(
-  Metric = c(
-    "Total Patients",
-    "Variant Types",
-    "Stage Distribution",
-    "Stage Grouping",
-    "Total Features Detected",
-    "Features After QC",
-    "Significantly Different Features",
-    "Features with ≥1.5-fold Change"
-  ),
-  Value = c(
-    sum(variant_summary$n),
-    paste(variant_summary$Variant, collapse = ", "),
-    paste(paste0("Stage ", stage_summary$Stage, " (n=", stage_summary$n, ")"), collapse = "; "),
-    if (exists("early_n")) paste0("Early: ", early_n, "; Advanced: ", advanced_n) else "Not available",
-    total_detected_features,
-    total_filtered_features,
-    if (exists("total_sig")) total_sig else "Not calculated",
-    if (exists("total_sig_fc")) total_sig_fc else "Not calculated"
+#* 7: Data Not Shown
+#+ 7.1: Description of metabolite counts
+#- 7.1.1: Count features in full untargeted dataset
+{
+  hilic_counts_full <- UFT_full |> 
+    select(starts_with("HILIC")) |> 
+    ncol()
+  c18_counts_full <- UFT_full |> 
+    select(starts_with("C18")) |> 
+    ncol()
+  total_untargeted_features <- hilic_counts_full + c18_counts_full
+}
+#- 7.1.2: Count filtered features 
+{
+  hilic_count_filtered <- UFT_filtered |> 
+    select(starts_with("HILIC")) |> 
+    ncol()
+  c18_count_filtered <- UFT_filtered |> 
+    select(starts_with("C18")) |> 
+    ncol()
+  total_filtered_features <- hilic_count_filtered + c18_count_filtered
+}
+#- 7.1.3: Narrative printout
+{
+  cat(
+    "\n", strrep("=", 60), "\n",
+    "FULL UNTARGETED DATASET FEATURE COUNTS\n",
+    strrep("=", 60), "\n\n",
+    "HILIC (positive mode):  ", format(hilic_counts_full, big.mark = ","), "\n",
+    "C18 (negative mode):    ", format(c18_counts_full, big.mark = ","), "\n",
+    "Total features:         ", format(total_untargeted_features, big.mark = ","), "\n",
+    strrep("=", 60), "\n\n"
   )
-)
-cat("\033[1;33mSUMMARY STATISTICS TABLE:\033[0m\n")
-print(summary_stats, row.names = FALSE)
-cat("\n")
+  cat(
+    "\n", strrep("=", 60), "\n",
+    "QC-FILTERED UNTARGETED DATASET FEATURE COUNTS\n",
+    strrep("=", 60), "\n\n",
+    "HILIC (positive mode):  ", format(hilic_count_filtered, big.mark = ","), "\n",
+    "C18 (negative mode):    ", format(c18_count_filtered, big.mark = ","), "\n",
+    "Total filtered features:", format(total_filtered_features, big.mark = ","), "\n",
+    strrep("=", 60), "\n\n"
+  )
+}
+#+ 7.2: Volcano Plot Statistics
+#- 7.2.1: Extract volcano plot results (assuming you have volcano analysis results)
+{
+  sig_up_fc <- volcano_data$volcano_data |>
+    filter(p_value < 0.05 & log2_fc > log2(1.5)) |>
+    nrow()
+  sig_down_fc <- volcano_data$volcano_data  |>
+    filter(p_value < 0.05 & log2_fc < -log2(1.5)) |>
+    nrow()
+}
+#- 7.2.2: Narrative printout
+{
+  cat(
+    "\n", strrep("=", 60), "\n",
+    "VOLCANO PLOT SIGNIFICANT FEATURE COUNTS\n",
+    strrep("=", 60), "\n\n",
+    "Significantly upregulated features (FC > 1.5, p < 0.05):   ", format(sig_up_fc, big.mark = ","), "\n",
+    "Significantly downregulated features (FC < -1.5, p < 0.05): ", format(sig_down_fc, big.mark = ","), "\n",
+    strrep("=", 60), "\n\n"
+  )
+}

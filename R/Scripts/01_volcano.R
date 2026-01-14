@@ -1,4 +1,4 @@
-#* 1: PCA and PLS-DA Analysis (Computation Only)
+#* 1: Volcano Plots
 #+ 1.1: Run Volcano Analysis on UFT data (Computation Only)
 volcano_data <- run_volcano(
   data = UFT_filtered,
