@@ -3,7 +3,7 @@
 #- 0c.1.1: Create full version
 tumor_pathology_full <- tumor_pathology_raw |>
   select(-T) |>
-  assign_T_stage(ld_col = "LD", ete_col = "ETE", units = "cm", out_col = "T_stage_comp") |>
+  assign_T_cat(ld_col = "LD", ete_col = "ETE", units = "cm", out_col = "T_stage_comp") |>
   mutate(
     Variant = factor(case_when(
       str_detect(Patient_ID, "^FVPTC\\d+$") ~ "FV-PTC",

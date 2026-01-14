@@ -30,7 +30,7 @@
 #'
 #' @return A copy of \code{df} with an ordered factor column \code{out_col} in \{T1,T2,T3,T4\}.
 #' @export
-assign_T_stage <- function(
+assign_T_cat <- function(
     df,
     ld_col = "LD",
     ete_col = "ETE",
