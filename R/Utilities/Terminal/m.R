@@ -43,10 +43,12 @@ m <- function(file = NULL) {
   pattern1 <- "(width|height|x|y)(\\s*=\\s*)([0-9.]+\\s*[+*/\\-]\\s*[0-9.]+(?:\\s*[+*/\\-]\\s*[0-9.]+)*)(\\s*[,)])"
   
   # Pattern 2: expressions inside c() like c(0.76, 8.75-0.25) - expression in 2nd position
-  pattern2 <- "c\\(([0-9.]+),\\s*([0-9+*/.()\\-]+)\\)"
+  # Made more permissive to capture complex expressions
+  pattern2 <- "c\\(([0-9.]+),\\s*([0-9.+*/()\\-\\s]+)\\)"
   
   # Pattern 3: expressions inside c() like c(0.76-100/800, 10.00) - expression in 1st position
-  pattern3 <- "c\\(([0-9+*/.()\\-]+),\\s*([0-9.]+)\\)"
+  # Made more permissive to capture complex expressions
+  pattern3 <- "c\\(([0-9.+*/()\\-\\s]+),\\s*([0-9.]+)\\)"
   
   # Debug: Check for any lines with division
   debug_lines <- grep("/", lines)

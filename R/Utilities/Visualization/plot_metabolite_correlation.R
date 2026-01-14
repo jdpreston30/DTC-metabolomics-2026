@@ -19,19 +19,10 @@
 #' @param maxy Maximum value (last tick) on y-axis (default: NULL for auto)
 #' @param tickx Interval between x-axis ticks (default: NULL for auto)
 #' @param ticky Interval between y-axis ticks (default: NULL for auto)
+#' @param stats_annot_pos Position for statistics annotation: "TL" (top left), "TR" (top right), "BL" (bottom left), "BR" (bottom right) (default: "TL")
+#' @param stage_color Color scheme for stages: "default" for gray/red, "rb" for blue/red (default: "default")
 #'
 #' @return ggplot object
-#'
-#' @examples
-#' \dontrun{
-#'   p <- plot_metabolite_correlation(
-#'     y_metabolite = "GMP",
-#'     x_metabolite = "Ribose 5-phosphate",
-#'     feature_table = TFT_annot_transformed,
-#'     metadata_table = direct_corr_metabs
-#'   )
-#'   print(p)
-#' }
 #'
 #' @export
 plot_metabolite_correlation <- function(y_metabolite,
@@ -49,9 +40,11 @@ plot_metabolite_correlation <- function(y_metabolite,
                                        miny = NULL,
                                        maxy = NULL,
                                        tickx = NULL,
-                                       ticky = NULL) {
+                                       ticky = NULL,
+                                       stats_annot_pos = "BR",
+                                       stage_color = "rb") {
   
-  # Load required libraries  # Load required libraries
+  # Load required libraries
   library(dplyr)
   library(ggplot2)
   
@@ -99,7 +92,7 @@ plot_metabolite_correlation <- function(y_metabolite,
   cat(sprintf("Y-axis (%s): min = %.2f, max = %.2f\n", y_metabolite, min(plot_data$y, na.rm = TRUE), max(plot_data$y, na.rm = TRUE)))
   cat("---------------------------------------\n\n")
   
-  # Validate axis parameters if provided (after printing ranges so user can see actual data)
+  # Validate axis parameters if provided
   if (!is.null(minx) && !is.null(maxx) && !is.null(tickx)) {
     if (maxx <= minx) {
       stop("maxx must be greater than minx")
@@ -130,8 +123,18 @@ plot_metabolite_correlation <- function(y_metabolite,
     }
   }
   
-  # Color mapping: Stage I/II = dark blue, Stage III/IV = dark red
-  stage_colors <- c("Stage I/II" = "#113d6a", "Stage III/IV" = "#800017")
+  # Color mapping based on stage_color argument
+  if (stage_color == "rb") {
+    # Red/blue scheme
+    stage_colors <- c("Stage I/II" = "#113d6a", "Stage III/IV" = "#800017")
+  } else {
+    # Default gray/red scheme
+    stage_colors <- c("Stage I/II" = "gray70", "Stage III/IV" = "#800017")
+  }
+  
+  # Reorder data so Stage III/IV (red) points are plotted last (on top of gray)
+  plot_data <- plot_data |>
+    arrange(stage_bin == "Stage III/IV")
   
   # Calculate correlation on WHOLE dataset
   cor_test <- cor.test(plot_data$x, plot_data$y, method = "pearson")
@@ -154,27 +157,30 @@ plot_metabolite_correlation <- function(y_metabolite,
     pred_data$ymax <- pred_ci[, "upr"]
   }
   
-  # Publication-style theme (matching plot_stage_targeted)
+  # Publication-style theme
   theme_pub_scatter <- function() {
     theme_minimal(base_family = base_family) +
       theme(
-        # Panel styling - clean background, keep only bottom and left axes lines
+        # Panel styling
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), 
         panel.background = element_blank(),
         plot.background = element_blank(),
-        axis.line.x.bottom = element_line(color = "black", linewidth = 0.6),
-        axis.line.y.left = element_line(color = "black", linewidth = 0.6),
+        panel.border = element_rect(color = "black", fill = NA, linewidth = 1.199),
+        axis.line.x.bottom = element_blank(),
+        axis.line.y.left = element_blank(),
         
         # Axis styling (scaled text)
         axis.ticks = element_line(color = "black", linewidth = 0.6),
-        axis.ticks.length = unit(0.15, "cm"),
-        axis.text = element_text(size = 11 * text_scale, face = "bold", color = "black"),
-        axis.text.x = element_text(size = 11 * text_scale, face = "bold", color = "black", angle = 0, vjust = 0.5, hjust = 0.5),
-        axis.text.y = element_text(size = 11 * text_scale, face = "bold", color = "black"),
+        axis.ticks.length = unit(0.075, "cm"),
+        
+        # FIX: Increased negative margins to -7pt and set lineheight to tighten spacing
+        axis.text.x = element_text(size = 11 * text_scale, face = "bold", color = "black", angle = 0, vjust = 1, hjust = 0.5, lineheight = 0.75, margin = margin(t = -7, unit = "pt")),
+        axis.text.y = element_text(size = 11 * text_scale, face = "bold", color = "black", hjust = 1, lineheight = 0.75, margin = margin(r = -7, unit = "pt")),
+        
         axis.title = element_text(size = 12 * text_scale, face = "bold", color = "black"),
-        axis.title.x = element_text(size = 12 * text_scale, face = "bold", color = "black", margin = margin(t = 5)),
-        axis.title.y = element_text(size = 12 * text_scale, face = "bold", color = "black", margin = margin(r = 5), hjust = 0.5),
+        axis.title.x = element_text(size = 12 * text_scale, face = "bold", color = "black", margin = margin(t = 1.14)),
+        axis.title.y = element_text(size = 12 * text_scale, face = "bold", color = "black", margin = margin(r = 2), hjust = 0.5),
         
         # Plot title (scaled)
         plot.title = element_text(size = 12 * text_scale, face = "bold", hjust = 0.5, color = "black"),
@@ -218,8 +224,11 @@ plot_metabolite_correlation <- function(y_metabolite,
     # Force integer scales on both axes
     scale_x_continuous(
       labels = function(x) as.character(as.integer(round(x))),
-      expand = expansion(mult = c(0, 0.02)),
-      limits = if (!is.null(minx) && !is.null(maxx)) c(minx, maxx) else NULL,
+      expand = expansion(mult = c(0, 0)),
+      limits = if (!is.null(minx) && !is.null(maxx)) {
+        x_range <- maxx - minx
+        c(minx - 0.05 * x_range, maxx + 0.05 * x_range)
+      } else NULL,
       breaks = if (!is.null(minx) && !is.null(maxx) && !is.null(tickx)) {
         seq(minx, maxx, by = tickx)
       } else {
@@ -228,8 +237,11 @@ plot_metabolite_correlation <- function(y_metabolite,
     ) +
     scale_y_continuous(
       labels = function(y) as.character(as.integer(round(y))),
-      expand = expansion(mult = c(0, 0.02)),
-      limits = if (!is.null(miny) && !is.null(maxy)) c(miny, maxy) else NULL,
+      expand = expansion(mult = c(0, 0)),
+      limits = if (!is.null(miny) && !is.null(maxy)) {
+        y_range <- maxy - miny
+        c(miny - 0.05 * y_range, maxy + 0.05 * y_range)
+      } else NULL,
       breaks = if (!is.null(miny) && !is.null(maxy) && !is.null(ticky)) {
         seq(miny, maxy, by = ticky)
       } else {
@@ -243,6 +255,58 @@ plot_metabolite_correlation <- function(y_metabolite,
     ) +
     # Apply theme
     theme_pub_scatter()
+  
+  # Add correlation statistics annotation
+  stats_annotation_text <- paste0(
+    "r = ", formatC(r_value, format = "f", digits = 2), ", ",
+    ifelse(p_value < 0.001, "p < 0.001", paste0("p = ", formatC(p_value, format = "f", digits = 3)))
+  )
+  
+  # Determine position based on stats_annot_pos argument
+  # Get axis limits for positioning
+  x_lim <- if (!is.null(minx) && !is.null(maxx)) {
+    c(minx - 0.0 * (maxx - minx), maxx + 0.0 * (maxx - minx))
+  } else {
+    range(plot_data$x, na.rm = TRUE)
+  }
+  
+  y_lim <- if (!is.null(miny) && !is.null(maxy)) {
+    c(miny - 0.0 * (maxy - miny), maxy + 0.0 * (maxy - miny))
+  } else {
+    range(plot_data$y, na.rm = TRUE)
+  }
+  
+  if (stats_annot_pos == "TL") {
+    x_pos <- x_lim[1]
+    y_pos <- y_lim[2]
+    hjust_val <- 0
+    vjust_val <- 1
+  } else if (stats_annot_pos == "TR") {
+    x_pos <- x_lim[2]
+    y_pos <- y_lim[2]
+    hjust_val <- 1
+    vjust_val <- 1
+  } else if (stats_annot_pos == "BL") {
+    x_pos <- x_lim[1]
+    y_pos <- y_lim[1]
+    hjust_val <- 0
+    vjust_val <- 0
+  } else if (stats_annot_pos == "BR") {
+    x_pos <- x_lim[2]
+    y_pos <- y_lim[1]
+    hjust_val <- 1
+    vjust_val <- 0
+  } else {
+    stop("stats_annot_pos must be one of: TL, TR, BL, BR")
+  }
+  
+  p <- p + annotate("text", 
+                   x = x_pos, y = y_pos, 
+                   label = stats_annotation_text,
+                   hjust = hjust_val, vjust = vjust_val,
+                   size = 3 * text_scale,
+                   fontface = "italic",
+                   color = "black")
   
   return(p)
 }

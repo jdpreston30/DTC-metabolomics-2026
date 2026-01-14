@@ -5,9 +5,9 @@ fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(ggdraw() + draw_grob(p1B), x = 4.063333333, y = 6.62, width = 3.933333333, height = 3.6) +
   draw_plot(ggdraw() + draw_grob(p1C), x = 1.378333334, y = 1.913333333, width = 5.7421875, height = 5.7421875) +
   figure_labels(list(
-    A = c(0.88, 9.88),
-    B = c(4.263333333, 9.88),
-    C = c(0.88, 6.43),
+    A = c(0.88, 10.04667),
+    B = c(4.263333333, 10.04667),
+    C = c(0.88, 6.59667),
     "Figure 1" = c(0.49, 10.43)
   ))
 #+ 6.2: Figure 2
@@ -24,33 +24,62 @@ fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p2C.3, x = 4.703333333, y = 2.32, width = 1.5, height = 1.5) +
   draw_plot(p2C.4, x = 6.253333333, y = 2.32, width = 1.5, height = 1.5) +
   figure_labels(list(
-    A = c(0.8266666667, 9.88),
-    B = c(4.753333333, 9.88),
-    C = c(4.746666666, 5.2),
+    A = c(0.8266666667, 10.04667),
+    B = c(4.753333333, 10.04667),
+    C = c(4.746666666, 5.36667),
     "Figure 2" = c(0.49, 10.43)
   ))
 #+ 6.3: Figure 3
 fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
-  #- 3A
-  draw_plot(p3A_legend, x = 6.235+1/300, y = 6.333333335, width = 0.9, height = 4.185) +
-  draw_plot(ggdraw() + draw_grob(p3A), x = 2.023333333, y = 6.636666668, width = 3.996, height = 3.6)+
-  #- 3B
-  draw_plot(p3B_legend, x = 6.391666666, y = 1.055, width = 0.9, height = 4.185) +
-  draw_plot(ggdraw() + draw_grob(p3B), x = 1.116666667, y = 0.5366666667, width = 4.9269699, height = 5.9463432) +
+  # p3A/C
+  draw_plot(ggdraw() + draw_grob(p3AC), x = 0.5033333334+0.1, y = 1.25, width = 6.885, height = 8.91)+
+  # p3B
+  draw_plot(p3B.R1.C1 , x = 5.04, y = 8.403333334, width = 1.5, height = 1.5) +
+  draw_plot(p3B.R1.C2, x = 6.479999999, y = 8.403333334, width = 1.5, height = 1.5) +
+  draw_plot(p3B.R2.C1 , x = 5.04, y = 6.97, width = 1.5, height = 1.5) +
+  draw_plot(p3B.R2.C2, x = 6.479999999, y = 6.97, width = 1.5, height = 1.5) +
+  # p3D
+  draw_plot(p3D.R1.C1 , x = 5.04, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R1.C2, x = 6.479999999, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R2.C1 , x = 5.04, y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R2.C2, x = 6.479999999, y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R3.C1 , x = 5.04, y = 2.191660033, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R3.C2, x = 6.479999999, y = 2.191660033, width = 1.5, height = 1.5) +
   figure_labels(list(
-    A = c(1.36+2/3, 9.88+50/300),
-    B = c(2.026666667, 6.226666667),
+    A = c(0.8900003333+0.1, 10.04667),
+    B = c(5.13, 10.04667),
+    C = c(0.8900003+0.1, 6.94),
+    D = c(5.13, 6.94),
     "Figure 3" = c(0.49, 10.43)
   ))
+#+ 6.4: Figure 4
 #+ 6.5: Print all figures
-print_to_tiff(fig1, "Final/fig1.tiff")
-print_to_tiff(fig2, "Final/fig2.tiff")
-print_to_tiff(fig3, "Final/fig3.tiff")
-print_to_tiff(fig4, "Final/fig4.tiff")
-
-  # test <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
-  # draw_plot(p3A_legend, x = 0.8, y = 6.6, width = 1, height = 4) +
-  # draw_plot(ggdraw() + draw_grob(p1B), x = 4.063333333, y = 6.62, width = 3.933333333, height = 3.6)
-
-
-  # print_to_png(test, "Final/test.png", dpi = 300)
+#- 6.5.1: Print PNGs
+print_to_png(fig1, "Final/PNG/fig1.png")
+print_to_png(fig2, "Final/PNG/fig2.png")
+print_to_png(fig3, "Final/PNG/fig3.png")
+#- 6.5.2: Print TIFFs
+print_to_tiff(fig1, "Final/TIFF/fig1.tiff")
+print_to_tiff(fig2, "Final/TIFF/fig2.tiff")
+print_to_tiff(fig3, "Final/TIFF/fig3.tiff")
+#+ 6.6: Create PDFs from PNGs
+{
+  # Figure 1
+  pdf("Outputs/Figures/Final/PDF/Figure 1.pdf", width = 8.5, height = 11)
+  img1 <- readPNG("Outputs/Figures/Final/PNG/fig1.png")
+  grid.newpage()
+  grid.raster(img1, width = unit(8.5, "inches"), height = unit(11, "inches"))
+  dev.off()
+  # Figure 2
+  pdf("Outputs/Figures/Final/PDF/Figure 2.pdf", width = 8.5, height = 11)
+  img2 <- readPNG("Outputs/Figures/Final/PNG/fig2.png")
+  grid.newpage()
+  grid.raster(img2, width = unit(8.5, "inches"), height = unit(11, "inches"))
+  dev.off()
+  # Figure 3
+  pdf("Outputs/Figures/Final/PDF/Figure 3.pdf", width = 8.5, height = 11)
+  img3 <- readPNG("Outputs/Figures/Final/PNG/fig3.png")
+  grid.newpage()
+  grid.raster(img3, width = unit(8.5, "inches"), height = unit(11, "inches"))
+  dev.off()
+}

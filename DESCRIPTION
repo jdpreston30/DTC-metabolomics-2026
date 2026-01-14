@@ -23,6 +23,8 @@ Imports:
     mice,
     cowplot,
     corrplot,
+    png,
+    grid,
     permute,
     pheatmap,
     purrr,

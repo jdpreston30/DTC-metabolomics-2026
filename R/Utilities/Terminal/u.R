@@ -3,11 +3,16 @@
 #' Quick helper to re-source all utility functions from R/Utilities/ and reload config
 #' Excludes Setup/ directory (one-time setup scripts, not utilities)
 #' Useful during development when making changes to utility functions or config
+#' 
+#' If a number is provided, runs the corresponding numbered script after updating
+#' (combines functionality of u() and r(n))
 #'
+#' @param n Optional script number to run after updating (e.g., 1 for 01_*.R, 5 for 05_*.R)
 #' @export
 #' @examples
-#' u() # Update utilities and config
-u <- function() {
+#' u() # Update utilities and config only
+#' u(3) # Update utilities/config, then run script 03_*.R
+u <- function(n = NULL) {
   # Load config
   source("R/Utilities/Helpers/load_dynamic_config.R")
   config <<- load_dynamic_config(computer = "auto", config_path = "all_run/config_dynamic.yaml")
@@ -22,6 +27,35 @@ u <- function() {
   purrr::walk(utility_files, source)
   
   cat("✅ Config and utilities reloaded\n")
+  
+  # If n is provided, run the numbered script
+  if (!is.null(n)) {
+    # Pad single digit numbers with leading zero
+    script_num <- sprintf("%02d", n)
+    
+    # Find script file that matches the pattern
+    scripts_dir <- "R/Scripts/"
+    pattern <- paste0("^", script_num, ".*\\.R$")
+    
+    matching_files <- list.files(scripts_dir, pattern = pattern, full.names = TRUE, ignore.case = TRUE)
+    
+    if (length(matching_files) == 0) {
+      cat("⚠️  No script found matching number:", n, "\n")
+      return(invisible(NULL))
+    }
+    
+    if (length(matching_files) > 1) {
+      cat("⚠️  Multiple scripts found matching number:", n, "\n")
+      cat("   ", paste(basename(matching_files), collapse = ", "), "\n")
+      return(invisible(NULL))
+    }
+    
+    script_path <- matching_files[1]
+    cat("▶️  Running:", basename(script_path), "\n")
+    source(script_path)
+    cat("✅ Script completed\n")
+  }
+  
   invisible(NULL)
 }
 
@@ -35,8 +69,7 @@ u <- function() {
 #' uf(1) # Update, run 01_clustering.R, then render figures
 #' uf(5) # Update, run 05_render_figures.R, then render figures
 uf <- function(n) {
-  u()
-  r(n)
+  u(n)
   f()
   invisible(NULL)
 }

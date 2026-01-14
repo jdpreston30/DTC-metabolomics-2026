@@ -109,6 +109,8 @@ clean_pathway_names_corr <- function(pathway_names) {
     stringr::str_replace_all(stringr::regex("\\bsteroid\\b", ignore_case = TRUE), "Steroid") |>
     stringr::str_replace_all(stringr::regex("\\bprimary\\b", ignore_case = TRUE), "Primary") |>
     stringr::str_replace_all(stringr::regex("\\bsphingolipid\\b", ignore_case = TRUE), "Sphingolipid") |>
+    stringr::str_replace_all(stringr::regex("\\bglycosphingolipid\\b", ignore_case = TRUE), "GSL") |>
+    stringr::str_replace_all(stringr::regex("\\bprostaglandin\\b", ignore_case = TRUE), "PG") |>
     stringr::str_replace_all(stringr::regex("\\bporphyrin\\b", ignore_case = TRUE), "Porphyrin") |>
     stringr::str_replace_all(stringr::regex("\\bglucuronate\\b", ignore_case = TRUE), "Glucuronate") |>
     stringr::str_replace_all(stringr::regex("\\binterconversions\\b", ignore_case = TRUE), "Interconversions") |>
@@ -135,11 +137,11 @@ clean_pathway_names_corr <- function(pathway_names) {
     stringr::str_replace_all("^Keratan sulfate Degradation$", "Keratan sulfate Degradation") |>
     stringr::str_replace_all("^Vitamin A \\(Retinol\\) Metabolism$", "Vitamin A Metabolism") |>
     stringr::str_replace_all("^Methionine & cysteine Metabolism$", "Methionine & Cysteine Metabolism") |>
-    stringr::str_replace_all("^Squalene & cholesterol Biosynthesis$", "Squalene & Cholesterol Biosynthesis") |>
-    stringr::str_replace_all("^Branched-Chain Amino Acid Degradation$", "BCAA Degradation") |>
-    stringr::str_replace_all("^Glycosphingolipid Biosynthesis - globoseries$", "Glycosphingolipid Biosynthesis \\(Globoseries\\)") |>
-    stringr::str_replace_all("^Glycosphingolipid Biosynthesis - lactoseries$", "Glycosphingolipid Biosynthesis \\(Lactoseries\\)") |>
-    stringr::str_replace_all("^Glycosphingolipid Biosynthesis - ganglioseries$", "Glycosphingolipid Biosynthesis \\(Ganglioseries\\)") |>
+    stringr::str_replace_all("^SSL Biosynthesis - globoseries$", "GSL Biosynthesis \\(Globoseries\\)") |>
+    stringr::str_replace_all("^GSL Biosynthesis - lactoseries$", "GSL Biosynthesis \\(Lactoseries\\)") |>
+    stringr::str_replace_all("^GSL Biosynthesis - ganglioseries$", "GSL Biosynthesis \\(Ganglioseries\\)") |>
+    stringr::str_replace_all("^Glycine, serine, alanine & threonine Metabolism$", "Gly/Ser/Ala/Thr Metabolism") |>
+    stringr::str_replace_all("^GSL Biosynthesis - neolactoseries$", "GSLBiosynthesis \\(Ganglioseries\\)") |>
     stringr::str_replace_all("^Glycine, serine, alanine & threonine Metabolism$", "Gly/Ser/Ala/Thr Metabolism") |>
     stringr::str_replace_all("^Glycosphingolipid Biosynthesis - neolactoseries$", "Glycosphingolipid Biosynthesis \\(Neolactoseries\\)") |>
     stringr::str_replace_all("^Putative anti-Inflammatory metabolites Formation from EPA$", "EPA Anti-Inflammatory")

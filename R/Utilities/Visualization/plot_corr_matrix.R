@@ -6,6 +6,7 @@
 #' @param feature_table Tibble with ID column and feature columns
 #' @param metadata_table Tibble with feature and display_name columns for labeling
 #' @param p_threshold Numeric p-value threshold for display (default 0.1, no dot if p > threshold)#' @param show_labels Logical whether to show metabolite labels (default TRUE, set FALSE for large matrices)#' @param output_path Optional path to save as PNG (default NULL for display only)
+#' @param matrix_xlsx Optional path to save correlation matrix as Excel file (default NULL)
 #' @param width Width in inches for saved plot (default 10)
 #' @param height Height in inches for saved plot (default 10)
 #' @param dpi Resolution for saved plot (default 1000)
@@ -42,6 +43,7 @@ plot_corr_matrix <- function(
     p_threshold = 0.05,
     show_labels = TRUE,
     output_path = NULL,
+    matrix_xlsx = NULL,
     width = 4,
     height = 4,
     dpi = 1000) {
@@ -165,6 +167,31 @@ plot_corr_matrix <- function(
   cat("  - Negative correlations:", summary$negative_correlations, "\n")
   cat("==================================\n\n")
   
+  # Export correlation matrix to Excel if requested
+  if (!is.null(matrix_xlsx)) {
+    # Load openxlsx library
+    library(openxlsx)
+    
+    # Create matrix with "NS" for non-significant correlations
+    export_matrix <- cor_matrix
+    export_matrix[p_matrix > p_threshold] <- "NS"
+    
+    # Convert to data frame with row names as first column
+    export_df <- as.data.frame(export_matrix)
+    export_df <- tibble::rownames_to_column(export_df, var = "Metabolite")
+    
+    # Ensure directory exists
+    matrix_dir <- dirname(matrix_xlsx)
+    if (!dir.exists(matrix_dir)) {
+      dir.create(matrix_dir, recursive = TRUE)
+    }
+    
+    # Write to Excel
+    write.xlsx(export_df, matrix_xlsx, rowNames = FALSE)
+    cat("Correlation matrix exported to:", matrix_xlsx, "\n")
+  }
+  
+  # 
   # Return summary and per-metabolite stats
   invisible(list(
     summary = summary,

@@ -49,6 +49,7 @@ plot_corr_mummi_legend <- function() {
         ticks.linewidth = 0,
         direction = "vertical",
         label.position = "right",
+        title.position = "left",
         frame.colour = "black",
         frame.linewidth = 0.5,
         draw.ulim = TRUE,
@@ -58,7 +59,7 @@ plot_corr_mummi_legend <- function() {
     theme_void(base_family = "Arial") +
     theme(
       text = element_text(family = "Arial"),
-      legend.title = element_text(size = 11, face = "bold", family = "Arial", vjust = 0.3, margin = margin(b = 10)),
+      legend.title = element_text(size = 11, face = "bold", family = "Arial", angle = 90, vjust = 0.5, hjust = 0.5),
       legend.text = element_text(size = 11, family = "Arial"),
       legend.position = "right"
     )

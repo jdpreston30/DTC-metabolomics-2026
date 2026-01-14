@@ -129,7 +129,7 @@ correlation_mfn_plot <- plot_mummichog_columns(
   p_display_threshold = 0.25,
   color_scale = "rb",
   p_color = c(0.25, 0.05, 0.01),
-  save_path = "Outputs/Figures/Raw/p3B.png",
+  save_path = "Outputs/Figures/Raw/p3C.png",
   plot_width = 8,
   plot_height = 7,
   detect_thresh = 10,

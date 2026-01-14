@@ -32,7 +32,7 @@ plot_corr_legend <- function() {
       limits = c(-1, 1),
       breaks = seq(-1, 1, by = 0.2),
       labels = c("-1", "-0.8", "-0.6", "-0.4", "-0.2", "0", "0.2", "0.4", "0.6", "0.8", "1"),
-      name = "Pearson\nCorrelation"
+      name = "Pearson Correlation"
     ) +
     guides(
       fill = guide_colorbar(
@@ -42,6 +42,7 @@ plot_corr_legend <- function() {
         ticks.linewidth = 0,
         direction = "vertical",
         label.position = "right",
+        title.position = "left",
         frame.colour = "black",
         frame.linewidth = 0.5,
         draw.ulim = TRUE,
@@ -51,7 +52,7 @@ plot_corr_legend <- function() {
     theme_void(base_family = "Arial") +
     theme(
       text = element_text(family = "Arial"),
-      legend.title = element_text(size = 11, face = "bold", family = "Arial", vjust = 0.3, margin = margin(b = 10)),
+      legend.title = element_text(size = 11, face = "bold", family = "Arial", angle = 90, vjust = 0.5, hjust = 0.5),
       legend.text = element_text(size = 11, family = "Arial"),
       legend.position = "right"
     )
