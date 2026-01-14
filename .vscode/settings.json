@@ -1,0 +1,7 @@
+{
+  "r.rpath.mac": "/opt/homebrew/bin/R",
+  "r.rterm.mac": "/opt/homebrew/bin/R",
+  "r.bracketedPaste": true,
+  "r.sessionWatcher": true,
+  "r.alwaysUseActiveTerminal": true
+}

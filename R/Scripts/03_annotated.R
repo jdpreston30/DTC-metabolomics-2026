@@ -102,3 +102,59 @@ corr_mat <- plot_corr_matrix(
   width = 6,
   height = 6
 )
+#+ 3.6: Metabolite Correlations
+#- 3.6.1: GMP vs Ribose 5-phosphate
+p_gmp_r5p <- plot_metabolite_correlation(
+  y_metabolite = "GMP",
+  x_metabolite = "Ribose 5-phosphate",
+  feature_table = TFT_annot_transformed,
+  metadata_table = direct_corr_metabs,
+  minx = 7, maxx = 21, tickx = 2, 
+  miny = 13, maxy = 22, ticky = 3 
+)
+#- 3.6.2: 1-Methylnicotinamide vs SAH
+p_1mna_sah <- plot_metabolite_correlation(
+  y_metabolite = "1-Methylnicotinamide",
+  x_metabolite = "SAH",
+  feature_table = TFT_annot_transformed,
+  metadata_table = direct_corr_metabs,
+  minx = 14, maxx = 26, tickx = 3, 
+  miny = 14, maxy = 28, ticky = 2 
+)
+#- 3.6.3: Kynurenine vs Serotonin
+p_kyn_serot <- plot_metabolite_correlation(
+  y_metabolite = "Kynurenine",
+  x_metabolite = "Serotonin",
+  feature_table = TFT_annot_transformed,
+  metadata_table = direct_corr_metabs,
+  minx = 11, maxx = 23, tickx = 3, 
+  miny = 11, maxy = 26, ticky = 3
+)
+#- 3.6.4: Acetylglutamate vs Citrulline
+p_acglu_cit <- plot_metabolite_correlation(
+  y_metabolite = "Acetylglutamate",
+  x_metabolite = "Citrulline",
+  feature_table = TFT_annot_transformed,
+  metadata_table = direct_corr_metabs,
+  minx = 13, maxx = 21, tickx = 2, 
+  miny = 15, maxy = 22, ticky = 1
+)
+#- 3.6.5: 3-Ketosphingosine vs Oleoyl-DHAP
+p_3ks_oleoyl <- plot_metabolite_correlation(
+  y_metabolite = "3-Ketosphingosine",
+  x_metabolite = "Oleoyl-DHAP",
+  feature_table = TFT_annot_transformed,
+  metadata_table = direct_corr_metabs,
+  minx = 11, maxx = 21, tickx = 2, 
+  miny = 9, maxy = 25, ticky = 4
+)
+#- 3.6.6: Adrenaline vs SAH
+p_adrenaline_sah <- plot_metabolite_correlation(
+  y_metabolite = "Adrenaline",
+  x_metabolite = "SAH",
+  feature_table = TFT_annot_transformed,
+  metadata_table = direct_corr_metabs,
+  minx = 14, maxx = 26, tickx = 3, 
+  miny = 14, maxy = 20, ticky = 2
+)
+print_to_png(p_adrenaline_sah, "p_adrenaline_sah.png", width = 3, height = 3)
