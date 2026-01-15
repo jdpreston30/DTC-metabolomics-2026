@@ -130,7 +130,7 @@ Adr_3KS <- plot_metabolite_correlation(
 #- 3.6.3: Adrenaline vs Kynurenine
 Adr_Kyn <- plot_metabolite_correlation(
   y_metabolite = "Adrenaline",
-  x_metabolite = "Kynurenine†",
+  x_metabolite = "Kynurenine*",
   feature_table = TFT_annot_transformed,
   metadata_table = QC_matrix_full,
   minx = 11, maxx = 26, tickx = 3, 
@@ -202,7 +202,7 @@ AcGlu_Cit <- plot_metabolite_correlation(
 )
 #- 3.7.6: Kynurenine vs Serotonin
 Kyn_Ser <- plot_metabolite_correlation(
-  y_metabolite = "Kynurenine†",
+  y_metabolite = "Kynurenine*",
   x_metabolite = "Serotonin",
   feature_table = TFT_annot_transformed,
   metadata_table = QC_matrix_full,
