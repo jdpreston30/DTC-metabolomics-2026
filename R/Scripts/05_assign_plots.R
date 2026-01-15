@@ -10,7 +10,7 @@ p2B.2 <- stage_feature_plots$AMP
 p2B.3 <- stage_feature_plots$Oleate
 p2B.4 <- stage_feature_plots$`γ-Linolenate`
 p2B.5 <- stage_feature_plots$SAH
-p2B.6 <- stage_feature_plots$Kynurenine
+p2B.6 <- stage_feature_plots$`Kynurenine†`
 p2C.1 <- stage_feature_plots$`2,3-Dihydroxybenzoate`
 p2C.2 <- stage_feature_plots$`α-Ketoisocaproate`
 p2C.3 <- stage_feature_plots$`Acetyl phosphate`

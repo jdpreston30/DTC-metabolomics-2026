@@ -39,31 +39,10 @@ T1 <- ternG(
   insert_subheads = TRUE
 )
 #+ 8.2: Supplementary Table 1
-#- 8.2.0: Build ST1 footnote
-ST1_footnote <- readxl::read_xlsx(config$data_files$QC, sheet = "QC") |>
-  filter(!is.na(table_isomer_footnote)) |>
-  arrange(p_value) |>
-  select(table_name, table_isomer_footnote) |>
-  distinct() |>
-  mutate(
-    clean_name = str_remove(table_name, "\\*"),
-    is_plural = str_detect(table_isomer_footnote, ";"),
-    footnote_text = paste0(
-      clean_name,
-      ": (Possible isomer",
-      ifelse(is_plural, "s", ""),
-      ": ",
-      table_isomer_footnote,
-      ")"
-    )
-  ) |>
-  pull(footnote_text) |>
-  paste0("• ", ... = _) |> # Add bullet to each item
-  paste(collapse = "\n")
 #- 8.2.1: Define group order
 group_order <- c(
   "Nucleotide Flux",
-  "Protein/AA Turnover", 
+  "Protein/Amino Acid Turnover", 
   "Membrane Integrity",
   "Lipid Remodeling",
   "Epigenetic Signaling",
@@ -82,6 +61,11 @@ ST1_base <- readxl::read_xlsx(config$data_files$QC, sheet = "QC") |>
       Mode == "HILIC" ~ "HILIC+",
       TRUE ~ Mode
     ),
+    # Remap group names to match group_order
+    main_group = case_when(
+      main_group == "Protein/AA Turnover" ~ "Protein/Amino Acid Turnover",
+      TRUE ~ main_group
+    ),
     # Create factor for group ordering
     Group = factor(main_group, levels = group_order)
   ) |>
@@ -98,8 +82,7 @@ ST1_base <- readxl::read_xlsx(config$data_files$QC, sheet = "QC") |>
     `Column/ESI` = mode_ESI,
     Adduct,
     `KEGG ID` = KEGG,
-    CID,
-    `HMDB ID`
+    CID
   )
 #- 8.2.3: Build hierarchical structure with Group: Name nesting
 ST1_list <- list()
@@ -121,39 +104,119 @@ for (group_idx in seq_along(all_groups)) {
     `Column/ESI` = NA_character_,
     Adduct = NA_character_,
     `KEGG ID` = NA_character_,
-    CID = NA_character_,
-    `HMDB ID` = NA_character_
+    CID = NA_character_
   )
-  
+
   # Get metabolites for this group (already sorted by p-value within group)
   group_data <- ST1_base |> filter(Group == group)
   
-  # Add metabolites with 4-space indent for visual separation
-  metabolites <- group_data |>
-    mutate(
-      Display_Name = paste0("    ", Name),
-      row_type = "Metabolite",
-      # Format p and q values
-      `P Value` = case_when(
-        p_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", p_value_raw)),
-        TRUE ~ sprintf("%.3f", p_value_raw)
-      ),
-      `q Value` = case_when(
-        q_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", q_value_raw)),
-        TRUE ~ sprintf("%.3f", q_value_raw)
-      ),
-      `log2(FC)` = sprintf("%.2f", log2FC_raw),
-      mz = as.character(mz),
-      `RT (s)` = as.character(`RT (s)`),
-      `Column/ESI` = as.character(`Column/ESI`),
-      Adduct = as.character(Adduct),
-      `KEGG ID` = as.character(`KEGG ID`),
-      CID = as.character(CID),
-      `HMDB ID` = as.character(`HMDB ID`)
-    ) |>
-    select(Display_Name, row_type, Subgroup, `P Value`, `q Value`, `log2(FC)`, mz, `RT (s)`, `Column/ESI`, Adduct, `KEGG ID`, CID, `HMDB ID`)
-  
-  ST1_list[[length(ST1_list) + 1]] <- metabolites
+  # Check if we need to insert "Redox Homeostasis (Continued)" header
+  # This should appear before DH-Monapterin triphosphate
+  if (group == "Redox Homeostasis" && "DH-Monapterin triphosphate" %in% group_data$Name) {
+    # Split into two parts: before and including DH-Monapterin onwards
+    dh_index <- which(group_data$Name == "DH-Monapterin triphosphate")
+    
+    # Add metabolites before DH-Monapterin
+    if (dh_index > 1) {
+      metabolites_part1 <- group_data |>
+        slice(1:(dh_index - 1)) |>
+        mutate(
+          Display_Name = paste0("    ", Name),
+          row_type = "Metabolite",
+          # Format p and q values
+          `P Value` = case_when(
+            p_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", p_value_raw)),
+            TRUE ~ sprintf("%.3f", p_value_raw)
+          ),
+          `q Value` = case_when(
+            q_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", q_value_raw)),
+            TRUE ~ sprintf("%.3f", q_value_raw)
+          ),
+          `log2(FC)` = sprintf("%.2f", log2FC_raw),
+          mz = sprintf("%.4f", mz),
+          `RT (s)` = as.character(`RT (s)`),
+          `Column/ESI` = as.character(`Column/ESI`),
+          Adduct = as.character(Adduct),
+          `KEGG ID` = as.character(`KEGG ID`),
+          CID = as.character(CID)
+        ) |>
+        select(Display_Name, row_type, Subgroup, `P Value`, `q Value`, `log2(FC)`, mz, `RT (s)`, `Column/ESI`, Adduct, `KEGG ID`, CID)
+      
+      ST1_list[[length(ST1_list) + 1]] <- metabolites_part1
+    }
+    
+    # Add "Redox Homeostasis (Continued)" header
+    ST1_list[[length(ST1_list) + 1]] <- tibble(
+      Display_Name = "Redox Homeostasis (Continued)",
+      row_type = "GROUP",
+      Subgroup = NA_character_,
+      `P Value` = NA_character_,
+      `q Value` = NA_character_,
+      `log2(FC)` = NA_character_,
+      mz = NA_character_,
+      `RT (s)` = NA_character_,
+      `Column/ESI` = NA_character_,
+      Adduct = NA_character_,
+      `KEGG ID` = NA_character_,
+      CID = NA_character_
+    )
+    
+    # Add metabolites from DH-Monapterin onwards
+    metabolites_part2 <- group_data |>
+      slice(dh_index:n()) |>
+      mutate(
+        Display_Name = paste0("    ", Name),
+        row_type = "Metabolite",
+        # Format p and q values
+        `P Value` = case_when(
+          p_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", p_value_raw)),
+          TRUE ~ sprintf("%.3f", p_value_raw)
+        ),
+        `q Value` = case_when(
+          q_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", q_value_raw)),
+          TRUE ~ sprintf("%.3f", q_value_raw)
+        ),
+        `log2(FC)` = sprintf("%.2f", log2FC_raw),
+        mz = sprintf("%.4f", mz),
+        `RT (s)` = as.character(`RT (s)`),
+        `Column/ESI` = as.character(`Column/ESI`),
+        Adduct = as.character(Adduct),
+        `KEGG ID` = as.character(`KEGG ID`),
+        CID = as.character(CID)
+      ) |>
+      select(Display_Name, row_type, Subgroup, `P Value`, `q Value`, `log2(FC)`, mz, `RT (s)`, `Column/ESI`, Adduct, `KEGG ID`, CID)
+    
+    ST1_list[[length(ST1_list) + 1]] <- metabolites_part2
+    
+  } else {
+    # Normal processing for all other groups
+    # Add metabolites with 4-space indent for visual separation
+    metabolites <- group_data |>
+      mutate(
+        Display_Name = paste0("    ", Name),
+        row_type = "Metabolite",
+        # Format p and q values
+        `P Value` = case_when(
+          p_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", p_value_raw)),
+          TRUE ~ sprintf("%.3f", p_value_raw)
+        ),
+        `q Value` = case_when(
+          q_value_raw < 0.001 ~ gsub("e([+-])0+(\\d)", "E\\1\\2", sprintf("%.1e", q_value_raw)),
+          TRUE ~ sprintf("%.3f", q_value_raw)
+        ),
+        `log2(FC)` = sprintf("%.2f", log2FC_raw),
+        mz = sprintf("%.4f", mz),
+        `RT (s)` = as.character(`RT (s)`),
+        `Column/ESI` = as.character(`Column/ESI`),
+        Adduct = as.character(Adduct),
+        `KEGG ID` = as.character(`KEGG ID`),
+        CID = as.character(CID)
+      ) |>
+      select(Display_Name, row_type, Subgroup, `P Value`, `q Value`, `log2(FC)`, mz, `RT (s)`, `Column/ESI`, Adduct, `KEGG ID`, CID)
+    
+    ST1_list[[length(ST1_list) + 1]] <- metabolites
+  }
+
   
   # Add blank row after each GROUP (except the last)
   if (group_idx < length(all_groups)) {
@@ -169,8 +232,7 @@ for (group_idx in seq_along(all_groups)) {
       `Column/ESI` = "",
       Adduct = "",
       `KEGG ID` = "",
-      CID = "",
-      `HMDB ID` = ""
+      CID = ""
     )
   }
 }
@@ -189,6 +251,7 @@ ST1_tibble <- bind_rows(ST1_list) |>
 source("R/Utilities/Tabulation/build_ST1_latex.R")
 build_ST1_latex(
   data = ST1_tibble,
+  group_names = group_order,
   output_path = "Supplementary/Components/Tables/ST1.tex"
 )
 #- 8.2.6: Render supplementary tables PDF

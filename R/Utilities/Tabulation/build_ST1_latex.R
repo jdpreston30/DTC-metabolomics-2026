@@ -5,44 +5,32 @@
 #' - Proper LaTeX formatting for column names (italics, subscripts)
 #' - Multi-page spillover with repeated headers
 #' - 0.5pt borders
-#' - Hierarchical structure: Group (bold) and Metabolite (indented plain text)
+#' - Hierarchical structure: Group (bold+underline) and Metabolite (indented plain text)
 #'
 #' @param data The prepared tibble with Display_Name column containing hierarchy
-#' @param caption Table caption (appears above table)
-#' @param footnote Table footnote (appears below table)
 #' @param output_path Path to write the .tex file
 #'
 #' @return Invisibly returns the LaTeX code
 #'
-build_ST1_latex <- function(data, 
-                           caption = NULL, 
-                           footnote = NULL,
-                           output_path = NULL) {
+build_ST1_latex <- function(data, group_names, output_path = NULL) {
   
   library(kableExtra)
   library(dplyr)
   
-  # Format column names with LaTeX syntax
-  # Display_Name -> \textbf{Group}: Metabolite Name (bold Group, plain Metabolite Name)
-  # P Value -> \textit{P} Value
-  # q Value -> \textit{q} Value
-  # log2(FC) -> log\textsubscript{2}(FC)
-  # mz -> \textit{m/z}
-  format_latex_colnames <- function(names) {
-    names <- gsub("^Display_Name$", "\\\\textbf{Group}: Metabolite Name", names)
-    names <- gsub("^P Value$", "\\\\textit{P} Value", names)
-    names <- gsub("^q Value$", "\\\\textit{q} Value", names)
-    names <- gsub("^log2\\(FC\\)$", "log\\\\textsubscript{2}(FC)", names)
-    names <- gsub("^mz$", "\\\\textit{m/z}", names)
-    names
-  }
-
-  # Apply formatting to column names
-  formatted_names <- format_latex_colnames(names(data))
-  
-  # Determine alignment: first two columns (Display_Name, Subgroup) left, rest centered
-  n_cols <- ncol(data)
-  col_align <- c("l", "l", rep("c", n_cols - 2))
+  # Define formatted column names directly with larger font size (9pt vs 7pt table)
+  formatted_col_names <- c(
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{\\underline{Group}:} Metabolite Name",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{Subgroup}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{\\textit{P} Value}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{\\textit{q} Value}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{log\\textsubscript{2}(FC)*}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{\\textit{m/z}}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{RT (s)}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{Column/ESI}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{Adduct}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{KEGG ID}",
+    "\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{CID}"
+  )
   
   # Build longtable with kableExtra
   latex_table <- kbl(
@@ -50,14 +38,14 @@ build_ST1_latex <- function(data,
     format = "latex",
     booktabs = TRUE,
     longtable = TRUE,
-    escape = FALSE,  # Allow LaTeX in data and column names
-    col.names = formatted_names,
-    align = col_align
+    escape = FALSE,
+    col.names = formatted_col_names,
+    align = c("l", "l", rep("c", ncol(data) - 2))
   ) |>
     kable_styling(
       latex_options = c("repeat_header"),
       font_size = 7
-    )  # Don't bold entire header row - we control header formatting via col.names
+    )
   
   # Extract the raw LaTeX
   latex_code <- as.character(latex_table)
@@ -65,39 +53,83 @@ build_ST1_latex <- function(data,
   # Remove any rowcolor commands to ensure no striping
   latex_code <- gsub("\\\\rowcolor\\{[^}]+\\}", "", latex_code)
   
-  # Set border thickness to 0.5pt (matching example)
+  # Set all border thickness to 0.5pt
   latex_code <- gsub("\\\\toprule(?!\\[)", "\\\\toprule[0.5pt]", latex_code, perl = TRUE)
   latex_code <- gsub("\\\\midrule(?!\\[)", "\\\\midrule[0.5pt]", latex_code, perl = TRUE)
+  latex_code <- gsub("\\\\bottomrule(?!\\[)", "\\\\bottomrule[0.5pt]", latex_code, perl = TRUE)
   
-  # Add bottomrule to endfoot for consistent page bottom borders
-  latex_code <- gsub("\\\\endfoot", "\\\\bottomrule\n\\\\endfoot", latex_code)
+  # Remove (continued) text from repeated headers
+  latex_code <- gsub("\\\\multicolumn\\{[0-9]+\\}\\{@\\{\\}l\\}\\{\\\\textit\\{\\(continued\\)\\}\\}\\\\\\\\\n", "", latex_code)
+  
+  # Remove all addlinespace commands (causes random row height variations)
+  latex_code <- gsub("\\\\addlinespace(\\[[^]]*\\])?", "", latex_code)
+  
+  # Fix duplicate borders in endfirsthead structure - remove extra midrule between header and endfirsthead
+  latex_code <- gsub("\\\\midrule\\[0\\.5pt\\]\\s*\\n\\s*\\\\endfirsthead\\s*\\n\\s*\\\\midrule\\[0\\.5pt\\]", "\\\\midrule[0.5pt]\n\\\\endfirsthead", latex_code)
+  
+  # Add bottomrule before \endfoot for page breaks
+  latex_code <- gsub("\\n\\\\endfoot", "\n\\\\bottomrule[0.5pt]\n\\\\endfoot", latex_code)
+  
+  # Get number of columns for multicolumn in footer
+  ncols <- ncol(data)
+  
+  # Add footnotes and abbreviations to \endlastfoot
+  # Create blank row for spacing (using & separators for all columns)
+  blank_row <- paste(c("", rep("", ncols - 1)), collapse = " & ")
+  blank_row <- paste0(blank_row, " \\\\\\\\\n")
+  
+  footnote_text <- paste0(
+    "\\\\bottomrule[0.5pt]\n",
+    blank_row,
+    "\\\\multicolumn{", ncols, "}{@{}l@{}}{\\\\fontsize{7pt}{8.4pt}\\\\selectfont * Fold-change was calculated as advanced-stage/early-stage using untransformed peak area values.} \\\\\\\\\n",
+    "\\\\multicolumn{", ncols, "}{@{}l@{}}{\\\\fontsize{7pt}{8.4pt}\\\\selectfont \\\\textsuperscript{†} Metabolite annotated as a different adduct and/or using different column/ESI.} \\\\\\\\\n",
+    "\\\\multicolumn{", ncols, "}{@{}l@{}}{\\\\fontsize{7pt}{8.4pt}\\\\selectfont \\\\textsuperscript{‡} Annotated isomers: N-Acetyl-4-O-acetylneuraminate, N-Acetyl-7-O-acetylneuraminate} \\\\\\\\\n",
+    "\\\\multicolumn{", ncols, "}{@{}l@{}}{\\\\fontsize{7pt}{8.4pt}\\\\selectfont \\\\textsuperscript{§} Annotated isomer: 18-Hydroxyoleate} \\\\\\\\\n",
+    "\\\\multicolumn{", ncols, "}{@{}l@{}}{\\\\fontsize{7pt}{8.4pt}\\\\selectfont \\\\textsuperscript{‖} Annotated isomers: 11H-14,15-EETA, 12(R)-HPETE, 12(S)-HPETE, 15(S)-HPETE, 15H-11,12-EETA, 5(S)-HPETE, 8(R)-HPETE, Hepoxilin A3, Hepoxilin B3} \\\\\\\\[0.5em]\n",
+    "\\\\multicolumn{", ncols, "}{@{}l@{}}{\\\\fontsize{7pt}{8.4pt}\\\\selectfont \\\\textit{FC}, fold-change; \\\\textit{RT}, retention time; \\\\textit{ESI}, electrospray ionization; \\\\textit{KEGG ID}, Kyoto Encyclopedia of Genes and Genomes ID; \\\\textit{CID}, PubChem Compound ID} \\\\\\\\\n",
+    "\\\\endlastfoot"
+  )
+  
+  # Replace the default endlastfoot with our custom footer
+  latex_code <- gsub("\\\\bottomrule\\[0\\.5pt\\]\\n\\\\endlastfoot", footnote_text, latex_code)
   
   # Split into lines for processing
   lines <- strsplit(latex_code, "\n")[[1]]
   
-  # Process data rows to apply formatting
-  # Only bold GROUP header rows - metabolites with leading spaces pass through unchanged
+  # Process data rows and headers
   for (i in seq_along(lines)) {
     line <- lines[i]
     
-    # Skip header and structural lines
-    if (grepl("^\\\\(toprule|midrule|bottomrule|endfirsthead|endhead|endfoot|addlinespace|rule|begin|end|caption)", line)) next
+    # Skip structural lines
+    if (grepl("^\\\\(toprule|midrule|bottomrule|endfirsthead|endhead|endfoot|endlastfoot|addlinespace|multicolumn|rule|begin|end|caption)", line)) next
     
-    # Process lines that contain data (have & separator)
+    # Skip header rows for data processing
+    if (grepl("textbf\\{\\\\underline\\{Group\\}\\}", line)) next
+    
+    # Process data rows (have & separator)
     if (grepl(" & ", line)) {
       parts <- strsplit(line, " & ", fixed = TRUE)[[1]]
       if (length(parts) >= 1) {
         first_col <- parts[1]
         rest <- if(length(parts) > 1) paste(parts[-1], collapse = " & ") else ""
         
-        # Check if this is a GROUP header (starts with letter, no leading spaces, not empty)
-        # GROUP rows have no leading spaces in the data
-        if (grepl("^[A-Za-z]", first_col) && !grepl("^ ", first_col) && 
-            nchar(trimws(first_col)) > 0) {
-          # GROUP: bold
-          first_col <- paste0("\\textbf{", first_col, "}")
+        # Trim and check if it's a known GROUP name
+        first_col_trimmed <- trimws(first_col)
+        
+        if (first_col_trimmed %in% group_names || first_col_trimmed == "Redox Homeostasis (Continued)") {
+          # GROUP: bold, underline, and larger font (9pt to match headers)
+          first_col <- paste0("\\fontsize{9pt}{10.8pt}\\selectfont\\textbf{\\underline{", first_col_trimmed, "}}")
+        } else if (nchar(first_col_trimmed) > 0 && !grepl("^\\\\", first_col) && first_col != "") {
+          # Metabolite: add indent (0.3cm), superscript footnote symbols
+          # Convert † ‡ § ‖ to \textsuperscript{}
+          metabolite_text <- first_col_trimmed
+          metabolite_text <- gsub("†", "\\\\textsuperscript{†}", metabolite_text)
+          metabolite_text <- gsub("‡", "\\\\textsuperscript{‡}", metabolite_text)
+          metabolite_text <- gsub("§", "\\\\textsuperscript{§}", metabolite_text)
+          metabolite_text <- gsub("‖", "\\\\textsuperscript{‖}", metabolite_text)
+          first_col <- paste0("\\hspace*{0.3cm}", metabolite_text)
         }
-        # Metabolite rows (with leading spaces) and spacer rows pass through unchanged
+        # Empty/spacer rows pass through unchanged
         
         # Rebuild line
         if (length(parts) > 1) {
@@ -111,29 +143,6 @@ build_ST1_latex <- function(data,
   
   # Rejoin lines
   latex_code <- paste(lines, collapse = "\n")
-  
-  # Add caption if provided
-  if (!is.null(caption)) {
-    latex_code <- gsub(
-      "(\\\\begin\\{longtable\\}\\{[^}]+\\})",
-      paste0("\\1\n\\\\caption{", caption, "}\\\\\\\\"),
-      latex_code
-    )
-  }
-  
-  # Add footnote if provided  
-  if (!is.null(footnote)) {
-    footnote_latex <- paste0(
-      "\n\\\\multicolumn{", ncol(data), "}{l}{\\\\footnotesize ", 
-      footnote, 
-      "} \\\\\\\\"
-    )
-    latex_code <- gsub(
-      "\\\\end\\{longtable\\}",
-      paste0(footnote_latex, "\n\\\\end{longtable}"),
-      latex_code
-    )
-  }
   
   # Write to file if path provided
   if (!is.null(output_path)) {

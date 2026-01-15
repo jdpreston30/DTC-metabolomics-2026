@@ -1,202 +1,209 @@
 \begingroup\fontsize{7}{9}\selectfont
 
-\begin{longtable}[t]{llcccccccccc}
+\begin{longtable}[t]{llccccccccc}
 \toprule[0.5pt]
-\textbf{Group}: Metabolite Name & Subgroup & \textit{P} Value & \textit{q} Value & log\textsubscript{2}(FC) & \textit{m/z} & RT (s) & Column/ESI & Adduct & KEGG ID & CID & HMDB ID\\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Group}:} Metabolite Name & \fontsize{9pt}{10.8pt}\selectfont\textbf{Subgroup} & \fontsize{9pt}{10.8pt}\selectfont\textbf{\textit{P} Value} & \fontsize{9pt}{10.8pt}\selectfont\textbf{\textit{q} Value} & \fontsize{9pt}{10.8pt}\selectfont\textbf{log\textsubscript{2}(FC)*} & \fontsize{9pt}{10.8pt}\selectfont\textbf{\textit{m/z}} & \fontsize{9pt}{10.8pt}\selectfont\textbf{RT (s)} & \fontsize{9pt}{10.8pt}\selectfont\textbf{Column/ESI} & \fontsize{9pt}{10.8pt}\selectfont\textbf{Adduct} & \fontsize{9pt}{10.8pt}\selectfont\textbf{KEGG ID} & \fontsize{9pt}{10.8pt}\selectfont\textbf{CID}\\
 \midrule[0.5pt]
 \endfirsthead
-\multicolumn{12}{@{}l}{\textit{(continued)}}\\
 \toprule[0.5pt]
-\textbf{Group}: Metabolite Name & Subgroup & \textit{P} Value & \textit{q} Value & log\textsubscript{2}(FC) & \textit{m/z} & RT (s) & Column/ESI & Adduct & KEGG ID & CID & HMDB ID\\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Group}:} Metabolite Name & \fontsize{9pt}{10.8pt}\selectfont\textbf{Subgroup} & \fontsize{9pt}{10.8pt}\selectfont\textbf{\textit{P} Value} & \fontsize{9pt}{10.8pt}\selectfont\textbf{\textit{q} Value} & \fontsize{9pt}{10.8pt}\selectfont\textbf{log\textsubscript{2}(FC)*} & \fontsize{9pt}{10.8pt}\selectfont\textbf{\textit{m/z}} & \fontsize{9pt}{10.8pt}\selectfont\textbf{RT (s)} & \fontsize{9pt}{10.8pt}\selectfont\textbf{Column/ESI} & \fontsize{9pt}{10.8pt}\selectfont\textbf{Adduct} & \fontsize{9pt}{10.8pt}\selectfont\textbf{KEGG ID} & \fontsize{9pt}{10.8pt}\selectfont\textbf{CID}\\
 \midrule[0.5pt]
 \endhead
 
-\bottomrule
+\bottomrule[0.5pt]
 \endfoot
-\bottomrule
+\bottomrule[0.5pt]
+ &  &  &  &  &  &  &  &  &  &  \\
+\multicolumn{11}{@{}l@{}}{\fontsize{7pt}{8.4pt}\selectfont * Fold-change was calculated as advanced-stage/early-stage using untransformed peak area values.} \\
+\multicolumn{11}{@{}l@{}}{\fontsize{7pt}{8.4pt}\selectfont \textsuperscript{†} Metabolite annotated as a different adduct and/or using different column/ESI.} \\
+\multicolumn{11}{@{}l@{}}{\fontsize{7pt}{8.4pt}\selectfont \textsuperscript{‡} Annotated isomers: N-Acetyl-4-O-acetylneuraminate, N-Acetyl-7-O-acetylneuraminate} \\
+\multicolumn{11}{@{}l@{}}{\fontsize{7pt}{8.4pt}\selectfont \textsuperscript{§} Annotated isomer: 18-Hydroxyoleate} \\
+\multicolumn{11}{@{}l@{}}{\fontsize{7pt}{8.4pt}\selectfont \textsuperscript{‖} Annotated isomers: 11H-14,15-EETA, 12(R)-HPETE, 12(S)-HPETE, 15(S)-HPETE, 15H-11,12-EETA, 5(S)-HPETE, 8(R)-HPETE, Hepoxilin A3, Hepoxilin B3} \\[0.5em]
+\multicolumn{11}{@{}l@{}}{\fontsize{7pt}{8.4pt}\selectfont \textit{FC}, fold-change; \textit{RT}, retention time; \textit{ESI}, electrospray ionization; \textit{KEGG ID}, Kyoto Encyclopedia of Genes and Genomes ID; \textit{CID}, PubChem Compound ID} \\
 \endlastfoot
-\textbf{Nucleotide Flux} &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{GMP} & Purine Metabolism & 1.8E-8 & 4.1E-5 & 2.35 & 364.0646 & 242 & C18- & M+H & C00144 & 135398631 & HMDB0001397\\
-\textbf{AMP} & Purine Metabolism & 4.8E-5 & 0.024 & 1.51 & 346.0557 & 18 & C18- & M-H & C00020 & 6083 & HMDB0000045\\
-\textbf{Uracil} & Pyrimidine Metabolism & 1.3E-4 & 0.029 & 1.05 & 111.02 & 22 & C18- & M-H & C00106 & 1174 & HMDB0000300\\
-\textbf{Uracil} & Pyrimidine Metabolism & 2.4E-4 & 0.036 & 1.53 & 113.0346 & 41 & C18- & M+H & C00106 & 1174 & HMDB0000300\\
-\addlinespace
-\textbf{Cytosine} & Pyrimidine Metabolism & 0.003 & 0.128 & 1.10 & 112.0507 & 38 & C18- & M+H & C00380 & 597 & HMDB0000630\\
-2-Methylaminoadenosine & tRNA/Modified Nucleosides & 0.003 & 0.135 & 1.88 & 261.1085 & 61 & C18- & M+H-2H2O & C03218 & 439946 & –\\
-2'-Deoxyinosine 5'-phosphate (dIMP) & Purine Catabolism & 0.004 & 0.146 & 1.40 & 333.0605 & 68 & C18- & M+H & C06196 & 135398614 & HMDB0006555\\
-\textbf{Guanine} & Purine Salvage & 0.011 & 0.241 & 0.75 & 150.0424 & 23 & C18- & M-H & C00242 & 135398634 & HMDB0000132\\
-\textbf{Ribose 5-phosphate} & Pentose Phosphate Path & 0.014 & 0.254 & 2.42 & 231.0262 & 160 & C18- & M+H & C00117 & 439167 & –\\
-\addlinespace
-\textbf{CTP} & Pyrimidine Metabolism & 0.015 & 0.264 & 1.28 & 517.955 & 52 & C18- & M+Cl & C00063 & 6176 & HMDB0000082\\
-5-Aminoimidazole & Purine Biosynthesis & 0.031 & 0.335 & 1.05 & 128.0193 & 92 & C18- & M+2Na-H & C05239 & 484 & HMDB0003929\\
-\textbf{dATP} & DNA Precursor & 0.043 & 0.367 & -0.92 & 557.9782 & 285 & C18- & M-H+HCOONa & C00131 & 15993 & HMDB0001532\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Protein/AA Turnover} &  &  &  &  &  &  &  &  &  &  & \\
-\addlinespace
-\textbf{Iminoaspartate} & Aspartate Metabolism & 5.0E-5 & 0.024 & 1.80 & 96.0081 & 27 & C18- & M+H-2H2O & C05840 & 796 & HMDB0001131\\
-3-Methylcrotonylglycine & Amino Acid/Leucine Branch & 0.002 & 0.124 & 1.06 & 158.081 & 75 & C18- & M+H & C20828 & 169485 & –\\
-\textbf{Imidazole acetaldehyde} & Histidine Catabolism & 0.002 & 0.126 & 1.25 & 111.0554 & 71 & C18- & M+H & C05130 & 150841 & HMDB0003905\\
-\textbf{delta-Guanidinovaleric acid (δ-GVA)} & Arginine Catabolism & 0.003 & 0.128 & 1.61 & 182.0908 & 54 & C18- & M+Na & C13688 & 160464 & HMDB0250978\\
-2-Oxobutanoate & Methionine/Cysteine Catabolism & 0.004 & 0.159 & 0.64 & 101.0244 & 22 & C18- & M-H & C00109 & 58 & HMDB0000005\\
-\addlinespace
-4-Methylthio-2-oxobutanoic acid (MTOB) & Methionine Salvage & 0.007 & 0.198 & 0.96 & 149.0266 & 74 & C18- & M+H & C01180 & 473 & HMDB0001553\\
-\textbf{Aspartate} & Central AA Metabolism & 0.007 & 0.198 & 1.11 & 134.0448 & 67 & C18- & M+H & C00049 & 5960 & HMDB0000191\\
-\textbf{Histidine} & Essential AA Pool & 0.008 & 0.205 & 0.98 & 156.0767 & 75 & C18- & M+H & C00135 & 6274 & HMDB0000177\\
-\textbf{Asparagine} & Nitrogen Salvage & 0.011 & 0.235 & 1.02 & 133.0607 & 76 & C18- & M+H & C00152 & 6267 & HMDB0000168\\
-\textbf{Citrulline} & Urea Cycle/NO Signaling & 0.016 & 0.279 & 0.94 & 174.0885 & 20 & C18- & M-H & C00327 & 9750 & HMDB0000904\\
-\addlinespace
-\textbf{N6-Hydroxy-lysine} & Modified Lysine/Hydroxylation & 0.017 & 0.279 & 1.94 & 163.1077 & 113 & C18- & M+H & C01028 & 439370 & –\\
-\textbf{Phenol} & Tyrosine Catabolism & 0.018 & 0.279 & 0.85 & 95.0493 & 51 & C18- & M+H & C00146 & 996 & –\\
-\textbf{S-Allyl-cysteine} & Sulfur Amino Acids & 0.021 & 0.291 & 1.31 & 206.0213 & 232 & C18- & M+2Na-H & C16759 & 9793905 & HMDB0034323\\
-β-Alanyl-lysine & Dipeptide/Autophagy & 0.025 & 0.311 & 1.58 & 218.1499 & 64 & C18- & M+H & C05341 & 440638 & HMDB0060442\\
-\textbf{Imidazole acetaldehyde} & Histidine Catabolism & 0.025 & 0.313 & 0.28 & 169.0619 & 17 & C18- & M+Hac-H & C05130 & 150841 & HMDB0003905\\
-\addlinespace
-4-Guanidinobutanal & Arginine/Putrescine Path & 0.027 & 0.320 & 0.93 & 152.0787 & 228 & C18- & M+Na & C02647 & 559 & –\\
-\textbf{Pipecolate} & Lysine Catabolism & 0.029 & 0.330 & 1.02 & 130.0862 & 71 & C18- & M+H & C00408 & 439227 & HMDB0000070\\
-\textbf{Leucyl-leucine} & Dipeptide/Autophagy & 0.030 & 0.330 & 2.22 & 245.1859 & 26 & C18- & M+H & C11332 & 94244 & HMDB0028933\\
-4-Imidazolone-5-acetate & Histidine Catabolism & 0.035 & 0.345 & 0.35 & 187.0358 & 179 & C18- & M+FA-H & C05133 & 440570 & –\\
-\textbf{Dehydroalanine} & Post-Translational Modification & 0.035 & 0.345 & 0.93 & 88.0394 & 65 & C18- & M+H & C02218 & 123991 & HMDB0003609\\
-\addlinespace
-2-Amino-6-oxoheptanedioate & Lysine Metabolism & 0.035 & 0.345 & -0.71 & 190.0711 & 233 & C18- & M+H & C03871 & 194695 & –\\
-\textbf{N6-Acetyl-lysine} & Protein Acetylation & 0.038 & 0.356 & 1.32 & 189.1233 & 47 & C18- & M+H & C02727 & 92832 & HMDB0000206\\
-\textbf{Methylguanidine} & Arginine/Creatine Path & 0.039 & 0.357 & 0.63 & 118.035 & 91 & C18- & M+2Na-H & C02294 & 10111 & HMDB0001522\\
-\textbf{O-Succinyl-homoserine} & Methionine Metabolism & 0.040 & 0.357 & 1.78 & 220.0816 & 66 & C18- & M+H & C01118 & 439406 & –\\
-\textbf{Lysine} & Essential AA Pool & 0.040 & 0.357 & 0.96 & 147.1128 & 75 & C18- & M+H & C00047 & 5962 & HMDB0000182\\
-\addlinespace
-\textbf{D-erythro-1-(Imidazol-4-yl)glycerol 3-phosphate (IGP)} & Histidine Biosynthesis & 0.041 & 0.359 & 1.36 & 283.0072 & 50 & C18- & M+2Na-H & C04666 & 440431 & HMDB0012208\\
-\textbf{Pipecolate} & Lysine Catabolism & 0.048 & 0.388 & 0.54 & 128.0718 & 23 & C18- & M-H & C00408 & 439227 & HMDB0000070\\
-\textbf{Phenylacetylglutamine} & Phenylalanine/Gut Microbiome & 0.048 & 0.388 & 1.20 & 263.104 & 22 & C18- & M-H & C04148 & 92258 & HMDB0006344\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Membrane Integrity} &  &  &  &  &  &  &  &  &  &  & \\
-\addlinespace
-3-Ketosphingosine & Sphingosine Synthesis & 7.4E-5 & 0.028 & 2.70 & 298.2741 & 24 & C18- & M+H & C06121 & 9839212 & –\\
-3-Dehydrosphinganine & Sphingosine Synthesis & 2.0E-4 & 0.033 & 3.38 & 300.2897 & 24 & C18- & M+H & C02934 & 439853 & HMDB0001480\\
-\textbf{Oleoylglycerone phosphate (Oleoyl-DHAP)} & Plasmalogen Precursor & 0.002 & 0.123 & 1.84 & 433.2365 & 166 & C18- & M-H & C03630 & 5280612 & –\\
-\textbf{sn-Glycero-3-phospho-1-inositol (GroPIns)} & PI-Signaling Byproduct & 0.014 & 0.261 & 2.18 & 333.0593 & 147 & C18- & M-H & C01225 & 45480545 & HMDB0011649\\
-\textbf{Phosphodimethylethanolamine} & Membrane Synthesis/Methylation & 0.014 & 0.263 & 0.71 & 192.0397 & 42 & C18- & M+Na & C13482 & 151438 & HMDB0060236\\
-\addlinespace
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Lipid Remodeling} &  &  &  &  &  &  &  &  &  &  & \\
-(6Z,9Z,12Z)-Octadecatrienoic acid (γ-Linolenate) & Linolenic Acid Path & 1.1E-4 & 0.028 & 2.47 & 279.232 & 24 & C18- & M+H & C06426 & 5280933 & HMDB0003073\\
-\textbf{Linoleate} & Essential Fatty Acids & 0.002 & 0.118 & 2.53 & 281.2476 & 29 & C18- & M+H & C01595 & 5280450 & HMDB0000673\\
-9-Hydroxy-12-oxo-octadecadienoate & Oxylipin Path & 0.004 & 0.145 & 1.37 & 309.207 & 222 & C18- & M-H & C21923 & 45934096 & –\\
-\addlinespace
-(9Z)-Hexadecenoic acid (Palmitoleate) & Monounsaturated Fatty Acids & 0.004 & 0.146 & 1.60 & 253.2173 & 213 & C18- & M-H & C08362 & 445638 & HMDB0003229\\
-(9Z)-Octadecenoic acid (Oleate) & Monounsaturated Fatty Acids & 0.004 & 0.161 & 2.28 & 283.2633 & 29 & C18- & M+H & C00712 & 445639 & HMDB0000207\\
-16-Hydroxypalmitate & Omega-Oxidation & 0.008 & 0.205 & 0.29 & 271.2279 & 148 & C18- & M-H & C18218 & 10466 & HMDB0006294\\
-\textbf{Stearidonic acid (Stearidonate)} & Omega-3 Metabolism & 0.010 & 0.235 & 1.55 & 277.2163 & 23 & C18- & M+H & C16300 & 5312508 & HMDB0006547\\
-\textbf{Dodecanoic acid (Laurate)} & Medium-Chain Fatty Acids & 0.012 & 0.244 & 0.85 & 199.1703 & 156 & C18- & M-H & C02679 & 3893 & HMDB0000638\\
-\addlinespace
-\textbf{Tetradecanoic acid (Myristate)} & Saturated Fatty Acids & 0.017 & 0.279 & 1.09 & 227.2017 & 200 & C18- & M-H & C06424 & 11005 & HMDB0000806\\
-\textbf{Decanoic acid (Caprate)} & Medium-Chain Fatty Acids & 0.018 & 0.279 & 0.74 & 171.139 & 107 & C18- & M-H & C01571 & 2969 & HMDB0000511\\
-\textbf{Dihomo-γ-linolenate} & Prostanoid Precursors & 0.018 & 0.279 & 2.28 & 307.2633 & 24 & C18- & M+H & C03242 & 5280581 & HMDB0002925\\
-\textbf{Octadecanoic acid (Stearate)} & Saturated Fatty Acids & 0.023 & 0.303 & 1.58 & 285.2789 & 19 & C18- & M+H & C01530 & 5281 & HMDB0000827\\
-9,10-Epoxystearate* & Oxylipin Path & 0.024 & 0.307 & 0.77 & 297.2437 & 252 & C18- & M-H & C19418 & 15868 & HMDB0247617\\
-\addlinespace
-\textbf{Erucic acid (Erucate)} & Very-Long-Chain Fatty Acids & 0.024 & 0.311 & 1.29 & 397.3324 & 289 & C18- & M+Hac-H & C08316 & 5281116 & HMDB0002068\\
-1-Dodecanol & Fatty Alcohols & 0.032 & 0.337 & 2.16 & 231.1702 & 29 & C18- & M+2Na-H & C02277 & 8193 & HMDB0011626\\
-3-Hydroxytetradecane-tricarboxylate & Lipid Metabolism & 0.035 & 0.345 & 1.74 & 369.1871 & 64 & C18- & M+Na & C04529 & 5460247 & –\\
-(6Z,9Z,12Z)-Octadecatrienoic acid (γ-Linolenate) & Linolenic Acid Path & 0.037 & 0.355 & 1.11 & 277.2173 & 201 & C18- & M-H & C06426 & 5280933 & HMDB0003073\\
-(9Z)-Octadecenoic acid (Oleate) & Monounsaturated Fatty Acids & 0.039 & 0.357 & 1.11 & 281.2486 & 250 & C18- & M-H & C00712 & 445639 & HMDB0000207\\
-\addlinespace
-\textbf{Hexadecanoic acid (Palmitate)} & Saturated Fatty Acids & 0.040 & 0.357 & 0.47 & 255.2328 & 243 & C18- & M-H & C00249 & 985 & HMDB0000220\\
-9,10-Epoxystearate* & Oxylipin Path & 0.047 & 0.385 & 0.90 & 299.2582 & 31 & C18- & M+H & C19418 & 15868 & HMDB0247617\\
-16-Oxopalmitate & Omega-Oxidation & 0.048 & 0.388 & 0.42 & 271.2268 & 23 & C18- & M+H & C19614 & 15931626 & –\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Epigenetic Signaling} &  &  &  &  &  &  &  &  &  &  & \\
-\addlinespace
-\textbf{S-Adenosyl-L-homocysteine (SAH)} & Methylation Cycle Marker & 2.9E-4 & 0.039 & 1.70 & 385.128 & 73 & C18- & M+H & C00021 & 439155 & HMDB0000939\\
-\textbf{Acetylglutamate} & Urea Cycle Regulation & 9.4E-4 & 0.076 & 1.29 & 188.0565 & 17 & C18- & M-H & C00624 & 70914 & HMDB0001138\\
-8-Amino-7-oxononanoate & Biotin (B7) Metabolism & 0.001 & 0.094 & 2.03 & 188.1281 & 40 & C18- & M+H & C01092 & 173 & HMDB0240687\\
-3'-Phosphoadenylyl sulfate (PAPS) & Universal Sulfate Donor & 0.002 & 0.115 & 2.22 & 573.9672 & 23 & C18- & M-H+HCOONa & C00053 & 10214 & HMDB0001134\\
-\textbf{Formate} & Folate Cycle Entry & 0.003 & 0.135 & 1.09 & 90.9768 & 53 & C18- & M+2Na-H & C00058 & 284 & HMDB0000142\\
-\addlinespace
-1-Methylnicotinamide & Nicotinate/Nicotinamide Path & 0.008 & 0.205 & 2.86 & 137.071 & 47 & C18- & M+H & C02918 & 457 & HMDB0000699\\
-5-Methylcytosine & Epigenetic DNA Modification & 0.019 & 0.283 & 0.39 & 124.0515 & 225 & C18- & M-H & C02376 & 65040 & HMDB0002894\\
-\textbf{Maleamate} & Nicotinate Metabolism & 0.023 & 0.303 & 0.81 & 114.0197 & 17 & C18- & M-H & C01596 & 5280451 & –\\
-8-Amino-7-carboxyamino-nonanoate & Biotin (B7) Metabolism & 0.023 & 0.303 & 1.65 & 197.1282 & 44 & C18- & M+H-2H2O & C22458 & 4474067 & –\\
-\textbf{Nicotinurate} & Nicotinate/Nicotinamide Path & 0.026 & 0.320 & 0.51 & 181.0608 & 238 & C18- & M+H & C05380 & 68499 & HMDB0003269\\
-\addlinespace
-\textbf{Choline} & Methyl Donor/Phospholipids & 0.027 & 0.320 & 1.25 & 104.1071 & 36 & C18- & M+H & C00114 & 305 & HMDB0000097\\
-\textbf{N6-Methyl-lysine} & Histone Methylation & 0.030 & 0.330 & 1.01 & 161.1285 & 67 & C18- & M+H & C02728 & 164795 & HMDB0002038\\
-\textbf{Choline} & Methyl Donor/Phospholipids & 0.037 & 0.355 & 1.05 & 170.0799 & 26 & C18- & M-H+HCOONa & C00114 & 305 & HMDB0000097\\
-\textbf{Nicotinamide} & NAD+ Precursor & 0.038 & 0.356 & 1.81 & 123.0553 & 34 & C18- & M+H & C00153 & 936 & HMDB0001406\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\addlinespace
-\textbf{Steroid Metabolism} &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Pregnan-21-al} & Progestogen Metabolism & 4.4E-4 & 0.050 & 2.12 & 347.2604 & 175 & C18- & M+FA-H & C00891 & 439338 & –\\
-11-cis-Retinol & Vitamin A/Retinoids & 0.008 & 0.202 & 2.90 & 287.237 & 25 & C18- & M+H & C00899 & 5280382 & HMDB0006216\\
-\textbf{Phenolic steroid} & Estrogen-like Compounds & 0.013 & 0.254 & 2.61 & 279.1712 & 34 & C18- & M+Na & C02453 & 439726 & HMDB0244763\\
-7-Dehydrocholesterol (7-DHC) & Cholesterol Precursor & 0.020 & 0.291 & 3.39 & 385.3466 & 23 & C18- & M+H & C01164 & 439423 & HMDB0000032\\
-\addlinespace
-\textbf{Estrone} & Estrogens & 0.030 & 0.330 & 1.40 & 271.1682 & 252 & C18- & M+H & C00468 & 5870 & HMDB0000145\\
-19-Norprogesterone & Progestogen Metabolism & 0.036 & 0.350 & 2.04 & 345.1788 & 67 & C18- & M+2Na-H & C14489 & 228864 & –\\
-\textbf{Estradiol-17β} & Estrogens & 0.038 & 0.356 & 2.53 & 295.1661 & 39 & C18- & M+Na & C00951 & 5757 & HMDB0000151\\
-\textbf{Cortolone} & Cortisol Catabolism & 0.049 & 0.388 & -1.43 & 365.2332 & 161 & C18- & M-H & C05481 & 160499 & HMDB0003128\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\addlinespace
-\textbf{Redox Homeostasis} &  &  &  &  &  &  &  &  &  &  & \\
-6-Carboxytetrahydropterin & Biopterin Cycle/Redox & 5.4E-4 & 0.053 & 2.20 & 195.0514 & 212 & C18- & M+H-NH3 & C20239 & 135911925 & HMDB0060410\\
-\textbf{Dihydroneopterin} & Biopterin Cycle/Redox & 8.3E-4 & 0.073 & 3.43 & 256.1043 & 61 & C18- & M+H & C04874 & 135398602 & HMDB0002275\\
-\textbf{Tetrahydropteridine} & Biopterin Cycle/Redox & 0.001 & 0.077 & 1.47 & 137.0822 & 225 & C18- & M+H & C05650 & 156 & HMDB0001216\\
-2-(Hydroxysulfanyl)hercynine (HSH-Hercynine) & Ergothioneine Precursor & 0.005 & 0.174 & 1.54 & 246.0907 & 66 & C18- & M+H & C21731 & 122706276 & –\\
-\addlinespace
-\textbf{Cysteate} & Cysteine Metabolism & 0.012 & 0.244 & 1.87 & 170.0122 & 132 & C18- & M+H & C00506 & 72886 & HMDB0002757\\
-\textbf{Hercynine} & Histidine/Redox Signaling & 0.020 & 0.289 & 1.20 & 198.1237 & 67 & C18- & M+H & C05575 & 440727 & HMDB0029422\\
-3-Bromo-tyrosine & Oxidative Protein Damage & 0.027 & 0.320 & 0.59 & 303.9817 & 51 & C18- & M+FA-H & C17079 & 148708 & HMDB0005874\\
-\textbf{DH-Monapterin triphosphate} & Biopterin Cycle/Redox & 0.037 & 0.355 & 1.62 & 459.9838 & 167 & C18- & M+H-2H2O & C21094 & 135398606 & –\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\addlinespace
-\textbf{Fatty Acid Oxidation} &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Isovalerylcarnitine} & Acylcarnitine Shuttle & 0.002 & 0.126 & 2.67 & 246.1699 & 30 & C18- & M+H & C20826 & 169235 & –\\
-\textbf{Butanoylcarnitine} & Acylcarnitine Shuttle & 0.004 & 0.153 & 2.72 & 232.1543 & 33 & C18- & M+H & C02862 & 439829 & HMDB0002013\\
-\textbf{Carnitinamide} & Acylcarnitine-like & 0.015 & 0.264 & 1.80 & 143.1179 & 35 & C18- & M+H-H2O & C02290 & 11701090 & –\\
-\textbf{Carnitine} & Fatty Acid Transport & 0.039 & 0.357 & 1.28 & 162.1125 & 46 & C18- & M+H & C00318 & 10917 & HMDB0000062\\
-\addlinespace
-\textbf{Decanoylcarnitine} & Acylcarnitine Shuttle & 0.041 & 0.359 & 1.14 & 360.2389 & 154 & C18- & M+FA-H & C03299 & 11953821 & HMDB0000651\\
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Bioenergetic Flux} &  &  &  &  &  &  &  &  &  &  & \\
-(2,3-Dihydroxybenzoyl)adenylate (2,3-DHBA-AMP) & Iron Scavenging/Siderophore & 0.003 & 0.130 & 2.37 & 506.0677 & 261 & C18- & M+Na & C04030 & 440201 & –\\
-2,3-Dihydroxybenzoate & Iron-Binding/Catechols & 0.004 & 0.154 & -0.54 & 153.0194 & 22 & C18- & M-H & C00196 & 19 & HMDB0000397\\
-\addlinespace
-\textbf{D-4'-Phosphopantothenate (P-Pantothenate)} & Coenzyme A (CoA) Path & 0.005 & 0.161 & -1.04 & 300.0844 & 119 & C18- & M+H & C03492 & 41635 & HMDB0001016\\
-4-Methyl-2-oxopentanoate (α-Ketoisocaproate) & Leucine Catabolism & 0.019 & 0.281 & -1.41 & 129.0558 & 23 & C18- & M-H & C00233 & 70 & HMDB0000695\\
-5-(2-Hydroxyethyl)-4-methylthiazole (Sulfurol) & Thiamine (B1) Metabolism & 0.025 & 0.313 & 0.56 & 142.0339 & 186 & C18- & M-H & C04294 & 1136 & HMDB0032985\\
-\textbf{Acetyl phosphate} & High-Energy Intermediate & 0.027 & 0.324 & -0.99 & 138.9802 & 24 & C18- & M-H & C00227 & 186 & HMDB0001494\\
-5-Amino-6-ribitylaminouracil & Riboflavin (B2) Metabolism & 0.048 & 0.388 & 0.67 & 275.0996 & 20 & C18- & M-H & C04732 & 193516 & HMDB0011106\\
-\addlinespace
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Glycan Defense} &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Chitobiose} & Glucosamine Metabolism & 0.003 & 0.135 & 1.75 & 459.14 & 20 & C18- & M+Cl & C01674 & 439544 & HMDB0003556\\
-\textbf{N-Glycolyl-glucosamine} & Hexosamine Biosynthesis & 0.020 & 0.288 & 1.04 & 236.0777 & 16 & C18- & M-H & C03146 & 439921 & –\\
-\textbf{N-Acetyl-9-O-acetylneuraminate (9-O-Acetyl-Neu5Ac)*} & Sialic Acid Modification & 0.025 & 0.313 & 1.52 & 410.1301 & 17 & C18- & M+Hac-H & C04017 & 92042744 & –\\
-\addlinespace
- &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Immune/Signaling} &  &  &  &  &  &  &  &  &  &  & \\
-\textbf{Serotonin} & Tryptophan Signaling & 0.005 & 0.174 & 3.76 & 177.1022 & 28 & C18- & M+H & C00780 & 5202 & HMDB0000259\\
-\textbf{N1-Acetylspermine} & Polyamine Acetylation & 0.007 & 0.198 & 3.04 & 245.2335 & 257 & C18- & M+H & C02567 & 916 & HMDB0001186\\
-\textbf{Kynurenine} & Tryptophan/Kynurenine Axis & 0.009 & 0.220 & 2.22 & 209.0921 & 42 & C18- & M+H & C00328 & 161166 & HMDB0000684\\
-\addlinespace
-3-Hydroxyaminophenol & Phenylalanine Branch & 0.011 & 0.239 & 0.62 & 126.055 & 86 & C18- & M+H & C14602 & 5460445 & –\\
-\textbf{N1-Acetylspermidine} & Polyamine Acetylation & 0.016 & 0.276 & 1.36 & 188.1757 & 56 & C18- & M+H & C00612 & 496 & HMDB0001276\\
-γ-Glutamyltyramine & Tyramine/Dopamine Path & 0.017 & 0.279 & 2.53 & 267.1343 & 32 & C18- & M+H & C20926 & 10214674 & –\\
-\textbf{N-Methylhistamine} & Histamine Metabolism & 0.021 & 0.291 & 2.29 & 126.1026 & 60 & C18- & M+H & C05127 & 3614 & HMDB0000898\\
-\textbf{Kynurenine} & Tryptophan/Kynurenine Axis & 0.022 & 0.303 & 1.41 & 207.0776 & 22 & C18- & M-H & C00328 & 161166 & HMDB0000684\\
-\addlinespace
-4-Carboxy-4-hydroxy-2-oxoadipate & Tryptophan/Anthranilate Path & 0.023 & 0.303 & 0.80 & 219.0146 & 24 & C18- & M-H & C04115 & 130 & –\\
-2-Aminomuconate & Tryptophan/Kynurenine Axis & 0.027 & 0.320 & 1.18 & 158.0451 & 34 & C18- & M+H & C02220 & 5280499 & HMDB0001241\\
-\textbf{Leukotriene D4 (LTD4)} & Leukotriene Synthesis & 0.031 & 0.335 & 1.22 & 555.2725 & 149 & C18- & M+Hac-H & C05951 & 5280878 & HMDB0003080\\
-\textbf{Histamine} & Histidine/Immune Signaling & 0.033 & 0.345 & 1.44 & 112.0871 & 67 & C18- & M+H & C00388 & 774 & HMDB0000870\\
-\textbf{Biliverdin} & Heme Degradation/Redox & 0.034 & 0.345 & 1.73 & 583.2547 & 31 & C18- & M+H & C00500 & 5280353 & HMDB0001008\\
-\addlinespace
-2-Aminomuconate semialdehyde & Tryptophan/Kynurenine Path & 0.034 & 0.345 & 0.31 & 142.0498 & 183 & C18- & M+H & C03824 & 5280625 & HMDB0001280\\
-\textbf{Prostaglandin E2 (PGE2)} & COX-driven Inflammation & 0.035 & 0.345 & 0.83 & 411.2404 & 152 & C18- & M+Hac-H & C00584 & 5280360 & HMDB0001220\\
-\textbf{Benzylamine} & Monoamine Metabolism & 0.043 & 0.367 & 0.93 & 91.0544 & 42 & C18- & M+H-NH3 & C15562 & 7504 & HMDB0033871\\
-\textbf{Leukotriene B4 (LTB4)*} & Leukotriene Synthesis & 0.043 & 0.368 & 1.31 & 335.2224 & 219 & C18- & M-H & C02165 & 5280492 & HMDB0001085\\
-\textbf{Adrenaline} & Catecholamine Signaling & 0.044 & 0.370 & -0.55 & 242.1045 & 239 & C18- & M+Hac-H & C00788 & 5816 & HMDB0000068\\
-\addlinespace
-5,6-Indolequinone-2-carboxylate & Melanogenesis/Dopa Path & 0.048 & 0.388 & 1.49 & 235.9932 & 36 & C18- & M+2Na-H & C17938 & 17796835 & –\\
-2'-Phospho-cyclic ADP-ribose (2'-P-cADPR) & Calcium Signaling & 0.049 & 0.388 & 1.57 & 622.0327 & 268 & C18- & M+H & C20742 & 73352906 & –\\
-\textbf{N-Methyltryptamine} & Tryptophan/Indole Signaling & 0.050 & 0.388 & 1.05 & 175.1234 & 70 & C18- & M+H & C06213 & 6088 & HMDB0004370\\*
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Nucleotide Flux}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}GMP & Purine Metabolism & 1.8E-8 & 4.1E-5 & 2.35 & 364.0646 & 242 & HILIC+ & M+H & C00144 & 135398631\\
+\hspace*{0.3cm}AMP & Purine Metabolism & 4.8E-5 & 0.024 & 1.51 & 346.0557 & 18 & C18- & M-H & C00020 & 6083\\
+\hspace*{0.3cm}Uracil\textsuperscript{†} & Pyrimidine Metabolism & 1.3E-4 & 0.029 & 1.05 & 111.0200 & 22 & C18- & M-H & C00106 & 1174\\
+\hspace*{0.3cm}Uracil\textsuperscript{†} & Pyrimidine Metabolism & 2.4E-4 & 0.036 & 1.53 & 113.0346 & 41 & HILIC+ & M+H & C00106 & 1174\\
+
+\hspace*{0.3cm}Cytosine & Pyrimidine Metabolism & 0.003 & 0.128 & 1.10 & 112.0507 & 38 & HILIC+ & M+H & C00380 & 597\\
+\hspace*{0.3cm}2-Methylaminoadenosine & tRNA/Modified Nucleosides & 0.003 & 0.135 & 1.88 & 261.1085 & 61 & HILIC+ & M+H-2H2O & C03218 & 439946\\
+\hspace*{0.3cm}2'-Deoxyinosine 5'-phosphate (dIMP) & Purine Catabolism & 0.004 & 0.146 & 1.40 & 333.0605 & 68 & HILIC+ & M+H & C06196 & 135398614\\
+\hspace*{0.3cm}Guanine & Purine Salvage & 0.011 & 0.241 & 0.75 & 150.0424 & 23 & C18- & M-H & C00242 & 135398634\\
+\hspace*{0.3cm}Ribose 5-phosphate & Pentose Phosphate Path & 0.014 & 0.254 & 2.42 & 231.0262 & 160 & HILIC+ & M+H & C00117 & 439167\\
+
+\hspace*{0.3cm}CTP & Pyrimidine Metabolism & 0.015 & 0.264 & 1.28 & 517.9550 & 52 & C18- & M+Cl & C00063 & 6176\\
+\hspace*{0.3cm}5-Aminoimidazole & Purine Biosynthesis & 0.031 & 0.335 & 1.05 & 128.0193 & 92 & HILIC+ & M+2Na-H & C05239 & 484\\
+\hspace*{0.3cm}dATP & DNA Precursor & 0.043 & 0.367 & -0.92 & 557.9782 & 285 & C18- & M-H+HCOONa & C00131 & 15993\\
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Protein/Amino Acid Turnover}} &  &  &  &  &  &  &  &  &  & \\
+
+\hspace*{0.3cm}Iminoaspartate & Aspartate Metabolism & 5.0E-5 & 0.024 & 1.80 & 96.0081 & 27 & HILIC+ & M+H-2H2O & C05840 & 796\\
+\hspace*{0.3cm}3-Methylcrotonylglycine & Amino Acid/Leucine Branch & 0.002 & 0.124 & 1.06 & 158.0810 & 75 & HILIC+ & M+H & C20828 & 169485\\
+\hspace*{0.3cm}Imidazole acetaldehyde\textsuperscript{†} & Histidine Catabolism & 0.002 & 0.126 & 1.25 & 111.0554 & 71 & HILIC+ & M+H & C05130 & 150841\\
+\hspace*{0.3cm}delta-Guanidinovaleric acid (δ-GVA) & Arginine Catabolism & 0.003 & 0.128 & 1.61 & 182.0908 & 54 & HILIC+ & M+Na & C13688 & 160464\\
+\hspace*{0.3cm}2-Oxobutanoate & Methionine/Cysteine Catabolism & 0.004 & 0.159 & 0.64 & 101.0244 & 22 & C18- & M-H & C00109 & 58\\
+
+\hspace*{0.3cm}4-Methylthio-2-oxobutanoic acid (MTOB) & Methionine Salvage & 0.007 & 0.198 & 0.96 & 149.0266 & 74 & HILIC+ & M+H & C01180 & 473\\
+\hspace*{0.3cm}Aspartate & Central AA Metabolism & 0.007 & 0.198 & 1.11 & 134.0448 & 67 & HILIC+ & M+H & C00049 & 5960\\
+\hspace*{0.3cm}Histidine & Essential AA Pool & 0.008 & 0.205 & 0.98 & 156.0767 & 75 & HILIC+ & M+H & C00135 & 6274\\
+\hspace*{0.3cm}Asparagine & Nitrogen Salvage & 0.011 & 0.235 & 1.02 & 133.0607 & 76 & HILIC+ & M+H & C00152 & 6267\\
+\hspace*{0.3cm}Citrulline & Urea Cycle/NO Signaling & 0.016 & 0.279 & 0.94 & 174.0885 & 20 & C18- & M-H & C00327 & 9750\\
+
+\hspace*{0.3cm}N6-Hydroxy-lysine & Modified Lysine/Hydroxylation & 0.017 & 0.279 & 1.94 & 163.1077 & 113 & HILIC+ & M+H & C01028 & 439370\\
+\hspace*{0.3cm}Phenol & Tyrosine Catabolism & 0.018 & 0.279 & 0.85 & 95.0493 & 51 & HILIC+ & M+H & C00146 & 996\\
+\hspace*{0.3cm}S-Allyl-cysteine & Sulfur Amino Acids & 0.021 & 0.291 & 1.31 & 206.0213 & 232 & HILIC+ & M+2Na-H & C16759 & 9793905\\
+\hspace*{0.3cm}β-Alanyl-lysine & Dipeptide/Autophagy & 0.025 & 0.311 & 1.58 & 218.1499 & 64 & HILIC+ & M+H & C05341 & 440638\\
+\hspace*{0.3cm}Imidazole acetaldehyde\textsuperscript{†} & Histidine Catabolism & 0.025 & 0.313 & 0.28 & 169.0619 & 17 & C18- & M+Hac-H & C05130 & 150841\\
+
+\hspace*{0.3cm}4-Guanidinobutanal & Arginine/Putrescine Path & 0.027 & 0.320 & 0.93 & 152.0787 & 228 & HILIC+ & M+Na & C02647 & 559\\
+\hspace*{0.3cm}Pipecolate\textsuperscript{†} & Lysine Catabolism & 0.029 & 0.330 & 1.02 & 130.0862 & 71 & HILIC+ & M+H & C00408 & 439227\\
+\hspace*{0.3cm}Leucyl-leucine & Dipeptide/Autophagy & 0.030 & 0.330 & 2.22 & 245.1859 & 26 & HILIC+ & M+H & C11332 & 94244\\
+\hspace*{0.3cm}4-Imidazolone-5-acetate & Histidine Catabolism & 0.035 & 0.345 & 0.35 & 187.0358 & 179 & C18- & M+FA-H & C05133 & 440570\\
+\hspace*{0.3cm}Dehydroalanine & Post-Translational Modification & 0.035 & 0.345 & 0.93 & 88.0394 & 65 & HILIC+ & M+H & C02218 & 123991\\
+
+\hspace*{0.3cm}2-Amino-6-oxoheptanedioate & Lysine Metabolism & 0.035 & 0.345 & -0.71 & 190.0711 & 233 & HILIC+ & M+H & C03871 & 194695\\
+\hspace*{0.3cm}N6-Acetyl-lysine & Protein Acetylation & 0.038 & 0.356 & 1.32 & 189.1233 & 47 & HILIC+ & M+H & C02727 & 92832\\
+\hspace*{0.3cm}Methylguanidine & Arginine/Creatine Path & 0.039 & 0.357 & 0.63 & 118.0350 & 91 & HILIC+ & M+2Na-H & C02294 & 10111\\
+\hspace*{0.3cm}O-Succinyl-homoserine & Methionine Metabolism & 0.040 & 0.357 & 1.78 & 220.0816 & 66 & HILIC+ & M+H & C01118 & 439406\\
+\hspace*{0.3cm}Lysine & Essential AA Pool & 0.040 & 0.357 & 0.96 & 147.1128 & 75 & HILIC+ & M+H & C00047 & 5962\\
+
+\hspace*{0.3cm}D-erythro-1-(Imidazol-4-yl)glycerol 3-phosphate (IGP) & Histidine Biosynthesis & 0.041 & 0.359 & 1.36 & 283.0072 & 50 & HILIC+ & M+2Na-H & C04666 & 440431\\
+\hspace*{0.3cm}Pipecolate\textsuperscript{†} & Lysine Catabolism & 0.048 & 0.388 & 0.54 & 128.0718 & 23 & C18- & M-H & C00408 & 439227\\
+\hspace*{0.3cm}Phenylacetylglutamine & Phenylalanine/Gut Microbiome & 0.048 & 0.388 & 1.20 & 263.1040 & 22 & C18- & M-H & C04148 & 92258\\
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Membrane Integrity}} &  &  &  &  &  &  &  &  &  & \\
+
+\hspace*{0.3cm}3-Ketosphingosine & Sphingosine Synthesis & 7.4E-5 & 0.028 & 2.70 & 298.2741 & 24 & HILIC+ & M+H & C06121 & 9839212\\
+\hspace*{0.3cm}3-Dehydrosphinganine & Sphingosine Synthesis & 2.0E-4 & 0.033 & 3.38 & 300.2897 & 24 & HILIC+ & M+H & C02934 & 439853\\
+\hspace*{0.3cm}Oleoylglycerone phosphate (Oleoyl-DHAP) & Plasmalogen Precursor & 0.002 & 0.123 & 1.84 & 433.2365 & 166 & C18- & M-H & C03630 & 5280612\\
+\hspace*{0.3cm}sn-Glycero-3-phospho-1-inositol (GroPIns) & PI-Signaling Byproduct & 0.014 & 0.261 & 2.18 & 333.0593 & 147 & C18- & M-H & C01225 & 45480545\\
+\hspace*{0.3cm}Phosphodimethylethanolamine & Membrane Synthesis/Methylation & 0.014 & 0.263 & 0.71 & 192.0397 & 42 & HILIC+ & M+Na & C13482 & 151438\\
+
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Lipid Remodeling}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}(6Z,9Z,12Z)-Octadecatrienoic acid (γ-Linolenate)\textsuperscript{†} & Linolenic Acid Path & 1.1E-4 & 0.028 & 2.47 & 279.2320 & 24 & HILIC+ & M+H & C06426 & 5280933\\
+\hspace*{0.3cm}Linoleate & Essential Fatty Acids & 0.002 & 0.118 & 2.53 & 281.2476 & 29 & HILIC+ & M+H & C01595 & 5280450\\
+\hspace*{0.3cm}9-Hydroxy-12-oxo-octadecadienoate & Oxylipin Path & 0.004 & 0.145 & 1.37 & 309.2070 & 222 & C18- & M-H & C21923 & 45934096\\
+
+\hspace*{0.3cm}(9Z)-Hexadecenoic acid (Palmitoleate) & Monounsaturated Fatty Acids & 0.004 & 0.146 & 1.60 & 253.2173 & 213 & C18- & M-H & C08362 & 445638\\
+\hspace*{0.3cm}(9Z)-Octadecenoic acid (Oleate)\textsuperscript{†} & Monounsaturated Fatty Acids & 0.004 & 0.161 & 2.28 & 283.2633 & 29 & HILIC+ & M+H & C00712 & 445639\\
+\hspace*{0.3cm}16-Hydroxypalmitate & Omega-Oxidation & 0.008 & 0.205 & 0.29 & 271.2279 & 148 & C18- & M-H & C18218 & 10466\\
+\hspace*{0.3cm}Stearidonic acid (Stearidonate) & Omega-3 Metabolism & 0.010 & 0.235 & 1.55 & 277.2163 & 23 & HILIC+ & M+H & C16300 & 5312508\\
+\hspace*{0.3cm}Dodecanoic acid (Laurate) & Medium-Chain Fatty Acids & 0.012 & 0.244 & 0.85 & 199.1703 & 156 & C18- & M-H & C02679 & 3893\\
+
+\hspace*{0.3cm}Tetradecanoic acid (Myristate) & Saturated Fatty Acids & 0.017 & 0.279 & 1.09 & 227.2017 & 200 & C18- & M-H & C06424 & 11005\\
+\hspace*{0.3cm}Decanoic acid (Caprate) & Medium-Chain Fatty Acids & 0.018 & 0.279 & 0.74 & 171.1390 & 107 & C18- & M-H & C01571 & 2969\\
+\hspace*{0.3cm}Dihomo-γ-linolenate & Prostanoid Precursors & 0.018 & 0.279 & 2.28 & 307.2633 & 24 & HILIC+ & M+H & C03242 & 5280581\\
+\hspace*{0.3cm}Octadecanoic acid (Stearate) & Saturated Fatty Acids & 0.023 & 0.303 & 1.58 & 285.2789 & 19 & HILIC+ & M+H & C01530 & 5281\\
+\hspace*{0.3cm}9,10-Epoxystearate\textsuperscript{†}\textsuperscript{§} & Oxylipin Path & 0.024 & 0.307 & 0.77 & 297.2437 & 252 & C18- & M-H & C19418 & 15868\\
+
+\hspace*{0.3cm}Erucic acid (Erucate) & Very-Long-Chain Fatty Acids & 0.024 & 0.311 & 1.29 & 397.3324 & 289 & C18- & M+Hac-H & C08316 & 5281116\\
+\hspace*{0.3cm}1-Dodecanol & Fatty Alcohols & 0.032 & 0.337 & 2.16 & 231.1702 & 29 & HILIC+ & M+2Na-H & C02277 & 8193\\
+\hspace*{0.3cm}3-Hydroxytetradecane-tricarboxylate & Lipid Metabolism & 0.035 & 0.345 & 1.74 & 369.1871 & 64 & HILIC+ & M+Na & C04529 & 5460247\\
+\hspace*{0.3cm}(6Z,9Z,12Z)-Octadecatrienoic acid (γ-Linolenate)\textsuperscript{†} & Linolenic Acid Path & 0.037 & 0.355 & 1.11 & 277.2173 & 201 & C18- & M-H & C06426 & 5280933\\
+\hspace*{0.3cm}(9Z)-Octadecenoic acid (Oleate)\textsuperscript{†} & Monounsaturated Fatty Acids & 0.039 & 0.357 & 1.11 & 281.2486 & 250 & C18- & M-H & C00712 & 445639\\
+
+\hspace*{0.3cm}Hexadecanoic acid (Palmitate) & Saturated Fatty Acids & 0.040 & 0.357 & 0.47 & 255.2328 & 243 & C18- & M-H & C00249 & 985\\
+\hspace*{0.3cm}9,10-Epoxystearate\textsuperscript{†}\textsuperscript{§} & Oxylipin Path & 0.047 & 0.385 & 0.90 & 299.2582 & 31 & HILIC+ & M+H & C19418 & 15868\\
+\hspace*{0.3cm}16-Oxopalmitate & Omega-Oxidation & 0.048 & 0.388 & 0.42 & 271.2268 & 23 & HILIC+ & M+H & C19614 & 15931626\\
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Epigenetic Signaling}} &  &  &  &  &  &  &  &  &  & \\
+
+\hspace*{0.3cm}S-Adenosyl-L-homocysteine (SAH) & Methylation Cycle Marker & 2.9E-4 & 0.039 & 1.70 & 385.1280 & 73 & HILIC+ & M+H & C00021 & 439155\\
+\hspace*{0.3cm}Acetylglutamate & Urea Cycle Regulation & 9.4E-4 & 0.076 & 1.29 & 188.0565 & 17 & C18- & M-H & C00624 & 70914\\
+\hspace*{0.3cm}8-Amino-7-oxononanoate & Biotin (B7) Metabolism & 0.001 & 0.094 & 2.03 & 188.1281 & 40 & HILIC+ & M+H & C01092 & 173\\
+\hspace*{0.3cm}3'-Phosphoadenylyl sulfate (PAPS) & Universal Sulfate Donor & 0.002 & 0.115 & 2.22 & 573.9672 & 23 & C18- & M-H+HCOONa & C00053 & 10214\\
+\hspace*{0.3cm}Formate & Folate Cycle Entry & 0.003 & 0.135 & 1.09 & 90.9768 & 53 & HILIC+ & M+2Na-H & C00058 & 284\\
+
+\hspace*{0.3cm}1-Methylnicotinamide & Nicotinate/Nicotinamide Path & 0.008 & 0.205 & 2.86 & 137.0710 & 47 & HILIC+ & M+H & C02918 & 457\\
+\hspace*{0.3cm}5-Methylcytosine & Epigenetic DNA Modification & 0.019 & 0.283 & 0.39 & 124.0515 & 225 & C18- & M-H & C02376 & 65040\\
+\hspace*{0.3cm}Maleamate & Nicotinate Metabolism & 0.023 & 0.303 & 0.81 & 114.0197 & 17 & C18- & M-H & C01596 & 5280451\\
+\hspace*{0.3cm}8-Amino-7-carboxyamino-nonanoate & Biotin (B7) Metabolism & 0.023 & 0.303 & 1.65 & 197.1282 & 44 & HILIC+ & M+H-2H2O & C22458 & 4474067\\
+\hspace*{0.3cm}Nicotinurate & Nicotinate/Nicotinamide Path & 0.026 & 0.320 & 0.51 & 181.0608 & 238 & HILIC+ & M+H & C05380 & 68499\\
+
+\hspace*{0.3cm}Choline\textsuperscript{†} & Methyl Donor/Phospholipids & 0.027 & 0.320 & 1.25 & 104.1071 & 36 & HILIC+ & M+H & C00114 & 305\\
+\hspace*{0.3cm}N6-Methyl-lysine & Histone Methylation & 0.030 & 0.330 & 1.01 & 161.1285 & 67 & HILIC+ & M+H & C02728 & 164795\\
+\hspace*{0.3cm}Choline\textsuperscript{†} & Methyl Donor/Phospholipids & 0.037 & 0.355 & 1.05 & 170.0799 & 26 & C18- & M-H+HCOONa & C00114 & 305\\
+\hspace*{0.3cm}Nicotinamide & NAD+ Precursor & 0.038 & 0.356 & 1.81 & 123.0553 & 34 & HILIC+ & M+H & C00153 & 936\\
+ &  &  &  &  &  &  &  &  &  & \\
+
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Steroid Metabolism}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}Pregnan-21-al & Progestogen Metabolism & 4.4E-4 & 0.050 & 2.12 & 347.2604 & 175 & C18- & M+FA-H & C00891 & 439338\\
+\hspace*{0.3cm}11-cis-Retinol & Vitamin A/Retinoids & 0.008 & 0.202 & 2.90 & 287.2370 & 25 & HILIC+ & M+H & C00899 & 5280382\\
+\hspace*{0.3cm}Phenolic steroid & Estrogen-like Compounds & 0.013 & 0.254 & 2.61 & 279.1712 & 34 & HILIC+ & M+Na & C02453 & 439726\\
+\hspace*{0.3cm}7-Dehydrocholesterol (7-DHC) & Cholesterol Precursor & 0.020 & 0.291 & 3.39 & 385.3466 & 23 & HILIC+ & M+H & C01164 & 439423\\
+
+\hspace*{0.3cm}Estrone & Estrogens & 0.030 & 0.330 & 1.40 & 271.1682 & 252 & HILIC+ & M+H & C00468 & 5870\\
+\hspace*{0.3cm}19-Norprogesterone & Progestogen Metabolism & 0.036 & 0.350 & 2.04 & 345.1788 & 67 & HILIC+ & M+2Na-H & C14489 & 228864\\
+\hspace*{0.3cm}Estradiol-17β & Estrogens & 0.038 & 0.356 & 2.53 & 295.1661 & 39 & HILIC+ & M+Na & C00951 & 5757\\
+\hspace*{0.3cm}Cortolone & Cortisol Catabolism & 0.049 & 0.388 & -1.43 & 365.2332 & 161 & C18- & M-H & C05481 & 160499\\
+ &  &  &  &  &  &  &  &  &  & \\
+
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Redox Homeostasis}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}6-Carboxytetrahydropterin & Biopterin Cycle/Redox & 5.4E-4 & 0.053 & 2.20 & 195.0514 & 212 & HILIC+ & M+H-NH3 & C20239 & 135911925\\
+\hspace*{0.3cm}Dihydroneopterin & Biopterin Cycle/Redox & 8.3E-4 & 0.073 & 3.43 & 256.1043 & 61 & HILIC+ & M+H & C04874 & 135398602\\
+\hspace*{0.3cm}Tetrahydropteridine & Biopterin Cycle/Redox & 0.001 & 0.077 & 1.47 & 137.0822 & 225 & HILIC+ & M+H & C05650 & 156\\
+\hspace*{0.3cm}2-(Hydroxysulfanyl)hercynine (HSH-Hercynine) & Ergothioneine Precursor & 0.005 & 0.174 & 1.54 & 246.0907 & 66 & HILIC+ & M+H & C21731 & 122706276\\
+
+\hspace*{0.3cm}Cysteate & Cysteine Metabolism & 0.012 & 0.244 & 1.87 & 170.0122 & 132 & HILIC+ & M+H & C00506 & 72886\\
+\hspace*{0.3cm}Hercynine & Histidine/Redox Signaling & 0.020 & 0.289 & 1.20 & 198.1237 & 67 & HILIC+ & M+H & C05575 & 440727\\
+\hspace*{0.3cm}3-Bromo-tyrosine & Oxidative Protein Damage & 0.027 & 0.320 & 0.59 & 303.9817 & 51 & C18- & M+FA-H & C17079 & 148708\\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Redox Homeostasis (Continued)}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}DH-Monapterin triphosphate & Biopterin Cycle/Redox & 0.037 & 0.355 & 1.62 & 459.9838 & 167 & HILIC+ & M+H-2H2O & C21094 & 135398606\\
+
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Fatty Acid Oxidation}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}Isovalerylcarnitine & Acylcarnitine Shuttle & 0.002 & 0.126 & 2.67 & 246.1699 & 30 & HILIC+ & M+H & C20826 & 169235\\
+\hspace*{0.3cm}Butanoylcarnitine & Acylcarnitine Shuttle & 0.004 & 0.153 & 2.72 & 232.1543 & 33 & HILIC+ & M+H & C02862 & 439829\\
+\hspace*{0.3cm}Carnitinamide & Acylcarnitine-like & 0.015 & 0.264 & 1.80 & 143.1179 & 35 & HILIC+ & M+H-H2O & C02290 & 11701090\\
+
+\hspace*{0.3cm}Carnitine & Fatty Acid Transport & 0.039 & 0.357 & 1.28 & 162.1125 & 46 & HILIC+ & M+H & C00318 & 10917\\
+\hspace*{0.3cm}Decanoylcarnitine & Acylcarnitine Shuttle & 0.041 & 0.359 & 1.14 & 360.2389 & 154 & C18- & M+FA-H & C03299 & 11953821\\
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Bioenergetic Flux}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}(2,3-Dihydroxybenzoyl)adenylate (2,3-DHBA-AMP) & Iron Scavenging/Siderophore & 0.003 & 0.130 & 2.37 & 506.0677 & 261 & HILIC+ & M+Na & C04030 & 440201\\
+
+\hspace*{0.3cm}2,3-Dihydroxybenzoate & Iron-Binding/Catechols & 0.004 & 0.154 & -0.54 & 153.0194 & 22 & C18- & M-H & C00196 & 19\\
+\hspace*{0.3cm}D-4'-Phosphopantothenate (P-Pantothenate) & Coenzyme A (CoA) Path & 0.005 & 0.161 & -1.04 & 300.0844 & 119 & HILIC+ & M+H & C03492 & 41635\\
+\hspace*{0.3cm}4-Methyl-2-oxopentanoate (α-Ketoisocaproate) & Leucine Catabolism & 0.019 & 0.281 & -1.41 & 129.0558 & 23 & C18- & M-H & C00233 & 70\\
+\hspace*{0.3cm}5-(2-Hydroxyethyl)-4-methylthiazole (Sulfurol) & Thiamine (B1) Metabolism & 0.025 & 0.313 & 0.56 & 142.0339 & 186 & C18- & M-H & C04294 & 1136\\
+\hspace*{0.3cm}Acetyl phosphate & High-Energy Intermediate & 0.027 & 0.324 & -0.99 & 138.9802 & 24 & C18- & M-H & C00227 & 186\\
+
+\hspace*{0.3cm}5-Amino-6-ribitylaminouracil & Riboflavin (B2) Metabolism & 0.048 & 0.388 & 0.67 & 275.0996 & 20 & C18- & M-H & C04732 & 193516\\
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Glycan Defense}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}Chitobiose & Glucosamine Metabolism & 0.003 & 0.135 & 1.75 & 459.1400 & 20 & C18- & M+Cl & C01674 & 439544\\
+\hspace*{0.3cm}N-Glycolyl-glucosamine & Hexosamine Biosynthesis & 0.020 & 0.288 & 1.04 & 236.0777 & 16 & C18- & M-H & C03146 & 439921\\
+
+\hspace*{0.3cm}N-Acetyl-9-O-acetylneuraminate (9-O-Acetyl-Neu5Ac)\textsuperscript{‡} & Sialic Acid Modification & 0.025 & 0.313 & 1.52 & 410.1301 & 17 & C18- & M+Hac-H & C04017 & 92042744\\
+ &  &  &  &  &  &  &  &  &  & \\
+\fontsize{9pt}{10.8pt}\selectfont\textbf{\underline{Immune/Signaling}} &  &  &  &  &  &  &  &  &  & \\
+\hspace*{0.3cm}Serotonin & Tryptophan Signaling & 0.005 & 0.174 & 3.76 & 177.1022 & 28 & HILIC+ & M+H & C00780 & 5202\\
+\hspace*{0.3cm}N1-Acetylspermine & Polyamine Acetylation & 0.007 & 0.198 & 3.04 & 245.2335 & 257 & HILIC+ & M+H & C02567 & 916\\
+
+\hspace*{0.3cm}Kynurenine\textsuperscript{†} & Tryptophan/Kynurenine Axis & 0.009 & 0.220 & 2.22 & 209.0921 & 42 & HILIC+ & M+H & C00328 & 161166\\
+\hspace*{0.3cm}3-Hydroxyaminophenol & Phenylalanine Branch & 0.011 & 0.239 & 0.62 & 126.0550 & 86 & HILIC+ & M+H & C14602 & 5460445\\
+\hspace*{0.3cm}N1-Acetylspermidine & Polyamine Acetylation & 0.016 & 0.276 & 1.36 & 188.1757 & 56 & HILIC+ & M+H & C00612 & 496\\
+\hspace*{0.3cm}γ-Glutamyltyramine & Tyramine/Dopamine Path & 0.017 & 0.279 & 2.53 & 267.1343 & 32 & HILIC+ & M+H & C20926 & 10214674\\
+\hspace*{0.3cm}N-Methylhistamine & Histamine Metabolism & 0.021 & 0.291 & 2.29 & 126.1026 & 60 & HILIC+ & M+H & C05127 & 3614\\
+
+\hspace*{0.3cm}Kynurenine\textsuperscript{†} & Tryptophan/Kynurenine Axis & 0.022 & 0.303 & 1.41 & 207.0776 & 22 & C18- & M-H & C00328 & 161166\\
+\hspace*{0.3cm}4-Carboxy-4-hydroxy-2-oxoadipate & Tryptophan/Anthranilate Path & 0.023 & 0.303 & 0.80 & 219.0146 & 24 & C18- & M-H & C04115 & 130\\
+\hspace*{0.3cm}2-Aminomuconate & Tryptophan/Kynurenine Axis & 0.027 & 0.320 & 1.18 & 158.0451 & 34 & HILIC+ & M+H & C02220 & 5280499\\
+\hspace*{0.3cm}Leukotriene D4 (LTD4) & Leukotriene Synthesis & 0.031 & 0.335 & 1.22 & 555.2725 & 149 & C18- & M+Hac-H & C05951 & 5280878\\
+\hspace*{0.3cm}Histamine & Histidine/Immune Signaling & 0.033 & 0.345 & 1.44 & 112.0871 & 67 & HILIC+ & M+H & C00388 & 774\\
+
+\hspace*{0.3cm}Biliverdin & Heme Degradation/Redox & 0.034 & 0.345 & 1.73 & 583.2547 & 31 & HILIC+ & M+H & C00500 & 5280353\\
+\hspace*{0.3cm}2-Aminomuconate semialdehyde & Tryptophan/Kynurenine Path & 0.034 & 0.345 & 0.31 & 142.0498 & 183 & HILIC+ & M+H & C03824 & 5280625\\
+\hspace*{0.3cm}Prostaglandin E2 (PGE2) & COX-driven Inflammation & 0.035 & 0.345 & 0.83 & 411.2404 & 152 & C18- & M+Hac-H & C00584 & 5280360\\
+\hspace*{0.3cm}Benzylamine & Monoamine Metabolism & 0.043 & 0.367 & 0.93 & 91.0544 & 42 & HILIC+ & M+H-NH3 & C15562 & 7504\\
+\hspace*{0.3cm}Leukotriene B4 (LTB4)\textsuperscript{‖} & Leukotriene Synthesis & 0.043 & 0.368 & 1.31 & 335.2224 & 219 & C18- & M-H & C02165 & 5280492\\
+
+\hspace*{0.3cm}Adrenaline & Catecholamine Signaling & 0.044 & 0.370 & -0.55 & 242.1045 & 239 & C18- & M+Hac-H & C00788 & 5816\\
+\hspace*{0.3cm}5,6-Indolequinone-2-carboxylate & Melanogenesis/Dopa Path & 0.048 & 0.388 & 1.49 & 235.9932 & 36 & HILIC+ & M+2Na-H & C17938 & 17796835\\
+\hspace*{0.3cm}2'-Phospho-cyclic ADP-ribose (2'-P-cADPR) & Calcium Signaling & 0.049 & 0.388 & 1.57 & 622.0327 & 268 & HILIC+ & M+H & C20742 & 73352906\\
+\hspace*{0.3cm}N-Methyltryptamine & Tryptophan/Indole Signaling & 0.050 & 0.388 & 1.05 & 175.1234 & 70 & HILIC+ & M+H & C06213 & 6088\\*
 \end{longtable}
 \endgroup{}
