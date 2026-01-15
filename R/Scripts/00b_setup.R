@@ -43,3 +43,5 @@ QC_dedup <- read_xlsx(config$data_files$QC, sheet = "QC") |>
   group_by(display_name) |>
   slice_min(p_value, n = 1, with_ties = FALSE) |>
   ungroup()
+#- 0b.6.4: Read in unmodified version of QC
+QC_full <- read_xlsx(config$data_files$QC, sheet = "QC")

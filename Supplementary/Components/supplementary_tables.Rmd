@@ -1,0 +1,43 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: false
+geometry:
+  - margin=0.5in
+  - headheight=14pt
+  - headsep=0.15in
+  - footskip=12pt
+header-includes:
+  - \usepackage{fontspec}
+  - \usepackage{graphicx}
+  - \usepackage{fancyhdr}
+  - \usepackage{setspace}
+  - \usepackage{pdflscape}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage[table]{xcolor}
+  - \usepackage{makecell}
+  - \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+  - \setmainfont{Arial}
+  - \hyphenpenalty=10000
+  - \exhyphenpenalty=10000
+  - \pagestyle{empty}
+  - \singlespacing
+  - \AtBeginDocument{\fontsize{9}{11}\selectfont}
+  - \raggedright
+---
+
+\newpage
+
+\begin{landscape}
+
+\noindent{\fontsize{11}{13.2}\selectfont\textbf{Supplementary Table I.} \textit{High-quality annotated metabolites differentially expressed between early-stage (I/II) and advanced-stage (III/IV) differentiated thyroid cancers.}}
+
+\vspace{0.5em}
+
+\input{Tables/ST1.tex}
+
+\end{landscape}
+

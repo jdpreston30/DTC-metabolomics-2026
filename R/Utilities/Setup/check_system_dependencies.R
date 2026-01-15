@@ -53,6 +53,27 @@ check_system_dependencies <- function() {
           FALSE
         }
       }
+    ),
+    list(
+      name = "TinyTeX/LaTeX",
+      command = "xelatex",
+      purpose = "PDF generation for supplementary tables",
+      install_mac = "Run in R: tinytex::install_tinytex()",
+      install_linux = "Run in R: tinytex::install_tinytex()",
+      install_windows = "Run in R: tinytex::install_tinytex()",
+      optional = FALSE,
+      check_function = function() {
+        # Check if tinytex is installed and functional
+        if (requireNamespace("tinytex", quietly = TRUE)) {
+          tinytex::tinytex_root() != ""
+        } else {
+          # Fallback: check if xelatex command exists
+          result <- tryCatch({
+            system2("xelatex", args = "--version", stdout = FALSE, stderr = FALSE)
+          }, error = function(e) 1)
+          result == 0
+        }
+      }
     )
   )
   

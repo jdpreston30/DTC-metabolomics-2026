@@ -45,6 +45,9 @@ Imports:
     here,
     yaml,
     openxlsx,
+    kableExtra,
+    rmarkdown,
+    tinytex,
     TernTablesR
 Additional_repositories: 
     https://bioconductor.org/packages/release/bioc
