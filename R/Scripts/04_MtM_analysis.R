@@ -74,34 +74,6 @@ cat(
   "   Enrichment range: ", round(min(correlation_mfn_inspect$enrichment), 2), " to ", round(max(correlation_mfn_inspect$enrichment), 2), "\n\n",
   strrep("=", 60), "\n\n"
 )
-#+ 4.4: KEGG Correlation Enrichment Summary
-#- 4.4.1: Import all KEGG results
-correlation_kegg_tibbles <- imap(correlation_json_paths, function(paths, metabolite_name) {
-  read_mummichog_json(paths$kegg) |>
-    mutate(metabolite = metabolite_name)
-})
-#- 4.4.2: Create KEGG inspection table
-correlation_kegg_inspect <- bind_rows(correlation_kegg_tibbles) |>
-  select(metabolite, pathway, enrichment, p_value) |>
-  arrange(metabolite, desc(enrichment))
-#- 4.4.3: Print KEGG summary statistics
-cat(
-  "\n", strrep("=", 60), "\n",
-  "KEGG CORRELATION PATHWAY ENRICHMENT SUMMARY\n",
-  strrep("=", 60), "\n\n",
-  "📊 KEGG Database:\n",
-  "   Total pathways:   ", nrow(correlation_kegg_inspect), "\n",
-  "   Metabolites:      ", length(unique(correlation_kegg_inspect$metabolite)), "\n",
-  "   P-value range:    ", min(correlation_kegg_inspect$p_value), " to ", max(correlation_kegg_inspect$p_value), "\n",
-  "   Enrichment range: ", round(min(correlation_kegg_inspect$enrichment), 2), " to ", round(max(correlation_kegg_inspect$enrichment), 2), "\n\n",
-  strrep("=", 60), "\n\n"
-)
-#- 4.4.4: Create combined inspection table
-correlation_combined_inspect <- bind_rows(
-  correlation_mfn_inspect |> mutate(database = "MFN"),
-  correlation_kegg_inspect |> mutate(database = "KEGG")
-) |>
-  arrange(metabolite, database, desc(enrichment))
 #+ 4.5: Visualize MFN Correlation Enrichment
 #- 4.5.1: Prepare data for plot_mummichog_columns
 correlation_mfn_plot_data <- correlation_mfn_inspect |>

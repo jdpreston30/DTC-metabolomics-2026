@@ -181,3 +181,15 @@ fig2BC_features <- QC_scatter |>
     strrep("=", 60), "\n\n"
   )
 }
+#+ 7.5: PEA Correlation Summary
+# Count significant results per pathway
+{
+  correlation_mfn_plot_data |>
+    group_by(pathway_name) |>
+    summarise(
+      n_significant = sum(p_fisher > -log10(0.05)),
+      total_comparisons = n()
+    ) |>
+    arrange(desc(n_significant)) |>
+    print(n = Inf)
+}
