@@ -100,6 +100,7 @@ corr_mat <- plot_corr_matrix(
   feature_table = TFT_cor_matrix_data,
   metadata_table = QC_matrix,
   output_path = "Outputs/Figures/Raw/p3A.png",
+  matrix_xlsx = "Outputs/Correlation/corr_matrix_curated.xlsx",
   width = 6,
   height = 6
 )
