@@ -47,3 +47,5 @@ p3D.R2.C1 <- MNA1_SAH
 p3D.R2.C2 <- PAPS_SAH
 p3D.R3.C1 <- AcGlu_Cit
 p3D.R3.C2 <- Kyn_Ser
+#+ 5.4: Figure 4
+p4 <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p4.png")))

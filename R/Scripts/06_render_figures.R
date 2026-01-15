@@ -53,15 +53,22 @@ fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     "Figure 3" = c(0.49, 10.43)
   ))
 #+ 6.4: Figure 4
+fig4 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
+  draw_plot(ggdraw() + draw_grob(p4), x = 0, y = 0-177/600, width = 8.5, height = 11) +
+  figure_labels(list(
+    "Figure 4" = c(0.49, 10.43)
+  ))
 #+ 6.5: Print all figures
 #- 6.5.1: Print PNGs
 print_to_png(fig1, "Final/PNG/fig1.png")
 print_to_png(fig2, "Final/PNG/fig2.png")
 print_to_png(fig3, "Final/PNG/fig3.png")
+print_to_png(fig4, "Final/PNG/fig4.png")
 #- 6.5.2: Print TIFFs
 print_to_tiff(fig1, "Final/TIFF/fig1.tiff")
 print_to_tiff(fig2, "Final/TIFF/fig2.tiff")
 print_to_tiff(fig3, "Final/TIFF/fig3.tiff")
+print_to_tiff(fig4, "Final/TIFF/fig4.tiff")
 #- 6.5.3: Print PDFs
 {
   # Figure 1
@@ -98,6 +105,17 @@ print_to_tiff(fig3, "Final/TIFF/fig3.tiff")
     dev.off()
     cat("Warning: Figure 3 PDF failed:", e$message, "\n")
   })
+  # Figure 4
+  tryCatch({
+    pdf("Outputs/Figures/Final/PDF/Figure 4.pdf", width = 8.5, height = 11)
+    img4 <- readPNG("Outputs/Figures/Final/PNG/fig4.png", native = TRUE)
+    grid.newpage()
+    grid.raster(img4, width = unit(8.5, "inches"), height = unit(11, "inches"), interpolate = TRUE)
+    dev.off()
+  }, error = function(e) {
+    dev.off()
+    cat("Warning: Figure 4 PDF failed:", e$message, "\n")
+  })
   cat("✓ PDF generation complete\n")
 }
 #+ 6.6: Create compiled PDF
@@ -105,7 +123,8 @@ pdf_combine(
   input = c(
     "Outputs/Figures/Final/PDF/Figure 1.pdf",
     "Outputs/Figures/Final/PDF/Figure 2.pdf",
-    "Outputs/Figures/Final/PDF/Figure 3.pdf"
+    "Outputs/Figures/Final/PDF/Figure 3.pdf",
+    "Outputs/Figures/Final/PDF/Figure 4.pdf"
   ),
   output = "Outputs/Figures/Final/Figs1-4.pdf"
 )
