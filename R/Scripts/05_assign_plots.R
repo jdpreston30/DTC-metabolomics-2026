@@ -3,6 +3,7 @@
 p1A <- volcano
 p1B <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1B.png")))
 p1C <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1C.png")))
+heatmap_legend <- plot_heatmap_legend(mad_500$legend_params)
 #+ 5.2: Figure 2
 p2A <- div_bars
 p2B.1 <- stage_feature_plots$GMP

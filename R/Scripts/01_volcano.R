@@ -1,4 +1,4 @@
-#* 1: Volcano Plots
+#* 1: Volcano and Heatmaps
 #+ 1.1: Run Volcano Analysis on UFT data (Computation Only)
 volcano_data <- run_volcano(
   data = UFT_filtered,
@@ -17,28 +17,19 @@ volcano <- plot_volcano(
   down_color = "#113d6a"
 )
 #+ 1.3: make_heatmap
-u()
-ttest_1000 <- make_heatmap(
+#- 1.3.1: Using MAD method
+mad_500 <- make_heatmap(
+  data = UFT_filtered,
+  feature_selector = "mad",
+  top_features = 500,
+  print_preview = TRUE,
+  print_scale = TRUE
+)
+#- 1.3.1: Using ttest method
+ttest_500 <- make_heatmap(
   data = UFT_filtered,
   feature_selector = "ttest",
-  top_features = 1000
-)
-variance_1000 <- make_heatmap(
-  data = UFT_filtered,
-  feature_selector = "variance",
-  top_features = 1000
-)
-print_to_png(
-  plot = ttest_1000$heatmap_plot,
-  filename = "ttest.png",
-  dpi = 600,
-  width = 6,
-  height = 6
-)
-print_to_png(
-  plot = variance_1000$heatmap_plot,
-  filename = "variance.png",
-  dpi = 600,
-  width = 6,
-  height = 6
+  top_features = 500,
+  print_preview = TRUE,
+  print_scale = TRUE
 )

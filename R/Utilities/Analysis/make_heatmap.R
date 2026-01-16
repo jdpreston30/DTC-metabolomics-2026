@@ -7,6 +7,8 @@
 #' @param feature_selector     One of c("none","anova","variance","mad","ttest"). Default "none".
 #' @param variant_levels       Factor order for Variant (default c("PTC","FV-PTC","FTC"))
 #' @param stage_colors         Named color vector for stage_bin; include "Early" and "Advanced"
+#' @param print_preview        Logical. If TRUE, saves a PNG preview of the heatmap. Default FALSE.
+#' @param print_scale           Logical. If TRUE, shows the color scale legend. Default TRUE.
 #' @return List with plot object, M, Mz, hc_cols, ann_col, ann_colors, etc.
 #' @export
 make_heatmap <- function(
@@ -15,7 +17,9 @@ make_heatmap <- function(
     top_features = NULL,
     feature_selector = c("none", "anova", "variance", "mad", "ttest"),
     variant_levels = c("PTC", "FV-PTC", "FTC"),
-    stage_colors = c("Early" = "#113d6a", "Advanced" = "#800017")) {
+    stage_colors = c("Early" = "#113d6a", "Advanced" = "#800017"),
+    print_preview = FALSE,
+    print_scale = TRUE) {
   feature_selector <- match.arg(feature_selector)
 
   # ---- Checks ----
@@ -122,40 +126,52 @@ make_heatmap <- function(
   # Add stage colors (matches second column - will display at top)
   ann_colors$Stage <- stage_colors
 
-  # ---- Heatmap (for screen) ----
+  # ---- Create heatmap plot object (single call with silent=TRUE) ----
+  # Define color palette
+  heatmap_colors <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255)
+  
   heatmap_plot <- pheatmap::pheatmap(
     M,
     scale = "row",
-    color = colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255),
+    color = heatmap_colors,
     clustering_distance_rows = "euclidean",
     clustering_distance_cols = "euclidean",
     clustering_method = "complete",
     annotation_col = ann_col,
     annotation_colors = ann_colors,
-    show_rownames = FALSE,
-    show_colnames = FALSE,
-    fontsize = 10,
-    na_col = "#DDDDDD",
-    legend_labels = "Z-Score"
-  )
-
-  # Create heatmap plot object for patchwork
-  heatmap_plot <- pheatmap::pheatmap(
-    M,
-    scale = "row",
-    color = colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255),
-    clustering_distance_rows = "euclidean",
-    clustering_distance_cols = "euclidean",
-    clustering_method = "complete",
-    annotation_col = ann_col,
-    annotation_colors = ann_colors,
+    annotation_names_col = FALSE,  # Hide "Stage" and "Variant" labels
     show_rownames = FALSE,
     show_colnames = FALSE,
     fontsize = 8,
     na_col = "#DDDDDD",
     silent = TRUE,  # Prevents auto-display
+    legend = print_scale,  # Control legend display
     legend_labels = "Z-Score"
   )
+  
+  # Store legend parameters for custom legend creation
+  legend_params <- list(
+    colors = heatmap_colors,
+    limits = c(-3, 3),  # Typical z-score range
+    breaks = seq(-3, 3, by = 1),
+    labels = c("-3", "-2", "-1", "0", "1", "2", "3"),
+    title = "Z-Score",
+    fontsize = 8  # Match heatmap fontsize
+  )
+
+  # Optional print preview
+  if (print_preview) {
+    preview_filename <- paste0(feature_selector, "_", 
+                              ifelse(!is.null(top_features), paste0("top", top_features), "all"), 
+                              ".png")
+    print_to_png(
+      plot = heatmap_plot,
+      filename = preview_filename,
+      dpi = 300,
+      width = 6,
+      height = 6
+    )
+  }
 
   list(
     M = M,
@@ -168,6 +184,7 @@ make_heatmap <- function(
     top_features = top_features,
     ann_col = ann_col,
     ann_colors = ann_colors,
-    heatmap_plot = heatmap_plot  # Plot object for patchwork
+    heatmap_plot = heatmap_plot,  # Plot object for patchwork
+    legend_params = legend_params  # Parameters for custom legend
   )
 }
