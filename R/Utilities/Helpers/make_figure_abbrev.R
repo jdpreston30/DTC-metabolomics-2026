@@ -89,7 +89,7 @@ make_figure_abbrev <- function(abbreviation_tibble,
     fp_italic <- fp_text(font.family = "Arial", font.size = 11, italic = TRUE)
     
     # Paragraph properties for justified text
-    fp_par_justified <- fp_par(text.align = "both", line_spacing = 1)
+    fp_par_justified <- fp_par(text.align = "justify", line_spacing = 1)
     
     # Build the formatted text runs
     text_runs <- list()
