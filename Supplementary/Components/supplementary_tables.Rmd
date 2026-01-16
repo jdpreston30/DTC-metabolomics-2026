@@ -36,7 +36,7 @@ header-includes:
 
 \begin{landscape}
 
-\noindent{\fontsize{11}{13.2}\selectfont\textbf{Table I.}}
+\noindent{\fontsize{11}{13.2}\selectfont\textbf{Supplementary Table I.}}
 
 \noindent{\fontsize{11}{13.2}\selectfont High-quality annotated metabolites with differential abundance between early-stage (I/II) and advanced-stage (III/IV) differentiated thyroid cancers.}
 
