@@ -88,6 +88,9 @@ make_figure_abbrev <- function(abbreviation_tibble,
     fp_normal <- fp_text(font.family = "Arial", font.size = 11, italic = FALSE)
     fp_italic <- fp_text(font.family = "Arial", font.size = 11, italic = TRUE)
     
+    # Paragraph properties for justified text
+    fp_par_justified <- fp_par(text.align = "both", line_spacing = 1)
+    
     # Build the formatted text runs
     text_runs <- list()
     
@@ -108,8 +111,8 @@ make_figure_abbrev <- function(abbreviation_tibble,
       }
     }
     
-    # Create formatted paragraph with all text runs
-    formatted_para <- do.call(fpar, text_runs)
+    # Create formatted paragraph with all text runs and justified alignment
+    formatted_para <- do.call(fpar, c(text_runs, list(fp_p = fp_par_justified)))
     
     # Add the formatted paragraph with proper spacing
     doc <- doc |>
