@@ -193,3 +193,5 @@ fig2BC_features <- QC_scatter |>
     arrange(desc(n_significant)) |>
     print(n = Inf)
 }
+#+ 7.6: Abbreviations for figure legends
+make_figure_abbrev(abbreviation_tibble)

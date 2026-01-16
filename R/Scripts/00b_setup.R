@@ -45,3 +45,6 @@ QC_dedup <- read_xlsx(config$data_files$QC, sheet = "QC") |>
   ungroup()
 #- 0b.6.4: Read in unmodified version of QC
 QC_full <- read_xlsx(config$data_files$QC, sheet = "QC")
+#- 0b.6.5: Read in abbreviation list
+abbreviation_tibble <- read_xlsx(config$data_files$QC, sheet = "Abbreviations") |>
+  select(-KEGG)
