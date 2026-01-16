@@ -48,19 +48,19 @@ plot_heatmap_legend <- function(legend_params) {
       limits = limits,
       breaks = breaks,
       labels = labels,
-      name = title
+      name = NULL
     ) +
     guides(
       fill = guide_colorbar(
-        barheight = unit(487/300, "inches"),
-        barwidth = unit(0.27, "cm"),
+        barheight = unit(417/300, "inches"),
+        barwidth = unit(40/300, "inches"),
         ticks.colour = NA,
         ticks.linewidth = 0,
         direction = "vertical",
         label.position = "right",
-        title.position = "left",
-        frame.colour = "black",
-        frame.linewidth = 0.5,
+        title.position = "top",
+        frame.colour = NA,
+        frame.linewidth = 0,
         draw.ulim = TRUE,
         draw.llim = TRUE
       )
@@ -68,7 +68,7 @@ plot_heatmap_legend <- function(legend_params) {
     theme_void(base_family = "Arial") +
     theme(
       text = element_text(family = "Arial"),
-      legend.title = element_text(size = 6.55, face = "bold", family = "Arial", angle = 90, vjust = 0.5, hjust = 0.5),
+      legend.title = element_text(size = 6.55, face = "bold", family = "Arial", angle = 0, vjust = 0.5, hjust = 0.5),
       legend.text = element_text(size = 6.55, family = "Arial"),
       legend.position = "right"
     )

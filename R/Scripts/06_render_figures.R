@@ -1,11 +1,10 @@
 #* 6: Render Figures
 #+ 6.1: Figure 1
-u()
-heatmap_legend <- plot_heatmap_legend(mad_500$legend_params)
 fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   # 1A
   draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.416666667, height = 3.766666667) +
-  draw_plot(heatmap_legend, x = 2.136666667, y = 4.38, width = 3.416666667, height = 1) +
+  draw_plot(heatmap_legend, x = 2.063333334, y = 6.763333333-5/300, width = 3.416666667, height = 1) +
+  draw_text("Z-Score", x = 3.79, y = 8.15-33/300, size = 6.55, fontface = "bold", family = "Arial") +
   # 1B
   draw_plot(p1B, x = 4.3, y = 6.131666666, width = 3.39, height = 3.813333333) +
   # 1C
@@ -20,7 +19,6 @@ fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     D = c(4.36, 5.94667),
     "Figure 1" = c(0.49, 10.43)
   ))
-  print_to_png(fig1, "test.png", dpi = 300)
 #+ 6.2: Figure 2
 fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p2A, x = 0.75, y = 1.823333334, width = 3.75, height = 8.333333333) +
