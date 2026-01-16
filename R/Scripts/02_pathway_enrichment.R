@@ -79,7 +79,7 @@ mfn_enrichment_plot <- plot_mummichog_enrichment(
   size_range = c(8, 12),  # Min enrichment (1.36) maps to size 3, max (1.75) maps to size 12
   size_breaks = c(1.75, 1.5, 1.25),  # Reversed order - largest first
   show_legend = TRUE,
-  save_path = "Outputs/Figures/Raw/p1B.png",
+  save_path = "Outputs/Figures/Raw/p1C_local.png",
   plot_width = 6.55,
   plot_height = 5.4, # ! 6.3 for 3b version
   dpi = 600,
@@ -97,7 +97,7 @@ mfn_network <- create_biological_network(
 #+ 2.4: Plot Biological Networks (MFN)
 network_plot <- plot_biological_network(
   network_data = mfn_network,
-  output_file = "Outputs/Figures/Raw/p1C_local.png",
+  output_file = "Outputs/Figures/Raw/p1D_local.png",
   node_size_range = c(10, 14),
   text_size = 5.5,
   show_legend = FALSE,

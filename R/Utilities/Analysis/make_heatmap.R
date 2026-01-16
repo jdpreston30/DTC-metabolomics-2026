@@ -142,7 +142,7 @@ make_heatmap <- function(
     annotation_names_col = FALSE,  # Hide "Stage" and "Variant" labels
     show_rownames = FALSE,
     show_colnames = FALSE,
-    fontsize = 8,
+    fontsize = 6.55,
     na_col = "#DDDDDD",
     silent = TRUE,  # Prevents auto-display
     legend = print_scale,  # Control legend display
@@ -184,7 +184,7 @@ make_heatmap <- function(
     top_features = top_features,
     ann_col = ann_col,
     ann_colors = ann_colors,
-    heatmap_plot = heatmap_plot,  # Plot object for patchwork
+    heatmap_plot = heatmap_plot,  # Full pheatmap object
     legend_params = legend_params  # Parameters for custom legend
   )
 }

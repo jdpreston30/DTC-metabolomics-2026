@@ -1,9 +1,10 @@
 #* 5: Assign and Render Plots
 #+ 5.1: Figure 1
-p1A <- volcano
-p1B <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1B.png")))
-p1C <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1C.png")))
+p1A <- mad_500$heatmap_plot$gtable
 heatmap_legend <- plot_heatmap_legend(mad_500$legend_params)
+p1B <- volcano
+p1C <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1C.png")))
+p1D <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1D.png")))
 #+ 5.2: Figure 2
 p2A <- div_bars
 p2B.1 <- stage_feature_plots$GMP

@@ -1,19 +1,26 @@
 #* 6: Render Figures
 #+ 6.1: Figure 1
+u()
+heatmap_legend <- plot_heatmap_legend(mad_500$legend_params)
 fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   # 1A
-  draw_plot(p1A, x = 0.8, y = 6.683333333, width = 3.25, height = 3.1) +
+  draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.416666667, height = 3.766666667) +
+  draw_plot(heatmap_legend, x = 2.136666667, y = 4.38, width = 3.416666667, height = 1) +
   # 1B
-  draw_plot(ggdraw() + draw_grob(p1B), x = 4.063333333, y = 6.62, width = 3.933333333, height = 3.6) +
+  draw_plot(p1B, x = 4.3, y = 6.131666666, width = 3.39, height = 3.813333333) +
   # 1C
-  draw_plot(ggdraw() + draw_grob(p1C), x = 1.378333334, y = 1.913333333, width = 5.7421875, height = 5.7421875) +
+  draw_plot(ggdraw() + draw_grob(p1C), x = 0.5566666663, y = 2.693333334, width = 3.933333333, height = 3.6) +
+  # 1D
+  draw_plot(ggdraw() + draw_grob(p1D), x = 4.298333334, y = 3.196666667, width = 3.416601562, height = 3.416601562) +
   # Labels
   figure_labels(list(
     A = c(0.88, 10.04667),
-    B = c(4.263333333, 10.04667),
-    C = c(0.88, 6.59667),
+    B = c(4.36, 10.04667),
+    C = c(0.88, 5.94667),
+    D = c(4.36, 5.94667),
     "Figure 1" = c(0.49, 10.43)
   ))
+  print_to_png(fig1, "test.png", dpi = 300)
 #+ 6.2: Figure 2
 fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p2A, x = 0.75, y = 1.823333334, width = 3.75, height = 8.333333333) +
