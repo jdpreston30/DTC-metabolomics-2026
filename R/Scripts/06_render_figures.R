@@ -5,8 +5,8 @@ fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.543333334, height = 3.766666667) +
   draw_plot(plot_heatmap_legend(mad_500$legend_params), x = 1.616666667, y = 6.219999999, width = 2.006666667, height = 0.06) +
   draw_text("Stage", x = 3.69, y = 8.971666667, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
-  draw_text("T Category", x = 3.69, y = 8.505, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
-  draw_text("Variant", x = 3.69, y = 7.775, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("T Category", x = 3.69, y = 8.505+6/600, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("Variant", x = 3.69, y = 7.775+15/600, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
   draw_text("Z-Score", x = 3.69, y = 6.331666667, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
   # 1B
   draw_plot(p1B, x = 4.3, y = 6.054999999, width = 3.39, height = 3.813333333) +
