@@ -31,3 +31,6 @@ mad_500 <- make_heatmap(
   print_preview = FALSE,
   print_scale = FALSE
 )
+# Visual breakdown of clades...
+# Clade 1 = 21 samples, 1/21 advanced; of T category, 6/21 T2, 5/21 T3, remaining T1
+# Clade 2 = 34 samples, 5/34 advanced; of T category, 5 T4, 14 T3, 7 T2, remaining T1
