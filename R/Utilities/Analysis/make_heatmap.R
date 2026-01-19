@@ -9,6 +9,8 @@
 #' @param stage_colors         Named color vector for stage_bin; include "Early" and "Advanced"
 #' @param print_preview        Logical. If TRUE, saves a PNG preview of the heatmap. Default FALSE.
 #' @param print_scale           Logical. If TRUE, shows the color scale legend. Default TRUE.
+#' @param alt_variables        NULL (default: use Variant+Stage). If "T_stage_comp", use T_stage_comp annotation instead.
+#' @param annotation_height    Numeric. Total height of annotation bars. Default NA (auto-size).
 #' @return List with plot object, M, Mz, hc_cols, ann_col, ann_colors, etc.
 #' @export
 make_heatmap <- function(
@@ -19,7 +21,9 @@ make_heatmap <- function(
     variant_levels = c("PTC", "FV-PTC", "FTC"),
     stage_colors = c("Early" = "#113d6a", "Advanced" = "#800017"),
     print_preview = FALSE,
-    print_scale = TRUE) {
+    print_scale = TRUE,
+    alt_variables = NULL,
+    annotation_height = NA) {
   feature_selector <- match.arg(feature_selector)
 
   # ---- Checks ----
@@ -41,6 +45,12 @@ make_heatmap <- function(
 
   # Build matrix: samples x features (drop ID/stage_bin/Variant)
   drop_cols <- c("ID", "stage_bin", "Variant")
+  
+  # If using alt_variables, also drop that column from features
+  if (!is.null(alt_variables) && alt_variables == "T_stage_comp") {
+    drop_cols <- c(drop_cols, "T_stage_comp")
+  }
+  
   X <- as.matrix(dplyr::select(dat, -dplyr::all_of(drop_cols)))
   stopifnot(all(vapply(as.data.frame(X), is.numeric, TRUE)))
 
@@ -103,18 +113,9 @@ make_heatmap <- function(
   hc_cols <- hclust(d_cols, method = "complete")
 
   # ---- Column annotation (aligned to columns of M) ----
-  # ---- Column annotation (aligned to columns of M) ----
   # Build annotation in REVERSE order since pheatmap displays first column at bottom
   # Start with variant annotation (will be on bottom - first column)
   ann_col <- data.frame(Variant = dat$Variant, row.names = sample_ids)
-
-  # Add Stage annotation (will be on top - second column)
-  # Convert stage_bin to factor with canonical order
-  stage_factor <- factor(as.character(dat$stage_bin), levels = c("Early", "Advanced"))
-  ann_col$Stage <- stage_factor
-
-  # Reorder rows of ann_col to match M's columns
-  ann_col <- ann_col[colnames(M), , drop = FALSE]
 
   # ---- Annotation color lists ----
   # Build colors in same order as ann_col data frame (pheatmap displays in reverse)
@@ -123,15 +124,44 @@ make_heatmap <- function(
   # Add variant colors first (matches first column - will display at bottom)
   ann_colors$Variant <- variant_colors
 
-  # Add stage colors (matches second column - will display at top)
+  # If using alt_variables, add T_stage_comp annotation next (will be middle)
+  if (!is.null(alt_variables) && alt_variables == "T_stage_comp") {
+    # Verify T_stage_comp column exists
+    if (!"T_stage_comp" %in% names(dat)) {
+      stop("T_stage_comp column not found in data. Required when alt_variables = 'T_stage_comp'")
+    }
+    
+    # Add T_stage_comp annotation with custom label (second column - will display in middle)
+    ann_col$`T Category` <- factor(dat$T_stage_comp, levels = c("T1", "T2", "T3", "T4"), ordered = TRUE)
+    
+    # Add sequential heat color palette (cool to hot: T1 -> T4)
+    # Using yellow-orange-red progression distinct from Stage colors
+    ann_colors$`T Category` <- c(
+      "T1" = "#ffffcc",  # Light yellow (coolest)
+      "T2" = "#ffeda0",  # Pale yellow
+      "T3" = "#feb24c",  # Orange
+      "T4" = "#f03b20"   # Bright red (hottest)
+    )
+  }
+
+  # Add Stage annotation last (will be on top)
+  # Convert stage_bin to factor with canonical order
+  stage_factor <- factor(as.character(dat$stage_bin), levels = c("Early", "Advanced"))
+  ann_col$Stage <- stage_factor
+  
+  # Add stage colors
   ann_colors$Stage <- stage_colors
+
+  # Reorder rows of ann_col to match M's columns
+  ann_col <- ann_col[colnames(M), , drop = FALSE]
 
   # ---- Create heatmap plot object (single call with silent=TRUE) ----
   # Define color palette
   heatmap_colors <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "RdBu")))(255)
   
-  heatmap_plot <- pheatmap::pheatmap(
-    M,
+  # Build arguments list
+  pheatmap_args <- list(
+    mat = M,
     scale = "row",
     color = heatmap_colors,
     clustering_distance_rows = "euclidean",
@@ -139,15 +169,53 @@ make_heatmap <- function(
     clustering_method = "complete",
     annotation_col = ann_col,
     annotation_colors = ann_colors,
-    annotation_names_col = FALSE,  # Hide "Stage" and "Variant" labels
+    annotation_names_col = FALSE,
+    annotation_legend = TRUE,
     show_rownames = FALSE,
     show_colnames = FALSE,
     fontsize = 6.55,
     na_col = "#DDDDDD",
-    silent = TRUE,  # Prevents auto-display
-    legend = print_scale,  # Control legend display
+    silent = TRUE,
+    legend = print_scale,
     legend_labels = "Z-Score"
   )
+  
+  if (!is.na(annotation_height)) {
+    pheatmap_args$annotation_height <- annotation_height
+  }
+  
+  heatmap_plot <- do.call(pheatmap::pheatmap, pheatmap_args)
+  
+  # Hide all legend titles recursively
+  hide_titles <- function(grob) {
+    if (inherits(grob, "titleGrob")) {
+      # This is a title grob - make it transparent
+      if (!is.null(grob$gp)) {
+        grob$gp$col <- "transparent"
+      } else {
+        grob$gp <- grid::gpar(col = "transparent")
+      }
+    }
+    if (inherits(grob, "text")) {
+      # Check if this is in a legend title position
+      if (!is.null(grob$label) && length(grob$label) > 0) {
+        label_val <- as.character(grob$label)
+        if (length(label_val) == 1 && label_val %in% c("Stage", "T Category", "Variant")) {
+          if (!is.null(grob$gp)) {
+            grob$gp$col <- "transparent"
+          } else {
+            grob$gp <- grid::gpar(col = "transparent")
+          }
+        }
+      }
+    }
+    if (inherits(grob, "gTree") && !is.null(grob$children)) {
+      grob$children <- lapply(grob$children, hide_titles)
+    }
+    return(grob)
+  }
+  
+  heatmap_plot$gtable$grobs <- lapply(heatmap_plot$gtable$grobs, hide_titles)
   
   # Store legend parameters for custom legend creation
   legend_params <- list(

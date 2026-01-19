@@ -1,7 +1,8 @@
-#' Create Heatmap Legend
+#' Create Heatmap Legend (Horizontal)
 #'
-#' Creates a standalone legend for heatmap z-scores with colors matching
+#' Creates a horizontal legend for heatmap z-scores with colors matching
 #' the heatmap's color scale. Styled to match other publication figures.
+#' All sizing is controlled by draw_plot() width and height parameters.
 #'
 #' @param legend_params List containing color scale parameters from make_heatmap:
 #'   - colors: Vector of colors from the heatmap
@@ -16,6 +17,7 @@
 #' \dontrun{
 #' heatmap_result <- make_heatmap(data, ...)
 #' heatmap_legend <- plot_heatmap_legend(heatmap_result$legend_params)
+#' # Control size in draw_plot: draw_plot(heatmap_legend, width = 4, height = 1)
 #' }
 #'
 #' @export
@@ -40,7 +42,7 @@ plot_heatmap_legend <- function(legend_params) {
     zscore = seq(limits[1], limits[2], length.out = length(colors))
   )
   
-  # Create the plot
+  # Create the plot - bar dimensions match draw_plot() width/height exactly
   p <- ggplot(legend_data, aes(x = x, y = y, fill = zscore)) +
     geom_tile() +
     scale_fill_gradientn(
@@ -52,17 +54,19 @@ plot_heatmap_legend <- function(legend_params) {
     ) +
     guides(
       fill = guide_colorbar(
-        barheight = unit(417/300, "inches"),
-        barwidth = unit(40/300, "inches"),
+        barheight = unit(40/300, "inches"),
+        barwidth = unit(602/300, "inches"),
         ticks.colour = NA,
         ticks.linewidth = 0,
-        direction = "vertical",
-        label.position = "right",
+        direction = "horizontal",
+        label.position = "bottom",
+        label.vjust = 1.5,  # Reduce whitespace
         title.position = "top",
         frame.colour = NA,
         frame.linewidth = 0,
-        draw.ulim = TRUE,
-        draw.llim = TRUE
+        draw.ulim = FALSE,
+        draw.llim = FALSE,
+        nbin = 300
       )
     ) +
     theme_void(base_family = "Arial") +
@@ -70,7 +74,7 @@ plot_heatmap_legend <- function(legend_params) {
       text = element_text(family = "Arial"),
       legend.title = element_text(size = 6.55, face = "bold", family = "Arial", angle = 0, vjust = 0.5, hjust = 0.5),
       legend.text = element_text(size = 6.55, family = "Arial"),
-      legend.position = "right"
+      legend.position = "bottom"
     )
   
   # Extract just the legend as a grob

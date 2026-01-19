@@ -2,21 +2,24 @@
 #+ 6.1: Figure 1
 fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   # 1A
-  draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.416666667, height = 3.766666667) +
-  draw_plot(heatmap_legend, x = 2.063333334, y = 6.763333333-5/300, width = 3.416666667, height = 1) +
-  draw_text("Z-Score", x = 3.79, y = 8.15-33/300, size = 6.55, fontface = "bold", family = "Arial") +
+  draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.543333334, height = 3.766666667) +
+  draw_plot(plot_heatmap_legend(mad_500$legend_params), x = 1.616666667, y = 6.219999999, width = 2.006666667, height = 0.06) +
+  draw_text("Stage", x = 3.69, y = 8.971666667, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("T Category", x = 3.69, y = 8.505, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("Variant", x = 3.69, y = 7.775, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("Z-Score", x = 3.69, y = 6.331666667, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
   # 1B
-  draw_plot(p1B, x = 4.3, y = 6.131666666, width = 3.39, height = 3.813333333) +
+  draw_plot(p1B, x = 4.3, y = 6.054999999, width = 3.39, height = 3.813333333) +
   # 1C
-  draw_plot(ggdraw() + draw_grob(p1C), x = 0.5566666663, y = 2.693333334, width = 3.933333333, height = 3.6) +
+  draw_plot(ggdraw() + draw_grob(p1C), x = 0.5566666663, y = 2.543333334, width = 3.933333333, height = 3.6) +
   # 1D
-  draw_plot(ggdraw() + draw_grob(p1D), x = 4.298333334, y = 3.196666667, width = 3.416601562, height = 3.416601562) +
+  draw_plot(ggdraw() + draw_grob(p1D), x = 4.298333334, y = 3.046666667, width = 3.416601562, height = 3.416601562) +
   # Labels
   figure_labels(list(
     A = c(0.88, 10.04667),
     B = c(4.36, 10.04667),
-    C = c(0.88, 5.94667),
-    D = c(4.36, 5.94667),
+    C = c(0.88, 5.79667),
+    D = c(4.36, 5.79667),
     "Figure 1" = c(0.49, 10.43)
   ))
 #+ 6.2: Figure 2

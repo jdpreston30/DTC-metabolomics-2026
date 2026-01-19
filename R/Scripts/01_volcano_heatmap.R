@@ -17,18 +17,16 @@ volcano <- plot_volcano(
   down_color = "#113d6a"
 )
 #+ 1.3: Create Heatmaps
+#- 1.3.0: Add T_stage_comp to data
+UFT_filtered_test <- UFT_filtered |>
+  left_join(tumor_pathology |> select(ID, T_stage_comp), by = "ID") |>
+  select(ID, T_stage_comp, everything())
 #- 1.3.1: Using MAD method
 mad_500 <- make_heatmap(
-  data = UFT_filtered,
+  data = UFT_filtered_test,
+  alt_variables = "T_stage_comp",
+  stage_colors = c(Early = "#889eb5", Advanced = "#800017"),
   feature_selector = "mad",
-  top_features = 500,
-  print_preview = FALSE,
-  print_scale = FALSE
-)
-#- 1.3.1: Using ttest method
-ttest_500 <- make_heatmap(
-  data = UFT_filtered,
-  feature_selector = "ttest",
   top_features = 500,
   print_preview = FALSE,
   print_scale = FALSE
