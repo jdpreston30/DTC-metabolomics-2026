@@ -1,4 +1,4 @@
-Analysis run on: 2026-01-16 16:45:29 EST
+Analysis run on: 2026-01-19 07:10:08 EST
 
 R version 4.5.1 (2025-06-13)
 Platform: x86_64-apple-darwin23.6.0
@@ -19,12 +19,12 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] flextable_0.9.10     officer_0.7.2        labeling_0.4.3      
- [4] ggrepel_0.9.6        MSnbase_2.36.0       ProtGenerics_1.42.0 
- [7] S4Vectors_0.48.0     mzR_2.44.0           Rcpp_1.1.0          
-[10] Biobase_2.70.0       BiocGenerics_0.56.0  generics_0.1.4      
-[13] KEGGREST_1.50.0      mixOmics_6.34.0      lattice_0.22-7      
-[16] MASS_7.3-65          TernTablesR_0.1.1    tinytex_0.58        
+ [1] flextable_0.9.10     labeling_0.4.3       ggrepel_0.9.6       
+ [4] MSnbase_2.36.0       ProtGenerics_1.42.0  S4Vectors_0.48.0    
+ [7] mzR_2.44.0           Rcpp_1.1.0           Biobase_2.70.0      
+[10] BiocGenerics_0.56.0  generics_0.1.4       KEGGREST_1.50.0     
+[13] mixOmics_6.34.0      lattice_0.22-7       MASS_7.3-65         
+[16] TernTablesR_0.1.1    officer_0.7.2        tinytex_0.58        
 [19] rmarkdown_2.30       kableExtra_1.4.0     openxlsx_4.2.8.1    
 [22] yaml_2.3.12          here_1.0.2           ragg_1.5.0          
 [25] jsonlite_2.0.0       vegan_2.7-2          tidyr_1.3.2         
