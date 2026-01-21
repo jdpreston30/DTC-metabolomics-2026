@@ -1,12 +1,12 @@
-Analysis run on: 2026-01-19 15:08:59 EST
+Analysis run on: 2026-01-20 16:02:56 EST
 
 R version 4.5.1 (2025-06-13)
-Platform: x86_64-apple-darwin23.6.0
-Running under: macOS Sonoma 14.5
+Platform: aarch64-apple-darwin23.6.0
+Running under: macOS Sonoma 14.3
 
 Matrix products: default
-BLAS:   /usr/local/Cellar/openblas/0.3.30/lib/libopenblasp-r0.3.30.dylib 
-LAPACK: /usr/local/Cellar/r/4.5.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.30/lib/libopenblasp-r0.3.30.dylib 
+LAPACK: /opt/homebrew/Cellar/r/4.5.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -126,7 +126,7 @@ loaded via a namespace (and not attached):
 [169] globals_0.18.0              caret_7.0-1                
 
 === System Dependencies ===
-Ghostscript: 10.00.0
-ImageMagick: Version: ImageMagick 7.1.2-3 Q16-HDRI x86_64 23340 https://imagemagick.org
-Pandoc: pandoc 3.4
+Ghostscript: 10.06.0
+ImageMagick: Version: ImageMagick 7.1.2-9 Q16-HDRI aarch64 23451 https://imagemagick.org
+Pandoc: pandoc 3.5
 LaTeX: pdfTeX 3.141592653-2.6-1.40.28 (TeX Live 2025)
