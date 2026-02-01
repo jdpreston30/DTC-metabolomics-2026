@@ -21,6 +21,7 @@
 #' @param ticky Interval between y-axis ticks (default: NULL for auto)
 #' @param stats_annot_pos Position for statistics annotation: "TL" (top left), "TR" (top right), "BL" (bottom left), "BR" (bottom right) (default: "TL")
 #' @param stage_color Color scheme for stages: "default" for gray/red, "rb" for blue/red (default: "default")
+#' @param method Correlation method: "spearman" or "pearson" (default: "spearman")
 #'
 #' @return ggplot object
 #'
@@ -42,7 +43,8 @@ plot_metabolite_correlation <- function(y_metabolite,
                                        tickx = NULL,
                                        ticky = NULL,
                                        stats_annot_pos = "BR",
-                                       stage_color = "rb") {
+                                       stage_color = "rb",
+                                       method = "spearman") {
   
   # Load required libraries
   library(dplyr)
@@ -137,7 +139,7 @@ plot_metabolite_correlation <- function(y_metabolite,
     arrange(stage_bin == "Stage III/IV")
   
   # Calculate correlation on WHOLE dataset
-  cor_test <- cor.test(plot_data$x, plot_data$y, method = "pearson")
+  cor_test <- cor.test(plot_data$x, plot_data$y, method = method)
   r_value <- cor_test$estimate
   p_value <- cor_test$p.value
   n <- nrow(plot_data)
@@ -257,8 +259,10 @@ plot_metabolite_correlation <- function(y_metabolite,
     theme_pub_scatter()
   
   # Add correlation statistics annotation
+  # Use ρ (rho) for Spearman, r for Pearson
+  cor_label <- ifelse(method == "spearman", "\u03C1", "r")
   stats_annotation_text <- paste0(
-    "r = ", formatC(r_value, format = "f", digits = 2), ", ",
+    cor_label, " = ", formatC(r_value, format = "f", digits = 2), ", ",
     ifelse(p_value < 0.001, "p < 0.001", paste0("p = ", formatC(p_value, format = "f", digits = 3)))
   )
   

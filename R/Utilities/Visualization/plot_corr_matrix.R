@@ -5,7 +5,8 @@
 #'
 #' @param feature_table Tibble with ID column and feature columns
 #' @param metadata_table Tibble with feature and display_name columns for labeling
-#' @param p_threshold Numeric p-value threshold for display (default 0.1, no dot if p > threshold)#' @param show_labels Logical whether to show metabolite labels (default TRUE, set FALSE for large matrices)#' @param output_path Optional path to save as PNG (default NULL for display only)
+#' @param p_threshold Numeric p-value threshold for display (default 0.1, no dot if p > threshold)#' @param show_labels Logical whether to show metabolite labels (default TRUE, set FALSE for large matrices)#' @param method Correlation method: "spearman" or "pearson" (default "spearman")
+#' @param output_path Optional path to save as PNG (default NULL for display only)
 #' @param matrix_xlsx Optional path to save correlation matrix as Excel file (default NULL)
 #' @param width Width in inches for saved plot (default 10)
 #' @param height Height in inches for saved plot (default 10)
@@ -42,6 +43,7 @@ plot_corr_matrix <- function(
     metadata_table,
     p_threshold = 0.05,
     show_labels = TRUE,
+    method = "spearman",
     output_path = NULL,
     matrix_xlsx = NULL,
     width = 4,
@@ -58,8 +60,8 @@ plot_corr_matrix <- function(
     as.matrix()
   
   # Calculate correlation matrix and p-values
-  cor_result <- cor.mtest(feature_matrix, conf.level = 1 - p_threshold)
-  cor_matrix <- cor(feature_matrix, use = "pairwise.complete.obs")
+  cor_result <- cor.mtest(feature_matrix, conf.level = 1 - p_threshold, method = method)
+  cor_matrix <- cor(feature_matrix, use = "pairwise.complete.obs", method = method)
   p_matrix <- cor_result$p
   
   # Replace column names with display names

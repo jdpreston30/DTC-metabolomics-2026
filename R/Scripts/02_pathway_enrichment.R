@@ -94,4 +94,3 @@ network_plot <- plot_biological_network(
   ),
   color_scale = "rb"
 )
-p1d

@@ -70,7 +70,7 @@ plot_diverging_bars <- function(results_tibble,
       fc_direction = ifelse(log2_fc >= 0, "positive", "negative"),
       # Clean feature names for display and add +/- prefix
       display_name = str_replace_all(display_name, "_", " "),
-      display_name = str_wrap(display_name, width = 40),  # Increased width to reduce line breaks
+      display_name = ifelse(display_name == "Glycan Defense", display_name, str_wrap(display_name, width = 40)),  # No line break for Glycan Defense
       # Convert to absolute values for plotting (positive x-axis only)
       log2_fc_abs = abs(log2_fc)
     ) %>%
@@ -208,7 +208,9 @@ plot_diverging_bars <- function(results_tibble,
     label_data <- data.frame(
       x = label_x,
       y = group_info$y_mid,
-      label = gsub(" ", "\n", group_info$main_group)
+      label = ifelse(group_info$main_group == "Glycan Defense", 
+                     group_info$main_group,
+                     gsub(" ", "\n", group_info$main_group))
     )
     
     # Add group labels using geom_text for proper multi-line center justification

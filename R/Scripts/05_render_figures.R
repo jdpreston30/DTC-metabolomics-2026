@@ -1,5 +1,5 @@
-#* 6: Render Figures
-#+ 6.1: Figure 1
+#* 5: Render Figures
+#+ 5.1: Figure 1
 fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   # 1A
   draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.543333334, height = 3.766666667) +
@@ -22,7 +22,7 @@ fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     D = c(4.36, 5.79667),
     "Figure 1" = c(0.49, 10.43)
   ))
-#+ 6.2: Figure 2
+#+ 5.2: Figure 2
 fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p2A, x = 0.75, y = 1.823333334, width = 3.75, height = 8.333333333) +
   # Manually add dagger symbol to 9-O-Acetyl-Neu5Ac
@@ -46,7 +46,7 @@ fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     C = c(4.746666666, 5.36667),
     "Figure 2" = c(0.49, 10.43)
   ))
-#+ 6.3: Figure 3
+#+ 5.3: Figure 3
 fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   # 3A/C
   draw_plot(ggdraw() + draw_grob(p3AC), x = 0.6033333334, y = 1.25, width = 6.885, height = 8.91)+
@@ -70,25 +70,25 @@ fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     D = c(5.13, 6.94),
     "Figure 3" = c(0.49, 10.43)
   ))
-#+ 6.4: Figure 4
+#+ 5.4: Figure 4
 fig4 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(ggdraw() + draw_grob(p4), x = 0, y = -0.295, width = 8.5, height = 11) +
   # Labels
   figure_labels(list(
     "Figure 4" = c(0.49, 10.43)
   ))
-#+ 6.5: Print all figures
-#- 6.5.1: Print PNGs
+#+ 5.5: Print all figures
+#- 5.5.1: Print PNGs
 print_to_png(fig1, "Final/PNG/fig1.png")
 print_to_png(fig2, "Final/PNG/fig2.png")
 print_to_png(fig3, "Final/PNG/fig3.png")
 print_to_png(fig4, "Final/PNG/fig4.png")
-#- 6.5.2: Print TIFFs
+#- 5.5.2: Print TIFFs
 print_to_tiff(fig1, "Final/TIFF/fig1.tiff")
 print_to_tiff(fig2, "Final/TIFF/fig2.tiff")
 print_to_tiff(fig3, "Final/TIFF/fig3.tiff")
 print_to_tiff(fig4, "Final/TIFF/fig4.tiff")
-#- 6.5.3: Print PDFs
+#- 5.5.3: Print PDFs
 {
   # Figure 1
   tryCatch({
@@ -137,7 +137,7 @@ print_to_tiff(fig4, "Final/TIFF/fig4.tiff")
   })
   cat("✓ PDF generation complete\n")
 }
-#+ 6.6: Create compiled PDF
+#+ 5.6: Create compiled PDF
 pdf_combine(
   input = c(
     "Outputs/Figures/Final/PDF/Figure 1.pdf",

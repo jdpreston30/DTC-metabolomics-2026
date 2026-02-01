@@ -1,9 +1,9 @@
-#* 8: Tables
-#+ 8.1: Table 1
-#- 8.1.0: Create vector of included samples
+#* 7: Tables
+#+ 7.1: Table 1
+#- 7.1.0: Create vector of included samples
 used_samples <- UFT_filtered |>
   pull(ID)
-#- 8.1.1: Filter to used samples; order rows; clean data
+#- 7.1.1: Filter to used samples; order rows; clean data
 tumor_pathology_table <- tumor_pathology_full |>
   rename(ID = Patient_ID) |>
   filter(ID %in% used_samples) |>
@@ -27,7 +27,7 @@ tumor_pathology_table <- tumor_pathology_full |>
     )
   ) |>
   select(Age, Sex, Variant, stage_bin, Stage, T = T_stage_comp, N, M, `Extrathyroidal extension` = ETE, `Lymphovascular invasion` = LVI, Multifocality = MFC)
-#- 8.1.2: Build Table 1
+#- 7.1.2: Build Table 1
 T1 <- ternG(
   data = tumor_pathology_table,
   group_var = "stage_bin",
@@ -38,8 +38,8 @@ T1 <- ternG(
   round_intg = FALSE,
   insert_subheads = TRUE
 )
-#+ 8.2: Supplementary Table 1
-#- 8.2.1: Define group order
+#+ 7.2: Supplementary Table 1
+#- 7.2.1: Define group order
 group_order <- c(
   "Nucleotide Flux",
   "Protein/Amino Acid Turnover", 
@@ -53,7 +53,7 @@ group_order <- c(
   "Glycan Defense",
   "Immune/Signaling"
 )
-#- 8.2.2: Prepare base ST1 data (pre-sort by p-value before formatting)
+#- 7.2.2: Prepare base ST1 data (pre-sort by p-value before formatting)
 ST1_base <- readxl::read_xlsx(config$data_files$QC, sheet = "QC") |>
   mutate(
     mode_ESI = case_when(
@@ -84,7 +84,7 @@ ST1_base <- readxl::read_xlsx(config$data_files$QC, sheet = "QC") |>
     `KEGG ID` = KEGG,
     CID
   )
-#- 8.2.3: Build hierarchical structure with Group: Name nesting
+#- 7.2.3: Build hierarchical structure with Group: Name nesting
 ST1_list <- list()
 all_groups <- group_order[group_order %in% unique(ST1_base$Group)]
 
@@ -236,7 +236,7 @@ for (group_idx in seq_along(all_groups)) {
     )
   }
 }
-#- 8.2.4: Combine and format final tibble
+#- 7.2.4: Combine and format final tibble
 # Only replace NA with "–" for Metabolite rows (actual missing data)
 # GROUP and Spacer rows should have blank cells
 ST1_tibble <- bind_rows(ST1_list) |>
@@ -247,14 +247,14 @@ ST1_tibble <- bind_rows(ST1_list) |>
   )) |>
   mutate(across(everything(), ~ replace_na(.x, ""))) |>  # Remaining NAs become blank
   select(-row_type)  # Remove helper column
-#- 8.2.5: Source table builder and generate LaTeX
+#- 7.2.5: Source table builder and generate LaTeX
 source("R/Utilities/Tabulation/build_ST1_latex.R")
 build_ST1_latex(
   data = ST1_tibble,
   group_names = group_order,
   output_path = "Supplementary/Components/Tables/ST1.tex"
 )
-#- 8.2.6: Render supplementary tables PDF
+#- 7.2.6: Render supplementary tables PDF
 {
   components_dir <- here::here("Supplementary", "Components")
   intermediates_dir <- here::here("Supplementary", "Build_Logs")

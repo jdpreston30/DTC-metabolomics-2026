@@ -1,6 +1,6 @@
-#* 7: Data Not Shown
-#+ 7.1: Description of metabolite counts
-#- 7.1.1: Count features in full untargeted dataset
+#* 6: Data Not Shown
+#+ 6.1: Description of metabolite counts
+#- 6.1.1: Count features in full untargeted dataset
 {
   hilic_counts_full <- UFT_full |> 
     select(starts_with("HILIC")) |> 
@@ -10,7 +10,7 @@
     ncol()
   total_untargeted_features <- hilic_counts_full + c18_counts_full
 }
-#- 7.1.2: Count filtered features 
+#- 6.1.2: Count filtered features 
 {
   hilic_count_filtered <- UFT_filtered |> 
     select(starts_with("HILIC")) |> 
@@ -20,7 +20,7 @@
     ncol()
   total_filtered_features <- hilic_count_filtered + c18_count_filtered
 }
-#- 7.1.3: Narrative printout
+#- 6.1.3: Narrative printout
 {
   cat(
     "\n", strrep("=", 60), "\n",
@@ -41,8 +41,8 @@
     strrep("=", 60), "\n\n"
   )
 }
-#+ 7.2: Volcano Plot Statistics
-#- 7.2.1: Extract volcano plot results (assuming you have volcano analysis results)
+#+ 6.2: Volcano Plot Statistics
+#- 6.2.1: Extract volcano plot results (assuming you have volcano analysis results)
 {
   sig_up_fc <- volcano_data$volcano_data |>
     filter(p_value < 0.05 & log2_fc > log2(1.5)) |>
@@ -51,7 +51,7 @@
     filter(p_value < 0.05 & log2_fc < -log2(1.5)) |>
     nrow()
 }
-#- 7.2.2: Narrative printout
+#- 6.2.2: Narrative printout
 {
   cat(
     "\n", strrep("=", 60), "\n",
@@ -62,8 +62,8 @@
     strrep("=", 60), "\n\n"
   )
 }
-#+ 7.3: Annotated Metabolites Summary
-#- 7.3.1: Count annotated metabolites in targeted dataset
+#+ 6.3: Annotated Metabolites Summary
+#- 6.3.1: Count annotated metabolites in targeted dataset
 {
   hilic_annot <- TFT_annot_transformed |> 
     select(starts_with("HILIC")) |> 
@@ -73,11 +73,11 @@
     ncol()
   total_annotated <- hilic_annot + c18_annot
 }
-#- 7.3.2: Count significant features
+#- 6.3.2: Count significant features
 annot_features_sig <- annot_results_w_meta |>
   select(feature, log2FC, p_value, p_value_fdr) |>
   distinct()
-#- 7.3.3: Count significant features by direction
+#- 6.3.3: Count significant features by direction
 {
   # Plain p-value < 0.05
   sig_positive_plain <- annot_features_sig |>
@@ -98,7 +98,7 @@ annot_features_sig <- annot_results_w_meta |>
     nrow()
   sig_total_fdr <- sig_positive_fdr + sig_negative_fdr
 }
-#- 7.3.4: Narrative printout
+#- 6.3.4: Narrative printout
 {
   cat(
     "\n", strrep("=", 60), "\n",
@@ -130,13 +130,13 @@ annot_features_sig <- annot_results_w_meta |>
     strrep("=", 60), "\n\n"
   )
 }
-#+ 7.4: Figure 2B/C Featured Metabolites
-#- 7.4.1: Create tibble of specific features
+#+ 6.4: Figure 2B/C Featured Metabolites
+#- 6.4.1: Create tibble of specific features
 fig2BC_features <- QC_scatter |>
   select(display_name, log2FC) |>
   arrange(log2FC)
 
-#- 7.4.2: Calculate fold change ranges
+#- 6.4.2: Calculate fold change ranges
 {
   # Separate increased and decreased metabolites
   increased_metabs <- fig2BC_features |>
@@ -154,7 +154,7 @@ fig2BC_features <- QC_scatter |>
   min_decrease <- round_1dp(min(decreased_metabs$fold_change))
   max_decrease <- round_1dp(max(decreased_metabs$fold_change))
 }
-#- 7.4.3: Narrative printout
+#- 6.4.3: Narrative printout
 {
   cat(
     "\n", strrep("=", 60), "\n",
@@ -181,7 +181,7 @@ fig2BC_features <- QC_scatter |>
     strrep("=", 60), "\n\n"
   )
 }
-#+ 7.5: PEA Correlation Summary
+#+ 6.5: PEA Correlation Summary
 # Count significant results per pathway
 {
   correlation_mfn_plot_data |>
@@ -193,5 +193,5 @@ fig2BC_features <- QC_scatter |>
     arrange(desc(n_significant)) |>
     print(n = Inf)
 }
-#+ 7.6: Abbreviations for figure legends
+#+ 6.6: Abbreviations for figure legends
 make_figure_abbrev(abbreviation_tibble)
