@@ -3,6 +3,7 @@
 p1A <- mad_500$heatmap_plot$gtable
 p1B <- volcano
 p1C <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1C.png")))
+#! Used to be 6.55 width now 5.8x5.4
 p1D <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p1D.png")))
 #+ 5.2: Figure 2
 p2A <- div_bars

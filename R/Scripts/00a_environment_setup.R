@@ -9,6 +9,7 @@
 library(conflicted)
 # Set all conflict preferences to prevent warnings during package loading
 conflicts_prefer(purrr::map)
+conflicts_prefer(RJSONIO::fromJSON)
 conflicts_prefer(purrr::flatten)
 conflicts_prefer(dplyr::filter)
 conflicts_prefer(dplyr::summarize)

@@ -6,6 +6,7 @@
 #' @param output_dir Directory path for output (default: "Outputs/mummichog_inputs/")
 #' @param group1_value Value representing the first group (default: "N")
 #' @param group2_value Value representing the second group (default: "Y")
+#' @param use_fdr Logical; if TRUE, returns FDR-corrected p-values (Benjamini-Hochberg) instead of raw p-values (default: FALSE)
 #' @return List containing the results tibble and summary statistics
 #' @export
 mummichog_ttests <- function(data,
@@ -13,7 +14,8 @@ mummichog_ttests <- function(data,
                              output_filename = NULL,
                              output_dir = "Outputs/mummichog/inputs/",
                              group1_value = "N",
-                             group2_value = "Y") {
+                             group2_value = "Y",
+                             use_fdr = FALSE) {
   
   # Check config to see if we should skip t-tests
   skip_mummichog <- FALSE
@@ -134,6 +136,13 @@ mummichog_ttests <- function(data,
     ) |>
     # _Remove rows where feature parsing failed (invalid feature names)
     dplyr::filter(!is.na(m.z) & !is.na(mode))
+  
+  # _Apply FDR correction if requested
+  if (use_fdr) {
+    results_tibble <- results_tibble |>
+      dplyr::mutate(p.value = p.adjust(p.value, method = "BH"))
+    cat("FDR correction applied using Benjamini-Hochberg method\n")
+  }
 
   # _Export results (only if output_filename is provided)
   output_path <- NULL

@@ -13,12 +13,14 @@ plot_volcano <- function(volcano_results,
                         down_color = "#113d6a",
                         x_limits = NULL,
                         y_limits = NULL,
-                        point_size = 0.5) {
+                        point_size = 0.5,
+                        show_fdr_line = TRUE) {
   
   # Extract data from results
   volcano_data <- volcano_results$volcano_data
   fc_threshold <- volcano_results$fc_threshold
   p_threshold <- volcano_results$p_threshold
+  fdr_p_threshold <- volcano_results$fdr_p_threshold
   up_label <- volcano_results$up_label
   down_label <- volcano_results$down_label
 
@@ -106,6 +108,13 @@ plot_volcano <- function(volcano_results,
     ) +
     ggplot2::geom_hline(yintercept = -log10(p_threshold), linetype = "dashed", color = "black") +
     ggplot2::geom_vline(xintercept = c(-fc_threshold, fc_threshold), linetype = "dashed", color = "black") +
+    {if (show_fdr_line && fdr_p_threshold > 0) ggplot2::geom_hline(yintercept = -log10(fdr_p_threshold), linetype = "dashed", color = "black")} +
+    {if (show_fdr_line && fdr_p_threshold > 0) ggplot2::annotate("text", x = x_range[2] - 0.1, y = -log10(fdr_p_threshold) + 0.15, 
+                                                                   label = "q = 0.05", hjust = 1, vjust = 0, 
+                                                                   size = 3, family = "Arial", fontface = "italic")} +
+    ggplot2::annotate("text", x = x_range[2] - 0.1, y = -log10(p_threshold) + 0.15, 
+                      label = "p = 0.05", hjust = 1, vjust = 0, 
+                      size = 3, family = "Arial", fontface = "italic") +
     ggplot2::scale_x_continuous(
       limits = x_range_extended,
       breaks = function(x) {

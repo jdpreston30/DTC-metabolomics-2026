@@ -1,13 +1,13 @@
 # Mummichog Analysis Parameters
 
-**Analysis Date:** 2026-01-13
+**Analysis Date:** 2026-02-01
 
 **Database:** hsa_mfn
 
 **MetaboAnalystR 'Set' Function Outputs:**
 - SetPeakFormat: mpr
 - SetPeakEnrichMethod: mummichog (v2)
-- SetMummichogPval: 0.05 (user-specified threshold)
+- SetMummichogPvalFromPercent: 0.1 (top 10% of peaks)
 
 **Instrument Parameters (UpdateInstrumentParameters):**
 - instrumentOpt: 5
@@ -16,19 +16,19 @@
 - rt_frac: 0.02
 
 **Analysis Parameters:**
-- Peak filtering method: User-specified p-value threshold
-- Peak filtering threshold (rounded): 0.05
-- Peak filtering threshold (precise): 0.05
-- Peaks analyzed: 888 out of 43851
-- Pathways analyzed: 97
-- Significant pathways (p < 0.05): 5
-- Pathway p-values range: 0.000675 to 0.99834
+- Peak filtering method: Top 10% of peaks (dynamic)
+- Peak filtering threshold (rounded): 0.25
+- Peak filtering threshold (precise): 0.411735054725732
+- Peaks analyzed: 864 out of 17270
+- Pathways analyzed: 79
+- Significant pathways (p < 0.05): 8
+- Pathway p-values range: 0.007522 to 0.98954
 - Pathway FDR: Not calculated (using raw p-values)
 - Pathway enrichment FDR threshold: 0.05 (fixed)
 - Minimum pathway size: 3
 - Background permutations: 100
 
 **Input Data:**
-- Number of features: 43851
+- Number of features: 17270
 - Output directory: Outputs/mummichog/ttests_MFN
 

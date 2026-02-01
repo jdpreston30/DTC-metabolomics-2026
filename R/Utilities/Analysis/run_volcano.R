@@ -107,6 +107,9 @@ run_volcano <- function(data,
   # ---- Create volcano data ----
   volcano_data <- ttest_results
   volcano_data$neg_log10_p <- -log10(volcano_data$p_value)
+  
+  # Calculate FDR (Benjamini-Hochberg)
+  volcano_data$p_fdr <- p.adjust(volcano_data$p_value, method = "BH")
 
   # Classify significance with custom legend text
   volcano_data$Legend <- "Not Significant"
@@ -128,13 +131,43 @@ run_volcano <- function(data,
   volcano_data$Legend <- factor(volcano_data$Legend,
     levels = c("Not Significant", up_label, down_label)
   )
+  
+  # Calculate FDR-based significance
+  volcano_data$significant <- volcano_data$p_value < p_threshold & abs(volcano_data$log2_fc) > fc_threshold
+  volcano_data$significant_fdr <- volcano_data$p_fdr < p_threshold & abs(volcano_data$log2_fc) > fc_threshold
+  
+  # Find the FDR threshold (max p-value where FDR < p_threshold)
+  fdr_sig <- volcano_data[volcano_data$p_fdr < p_threshold, ]
+  if (nrow(fdr_sig) > 0) {
+    fdr_p_threshold <- max(fdr_sig$p_value, na.rm = TRUE)
+  } else {
+    fdr_p_threshold <- 0  # No significant features at FDR threshold
+  }
 
+  # Count significance
+  n_sig_p <- sum(volcano_data$significant, na.rm = TRUE)
+  n_sig_p_up <- sum(volcano_data$p_value < p_threshold & volcano_data$log2_fc > fc_threshold, na.rm = TRUE)
+  n_sig_p_down <- sum(volcano_data$p_value < p_threshold & volcano_data$log2_fc < -fc_threshold, na.rm = TRUE)
+  
+  n_sig_fdr <- sum(volcano_data$significant_fdr, na.rm = TRUE)
+  n_sig_fdr_up <- sum(volcano_data$p_fdr < p_threshold & volcano_data$log2_fc > fc_threshold, na.rm = TRUE)
+  n_sig_fdr_down <- sum(volcano_data$p_fdr < p_threshold & volcano_data$log2_fc < -fc_threshold, na.rm = TRUE)
+  
   # Print summary statistics
   cat("\n=== Volcano Analysis Summary ===\n")
   cat("Highest -log10(p-value):", round(max(volcano_data$neg_log10_p, na.rm = TRUE), 3), "\n")
   cat("Min log2(FC):", round(min(volcano_data$log2_fc, na.rm = TRUE), 3), "\n")
   cat("Max log2(FC):", round(max(volcano_data$log2_fc, na.rm = TRUE), 3), "\n")
-  cat("================================\n\n")
+  cat("\nSignificant Features (p<", p_threshold, ", |FC|>", round(2^fc_threshold, 2), "):")
+  cat("\n  Total:", n_sig_p)
+  cat("\n  Upregulated:", n_sig_p_up)
+  cat("\n  Downregulated:", n_sig_p_down)
+  cat("\n\nSignificant Features (FDR<", p_threshold, ", |FC|>", round(2^fc_threshold, 2), "):")
+  cat("\n  Total:", n_sig_fdr)
+  cat("\n  Upregulated:", n_sig_fdr_up)
+  cat("\n  Downregulated:", n_sig_fdr_down)
+  cat("\n  FDR p-value threshold:", round(fdr_p_threshold, 6))
+  cat("\n================================\n\n")
 
   # Return analysis results
   list(
@@ -144,6 +177,7 @@ run_volcano <- function(data,
     patient_var = patient_var,
     fc_threshold = fc_threshold,
     p_threshold = p_threshold,
+    fdr_p_threshold = fdr_p_threshold,
     up_label = up_label,
     down_label = down_label,
     original_data = dat
