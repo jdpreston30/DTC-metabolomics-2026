@@ -32,7 +32,7 @@ plot_corr_legend <- function() {
       limits = c(-1, 1),
       breaks = seq(-1, 1, by = 0.2),
       labels = c("-1", "-0.8", "-0.6", "-0.4", "-0.2", "0", "0.2", "0.4", "0.6", "0.8", "1"),
-      name = "Pearson Correlation"
+      name = "Spearman Correlation"
     ) +
     guides(
       fill = guide_colorbar(
