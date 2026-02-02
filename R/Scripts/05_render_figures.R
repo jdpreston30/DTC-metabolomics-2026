@@ -46,28 +46,27 @@ fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
     C = c(4.746666666, 5.36667),
     "Figure 2" = c(0.49, 10.43)
   ))
-  print_to_png(fig2, "test.png", dpi = 300)
 #+ 5.3: Figure 3
 fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
-  # 3A (shift RIGHT by 917/300 inches)
-  draw_plot(ggdraw() + draw_grob(p3A_combined), x = 0.6033333334 + 917/300, y = 1.25, width = 6.885, height = 8.91)+
-  # 3B (shift LEFT by 1239/300 inches)
-  draw_plot(p3B.R1.C1 , x = 5.04 - 1239/300, y = 8.403333334, width = 1.5, height = 1.5) +
-  draw_plot(p3B.R1.C2, x = 6.479999999 - 1239/300, y = 8.403333334, width = 1.5, height = 1.5) +
-  draw_plot(p3B.R2.C1 , x = 5.04 - 1239/300, y = 6.97, width = 1.5, height = 1.5) +
-  draw_plot(p3B.R2.C2, x = 6.479999999 - 1239/300, y = 6.97, width = 1.5, height = 1.5) +
-  # 3C (shift LEFT by 1239/300 inches)
-  draw_plot(p3C.R1.C1 , x = 5.04 - 1239/300, y = 5.124993367, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R1.C2, x = 6.479999999 - 1239/300, y = 5.124993367, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R2.C1 , x = 5.04 - 1239/300, y = 3.691660033, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R2.C2, x = 6.479999999 - 1239/300, y = 3.691660033, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R3.C1 , x = 5.04 - 1239/300, y = 2.191660033, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R3.C2, x = 6.479999999 - 1239/300, y = 2.191660033, width = 1.5, height = 1.5) +
-  # Labels (shift A RIGHT by 917/300, shift B and C LEFT by 1239/300)
+  # 3A
+  draw_plot(ggdraw() + draw_grob(p3A_combined), x = 0.6033333334, y = 1.25, width = 6.885, height = 8.91)+
+  # 3B
+  draw_plot(p3B.R1.C1 , x = 5.04, y = 8.403333334, width = 1.5, height = 1.5) +
+  draw_plot(p3B.R1.C2, x = 6.479999999, y = 8.403333334, width = 1.5, height = 1.5) +
+  draw_plot(p3B.R2.C1 , x = 5.04, y = 6.97, width = 1.5, height = 1.5) +
+  draw_plot(p3B.R2.C2, x = 6.479999999, y = 6.97, width = 1.5, height = 1.5) +
+  # 3C
+  draw_plot(p3C.R1.C1 , x = 5.04, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R1.C2, x = 6.479999999, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R2.C1 , x = 5.04, y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R2.C2, x = 6.479999999, y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R3.C1 , x = 5.04, y = 2.191660033, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R3.C2, x = 6.479999999, y = 2.191660033, width = 1.5, height = 1.5) +
+  # Labels
   figure_labels(list(
-    A = c(0.9900003333 + 917/300, 10.04667),
-    B = c(5.13 - 1239/300, 10.04667),
-    C = c(5.13 - 1239/300, 6.94),
+    A = c(0.9900003333, 10.04667),
+    B = c(5.13, 10.04667),
+    C = c(5.13, 6.94),
     "Figure 3" = c(0.49, 10.43)
   ))
 #+ 5.4: Figure 4

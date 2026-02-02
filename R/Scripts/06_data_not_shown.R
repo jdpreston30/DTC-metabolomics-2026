@@ -50,6 +50,14 @@
   sig_down_fc <- volcano_data$volcano_data  |>
     filter(p_value < 0.05 & log2_fc < -log2(1.5)) |>
     nrow()
+  
+  # FDR-corrected counts
+  sig_up_fdr <- volcano_data$volcano_data |>
+    filter(p_fdr < 0.05 & log2_fc > log2(1.5)) |>
+    nrow()
+  sig_down_fdr <- volcano_data$volcano_data  |>
+    filter(p_fdr < 0.05 & log2_fc < -log2(1.5)) |>
+    nrow()
 }
 #- 6.2.2: Narrative printout
 {
@@ -57,8 +65,14 @@
     "\n", strrep("=", 60), "\n",
     "VOLCANO PLOT SIGNIFICANT FEATURE COUNTS\n",
     strrep("=", 60), "\n\n",
-    "Significantly upregulated features (FC > 1.5, p < 0.05):   ", format(sig_up_fc, big.mark = ","), "\n",
-    "Significantly downregulated features (FC < -1.5, p < 0.05): ", format(sig_down_fc, big.mark = ","), "\n",
+    "Nominal p-value (p < 0.05, |FC| > 1.5):\n",
+    "  Upregulated features:   ", format(sig_up_fc, big.mark = ","), "\n",
+    "  Downregulated features: ", format(sig_down_fc, big.mark = ","), "\n",
+    "  Total:                  ", format(sig_up_fc + sig_down_fc, big.mark = ","), "\n\n",
+    "FDR-corrected (q < 0.05, |FC| > 1.5):\n",
+    "  Upregulated features:   ", format(sig_up_fdr, big.mark = ","), "\n",
+    "  Downregulated features: ", format(sig_down_fdr, big.mark = ","), "\n",
+    "  Total:                  ", format(sig_up_fdr + sig_down_fdr, big.mark = ","), "\n",
     strrep("=", 60), "\n\n"
   )
 }
