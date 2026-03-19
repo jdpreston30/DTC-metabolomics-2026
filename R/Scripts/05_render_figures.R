@@ -5,15 +5,15 @@ fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p1A, x = 0.8533333333, y = 6.38, width = 3.543333334, height = 3.766666667) +
   draw_plot(plot_heatmap_legend(mad_500$legend_params), x = 1.616666667, y = 6.219999999, width = 2.006666667, height = 0.06) +
   draw_text("Stage", x = 3.69, y = 8.971666667, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
-  draw_text("T Category", x = 3.69, y = 8.505+6/600, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
-  draw_text("Variant", x = 3.69, y = 7.775+15/600, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("T Category", x = 3.69, y = 8.515, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
+  draw_text("Variant", x = 3.69, y = 7.8, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
   draw_text("Z-Score", x = 3.69, y = 6.331666667, size = 6.55, fontface = "bold", family = "Arial", hjust = 0) +
   # 1B
   draw_plot(p1B, x = 4.3, y = 6.054999999, width = 3.39, height = 3.813333333) +
   # 1C
-  draw_plot(ggdraw() + draw_grob(p1C), x = 0.5566666663, y = 2.543333334-20/300, width = 3.933333333, height = 3.6) +
+  draw_plot(ggdraw() + draw_grob(p1C), x = 0.5566666663, y = 2.476666667, width = 3.933333333, height = 3.6) +
   # 1D
-  draw_plot(ggdraw() + draw_grob(p1D), x = 4.298333334+40/300, y = 3.046666667, width = 5.8*0.59, height = 5.4*0.59) +
+  draw_plot(ggdraw() + draw_grob(p1D), x = 4.431666667, y = 3.046666667, width = 3.422, height = 3.186) +
   # Labels
   figure_labels(list(
     A = c(0.88, 10.04667),
@@ -49,26 +49,33 @@ fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
 #+ 5.3: Figure 3
 fig3 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   # 3A
-  draw_plot(ggdraw() + draw_grob(p3A_combined), x = 0.6033333334, y = 1.25, width = 6.885, height = 8.91)+
+  draw_plot(ggdraw() + draw_grob(p3A_combined), x = 0.6033333334, y = 1.25, width = 6.885, height = 8.91) +
   # 3B
   draw_plot(p3B.R1.C1 , x = 5.04, y = 8.403333334, width = 1.5, height = 1.5) +
   draw_plot(p3B.R1.C2, x = 6.479999999, y = 8.403333334, width = 1.5, height = 1.5) +
   draw_plot(p3B.R2.C1 , x = 5.04, y = 6.97, width = 1.5, height = 1.5) +
   draw_plot(p3B.R2.C2, x = 6.479999999, y = 6.97, width = 1.5, height = 1.5) +
   # 3C
-  draw_plot(p3C.R1.C1 , x = 5.04, y = 5.124993367, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R1.C2, x = 6.479999999, y = 5.124993367, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R2.C1 , x = 5.04, y = 3.691660033, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R2.C2, x = 6.479999999, y = 3.691660033, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R3.C1 , x = 5.04, y = 2.191660033, width = 1.5, height = 1.5) +
-  draw_plot(p3C.R3.C2, x = 6.479999999, y = 2.191660033, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R1.C1 , x = 0.533333333, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R1.C2,  x = 1.973333332, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R2.C1 , x = 3.413333331, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R2.C2,  x = 0.533333333, y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R3.C1 , x = 1.973333332,   y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3C.R3.C2,  x = 3.413333331,   y = 3.691660033, width = 1.5, height = 1.5) +
+  # 3D
+  draw_plot(p3D.R1.C1, x = 5.04, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R1.C2, x = 6.479999999, y = 5.124993367, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R2.C1, x = 5.04, y = 3.691660033, width = 1.5, height = 1.5) +
+  draw_plot(p3D.R2.C2, x = 6.479999999, y = 3.691660033, width = 1.5, height = 1.5) +
   # Labels
   figure_labels(list(
-    A = c(0.9900003333, 10.04667),
+    A = c(0.623333333, 10.04667),
     B = c(5.13, 10.04667),
-    C = c(5.13, 6.94),
+    C = c(0.623333333, 6.94),
+    D = c(5.13, 6.94),
     "Figure 3" = c(0.49, 10.43)
   ))
+  print_to_png(fig3+grdgd(), "fig3_preview.png", dpi = 300)
 #+ 5.4: Figure 4
 fig4 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(ggdraw() + draw_grob(p4), x = 0, y = -0.295, width = 8.5, height = 11) +

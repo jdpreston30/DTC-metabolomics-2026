@@ -35,12 +35,17 @@ p3B.R1.C1 <- AP_GMP
 p3B.R1.C2 <- Adr_3KS
 p3B.R2.C1 <- Adr_Kyn
 p3B.R2.C2 <- Adr_SAH
-#- 4.3.6: Assign 3D plots
+#- 4.3.6: Assign 3C plots
 p3C.R1.C1 <- GMP_R5P
 p3C.R1.C2 <- KS3_ODHAP
 p3C.R2.C1 <- MNA1_SAH
 p3C.R2.C2 <- PAPS_SAH
 p3C.R3.C1 <- AcGlu_Cit
 p3C.R3.C2 <- Kyn_Ser
+#- 4.3.7: Assign 3D plots
+p3D.R1.C1 <- ratio_MNA1
+p3D.R1.C2 <- ratio_gLin
+p3D.R2.C1 <- ratio_GMP
+p3D.R2.C2 <- ratio_AMP
 #+ 4.4: Figure 4
 p4 <- grid::rasterGrob(as.raster(magick::image_read("Outputs/Figures/Raw/p4.png")))
