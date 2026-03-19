@@ -20,6 +20,7 @@
 #' @param tickx Interval between x-axis ticks (default: NULL for auto)
 #' @param ticky Interval between y-axis ticks (default: NULL for auto)
 #' @param stats_annot_pos Position for statistics annotation: "TL" (top left), "TR" (top right), "BL" (bottom left), "BR" (bottom right) (default: "TL")
+#' @param annotation Annotation style: "inline" for rho and p on one line (default), "stacked" for rho on line 1 and p on line 2
 #' @param stage_color Color scheme for stages: "default" for gray/red, "rb" for blue/red (default: "default")
 #' @param method Correlation method: "spearman" or "pearson" (default: "spearman")
 #'
@@ -43,6 +44,7 @@ plot_metabolite_correlation <- function(y_metabolite,
                                        tickx = NULL,
                                        ticky = NULL,
                                        stats_annot_pos = "BR",
+                                       annotation = "inline",
                                        stage_color = "rb",
                                        method = "spearman") {
   
@@ -261,10 +263,13 @@ plot_metabolite_correlation <- function(y_metabolite,
   # Add correlation statistics annotation
   # Use ρ (rho) for Spearman, r for Pearson
   cor_label <- ifelse(method == "spearman", "\u03C1", "r")
-  stats_annotation_text <- paste0(
-    cor_label, " = ", formatC(r_value, format = "f", digits = 2), ", ",
-    ifelse(p_value < 0.001, "p < 0.001", paste0("p = ", formatC(p_value, format = "f", digits = 3)))
-  )
+  rho_text <- paste0(cor_label, " = ", formatC(r_value, format = "f", digits = 2))
+  p_text   <- ifelse(p_value < 0.001, "p < 0.001", paste0("p = ", formatC(p_value, format = "f", digits = 3)))
+  stats_annotation_text <- if (annotation == "stacked") {
+    paste0(rho_text, "\n", p_text)
+  } else {
+    paste0(rho_text, ", ", p_text)
+  }
   
   # Determine position based on stats_annot_pos argument
   # Get axis limits for positioning
@@ -310,6 +315,7 @@ plot_metabolite_correlation <- function(y_metabolite,
                    hjust = hjust_val, vjust = vjust_val,
                    size = 3 * text_scale,
                    fontface = "italic",
+                   lineheight = 1,
                    color = "black")
   
   return(p)

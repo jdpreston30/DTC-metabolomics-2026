@@ -228,7 +228,10 @@ TFT_SAM_SAH <- TFT_annot_transformed |>
   TFT_SAM_SAH <- TFT_SAM_SAH |>
     rename(!!!setNames(SAM_SAH$feature, name_map[SAM_SAH$`Identified Name`]))
 }
-#- 3.8.4: Correlation plot of SAM vs SAH
+#- 3.8.4: Add ratio column (log2 subtraction = log2(SAM/SAH))
+TFT_SAM_SAH <- TFT_SAM_SAH |>
+  mutate(SAM_SAH_ratio = SAM - SAH)
+#- 3.8.5: Correlation plot of SAM vs SAH
 SAM_SAH_cor <- plot_metabolite_correlation(
   y_metabolite = "SAM",
   x_metabolite = "SAH",
@@ -237,4 +240,62 @@ SAM_SAH_cor <- plot_metabolite_correlation(
   minx = 14, maxx = 26, tickx = 3,
   miny = 14, maxy = 26, ticky = 3,
   text_scale = 0.6
+)
+#+ 3.9: SAM/SAH Ratio Correlations
+#- 3.9.1: Build combined feature table and metadata for ratio correlations
+{
+  TFT_ratio_corr <- TFT_annot_transformed |>
+    left_join(TFT_SAM_SAH |> select(ID, SAM_SAH_ratio), by = "ID")
+  QC_ratio_corr <- bind_rows(
+    QC_matrix_full,
+    tibble(feature = "SAM_SAH_ratio", display_name = "SAM/SAH ratio")
+  )
+}
+#- 3.9.2: SAM/SAH ratio vs GMP
+ratio_GMP <- plot_metabolite_correlation(
+  y_metabolite = "SAM/SAH ratio",
+  x_metabolite = "GMP",
+  feature_table = TFT_ratio_corr,
+  metadata_table = QC_ratio_corr,
+  minx = 14, maxx = 22, tickx = 2,
+  miny = -6, maxy = 3, ticky = 3,
+  text_scale = 0.6,
+  stats_annot_pos = "BL",
+  annotation = "stacked"
+)
+#- 3.9.3: SAM/SAH ratio vs AMP
+ratio_AMP <- plot_metabolite_correlation(
+  y_metabolite = "SAM/SAH ratio",
+  x_metabolite = "AMP",
+  feature_table = TFT_ratio_corr,
+  metadata_table = QC_ratio_corr,
+  minx = 17, maxx = 25, tickx = 2,
+  miny = -6, maxy = 3, ticky = 3,
+  text_scale = 0.6,
+  stats_annot_pos = "BL",
+  annotation = "stacked"
+)
+#- 3.9.4: SAM/SAH ratio vs gamma-Linolenate
+ratio_gLin <- plot_metabolite_correlation(
+  y_metabolite = "SAM/SAH ratio",
+  x_metabolite = "γ-Linolenate*",
+  feature_table = TFT_ratio_corr,
+  metadata_table = QC_ratio_corr,
+  minx = 14, maxx = 24, tickx = 2,
+  miny = -6, maxy = 3, ticky = 3,
+  text_scale = 0.6,
+  stats_annot_pos = "BL",
+  annotation = "stacked"
+)
+#- 3.9.5: SAM/SAH ratio vs 1-Methylnicotinamide
+ratio_MNA1 <- plot_metabolite_correlation(
+  y_metabolite = "SAM/SAH ratio",
+  x_metabolite = "1-Methylnicotinamide",
+  feature_table = TFT_ratio_corr,
+  metadata_table = QC_ratio_corr,
+  minx = 16, maxx = 28, tickx = 3,
+  miny = -6, maxy = 3, ticky = 3,
+  text_scale = 0.6,
+  stats_annot_pos = "BL",
+  annotation = "stacked"
 )
