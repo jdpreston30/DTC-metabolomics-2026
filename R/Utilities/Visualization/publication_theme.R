@@ -177,18 +177,18 @@
     scale_fill_variant <- function(...) ggplot2::scale_fill_manual(values = variant_colors, ...)
   #+ Definitions
     variant_colors <- c(
-      "PTC"    = "#DF8D0A",
-      "FV-PTC" = "#23744E",
-      "FTC"    = "#194992"
+      "PTC"     = "#DF8D0A",
+      "IEFVPTC" = "#23744E",
+      "FTC"     = "#194992"
     )
     T_stage_bin_colors <- c(
       "I-II" = "#dfba37",
       "III-IV" = "#72061c"
     )
     variant_light <- c(
-      "PTC"    = "#e9bb71",
-      "FV-PTC" = "#80ac95",
-      "FTC"    = "#7a92bc"
+      "PTC"     = "#e9bb71",
+      "IEFVPTC" = "#80ac95",
+      "FTC"     = "#7a92bc"
     )
     LVI_colors <- c(
       "-LVI" = "#9C27B0", # purple

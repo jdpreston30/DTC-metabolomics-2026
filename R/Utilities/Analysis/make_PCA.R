@@ -12,7 +12,7 @@
 #' @return List containing the plot, model object, scores, scores_df, and explained variance
 #' @export
 make_PCA <- function(data, group_var = "Variant", method = "PCA", ncomp = 2, plot_title = "", 
-                        ellipse_colors = c("PTC" = "#DF8D0A", "FV-PTC" = "#23744E", "FTC" = "#194992"),
+                        ellipse_colors = c("PTC" = "#DF8D0A", "IEFVPTC" = "#23744E", "FTC" = "#194992"),
                         point_size = 3, comp_x = 1, comp_y = 2) {
       #_Data preparation
       df <- as.data.frame(data)

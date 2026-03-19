@@ -22,8 +22,8 @@ assign_ATA_2025 <- function(df) {
         `Multifocality (Positive)` == "Yes"
       ) ~ "Low-Intermediate",
 
-      # --- 3. FOLLICULAR-PATTERNED RULES (FTC & FV-PTC) ---
-      Variant %in% c("FTC", "FV-PTC") & (
+      # --- 3. FOLLICULAR-PATTERNED RULES (FTC & IEFVPTC) ---
+      Variant %in% c("FTC", "IEFVPTC") & (
         `T Category` == "T3" |
         # In 2025, extensive LVI (>=4) is Int-High. 
         # Since we don't have counts, we classify 'Y' as Int-High to be safe.
@@ -32,7 +32,7 @@ assign_ATA_2025 <- function(df) {
       
       # For FTC, multifocality isn't an ATA risk driver, 
       # but Minimal ETE or focal LVI would be Low-Intermediate.
-      Variant %in% c("FTC", "FV-PTC") & `Extrathyroidal Extension` == "Minimal" ~ "Low-Intermediate",
+      Variant %in% c("FTC", "IEFVPTC") & `Extrathyroidal Extension` == "Minimal" ~ "Low-Intermediate",
 
       # --- 4. DEFAULT TO LOW ---
       TRUE ~ "Low"

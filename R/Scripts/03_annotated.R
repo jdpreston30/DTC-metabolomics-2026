@@ -14,12 +14,16 @@ annot_results_w_meta <- annot_results |>
   select(-low_detect_likely) |>
   left_join(TFT_annot_key |> rename(feature = Feature), by = "feature") |>
   arrange(p_value) |>
-  select(`Identified Name`, Isomer, log2FC, p_value, p_value_fdr, everything(), -c(unique_vals_no_severe, unique_vals_severe, unique_vals, unique_percentage, n_stage_i_ii, n_stage_iii_iv)) |>
-  filter(p_value < 0.05)  
-#- 3.1.4: Export as Excel for QC
-write.xlsx(annot_results_w_meta, "Outputs/Annotation/annot_results.xlsx")
+  select(`Identified Name`, Isomer, log2FC, p_value, p_value_fdr, everything(), -c(unique_vals_no_severe, unique_vals_severe, unique_vals, unique_percentage, n_stage_i_ii, n_stage_iii_iv))
+#- 3.1.4: Export as Excel (significant features only) for QC
+write.xlsx(annot_results_w_meta |> filter(p_value < 0.05), "Outputs/Annotation/annot_results_sig.xlsx")
 #! QC done externally and read in as a parameter in the yaml
+#- 3.1.5: Export as Excel (full results) for reference
+write.xlsx(annot_results_w_meta, "Outputs/Annotation/annot_results_all.xlsx")
 #+ 3.2: Create Diverging Bar Plots
+#- 3.2.0: Create a version of QC_dedup_full with SAM removed (not significant)
+QC_dedup <- QC_dedup_full |>
+  filter(display_name != "SAM")
 #- 3.2.1: Prepare data for diverging bars
 QC_div <- QC_dedup |>
   filter(diverging_plot == "Y") |>
@@ -208,5 +212,29 @@ Kyn_Ser <- plot_metabolite_correlation(
   metadata_table = QC_matrix_full,
   minx = 11, maxx = 23, tickx = 3, 
   miny = 11, maxy = 26, ticky = 3,
+  text_scale = 0.6
+)
+#+ 3.8: SAM/SAH Ratio
+#- 3.8.1: Pull SAM and SAH features
+SAM_SAH <- annot_results_w_meta |>
+  filter(`Identified Name` %in% c("S-Adenosyl-L-methionine", "S-Adenosyl-L-homocysteine")) |>
+  select(`Identified Name`, feature)
+#- 3.8.2: Create Subset of data with SAM and SAH
+TFT_SAM_SAH <- TFT_annot_transformed |>
+  select(ID, stage_bin, all_of(SAM_SAH |> pull(feature)))
+#- 3.8.3: Rename HILIC columns to short abbreviations
+{
+  name_map <- c("S-Adenosyl-L-homocysteine" = "SAH", "S-Adenosyl-L-methionine" = "SAM")
+  TFT_SAM_SAH <- TFT_SAM_SAH |>
+    rename(!!!setNames(SAM_SAH$feature, name_map[SAM_SAH$`Identified Name`]))
+}
+#- 3.8.4: Correlation plot of SAM vs SAH
+SAM_SAH_cor <- plot_metabolite_correlation(
+  y_metabolite = "SAM",
+  x_metabolite = "SAH",
+  feature_table = TFT_annot_transformed,
+  metadata_table = QC_dedup_full,
+  minx = 14, maxx = 26, tickx = 3,
+  miny = 14, maxy = 26, ticky = 3,
   text_scale = 0.6
 )

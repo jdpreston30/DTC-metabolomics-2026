@@ -26,7 +26,7 @@ tumor_pathology_table <- tumor_pathology_full |>
       TRUE ~ as.character(MFC)
     ),
     ETE = factor(ETE, levels = c("Negative", "Minimal", "Extensive")),
-    Variant = factor(Variant, levels = c("FTC", "FV-PTC", "PTC"))
+    Variant = factor(Variant, levels = c("FTC", "IEFVPTC", "PTC"))
   ) |>
   select(`Age (y)` = Age, Sex, stage_bin, `Pathologic Stage` = Stage, `T Category` = T_stage_comp, `N Category` = N, `M Category` = M, Variant, `Extrathyroidal Extension` = ETE, `Lymphovascular Invasion (Positive)` = LVI, `Multifocality (Positive)` = MFC)
 #- 7.1.2: Build Table 1
@@ -50,7 +50,7 @@ T1 <- ternG(
     "Pathologic Stage|T Category" = "Thyroid cancer stage and T category were assigned using AJCC 8th-edition criteria regardless of what was listed on original operative pathology reports.",
     "Lymphovascular Invasion (Positive)" = "n = 1 patient had indeterminate lymphovascular invasion but was treated as \"negative\" analytically."
   ),
-  abbreviation_footnote = "AJCC, American Joint Committee on Cancer; FTC, follicular thyroid carcinoma; FV-PTC, follicular variant of papillary thyroid carcinoma; M, metastasis; N, lymph node; PTC, papillary thyroid carcinoma; SD, standard deviation; T, tumor"
+  abbreviation_footnote = "AJCC, American Joint Committee on Cancer; FTC, follicular thyroid carcinoma; IEFVPTC, invasive encapsulated follicular variant of papillary thyroid carcinoma; M, metastasis; N, lymph node; PTC, papillary thyroid carcinoma; SD, standard deviation; T, tumor"
 )
 #+ 7.2: Supplementary Table 1
 #- 7.2.1: Define group order

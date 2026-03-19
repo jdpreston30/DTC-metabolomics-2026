@@ -5,7 +5,7 @@
 #' @param variant_colors       Named color vector for Variant (names = levels)
 #' @param top_features         NULL (default: show all features). If numeric >0, keep top N by `feature_selector`.
 #' @param feature_selector     One of c("none","anova","variance","mad","ttest"). Default "none".
-#' @param variant_levels       Factor order for Variant (default c("PTC","FV-PTC","FTC"))
+#' @param variant_levels       Factor order for Variant (default c("PTC","IEFVPTC","FTC"))
 #' @param stage_colors         Named color vector for stage_bin; include "Early" and "Advanced"
 #' @param print_preview        Logical. If TRUE, saves a PNG preview of the heatmap. Default FALSE.
 #' @param print_scale           Logical. If TRUE, shows the color scale legend. Default TRUE.
@@ -15,10 +15,10 @@
 #' @export
 make_heatmap <- function(
     data,
-    variant_colors = c("PTC" = "#DF8D0A", "FV-PTC" = "#23744E", "FTC" = "#194992"),
+    variant_colors = c("PTC" = "#DF8D0A", "IEFVPTC" = "#23744E", "FTC" = "#194992"),
     top_features = NULL,
     feature_selector = c("none", "anova", "variance", "mad", "ttest"),
-    variant_levels = c("PTC", "FV-PTC", "FTC"),
+    variant_levels = c("PTC", "IEFVPTC", "FTC"),
     stage_colors = c("Early" = "#113d6a", "Advanced" = "#800017"),
     print_preview = FALSE,
     print_scale = TRUE,
@@ -33,7 +33,7 @@ make_heatmap <- function(
   dat <- data |>
     dplyr::mutate(
       Variant = dplyr::case_when(
-        grepl("^FVPTC", ID) ~ "FV-PTC",
+        grepl("^FVPTC", ID) ~ "IEFVPTC",
         grepl("^F[0-9]", ID) ~ "FTC",
         grepl("^P[0-9]", ID) ~ "PTC",
         TRUE ~ NA_character_
