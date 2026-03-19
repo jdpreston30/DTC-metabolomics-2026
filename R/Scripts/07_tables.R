@@ -24,19 +24,33 @@ tumor_pathology_table <- tumor_pathology_full |>
       MFC == 0 ~ "No",
       MFC == 1 ~ "Yes",
       TRUE ~ as.character(MFC)
-    )
+    ),
+    ETE = factor(ETE, levels = c("Negative", "Minimal", "Extensive")),
+    Variant = factor(Variant, levels = c("FTC", "FV-PTC", "PTC"))
   ) |>
-  select(Age, Sex, Variant, stage_bin, Stage, T = T_stage_comp, N, M, `Extrathyroidal extension` = ETE, `Lymphovascular invasion` = LVI, Multifocality = MFC)
+  select(`Age (y)` = Age, Sex, stage_bin, `Pathologic Stage` = Stage, `T Category` = T_stage_comp, `N Category` = N, `M Category` = M, Variant, `Extrathyroidal Extension` = ETE, `Lymphovascular Invasion (Positive)` = LVI, `Multifocality (Positive)` = MFC)
 #- 7.1.2: Build Table 1
 T1 <- ternG(
   data = tumor_pathology_table,
   group_var = "stage_bin",
-  descriptive = TRUE,
+  show_p = FALSE,
+  methods_doc = FALSE,
   output_docx = "Outputs/Tables/T1.docx",
   consider_normality = TRUE,
-  show_test = FALSE,
-  round_intg = FALSE,
-  insert_subheads = TRUE
+  table_font_size = 11,
+  zero_to_dash = TRUE,
+  table_caption = "Table I. Clinical and pathological characteristics of patients and analyzed tumors.",
+  table_footnote = "All values are displayed as mean ± SD for ratio continuous variables or n (%) for categorical variables.",
+  category_start = c(
+    "Patient Characteristics" = "Age (y)",
+    "Staging"                 = "Pathologic Stage",
+    "Histologic Features"     = "Variant"
+  ),
+  variable_footnote = c(
+    "Pathologic Stage|T Category" = "Thyroid cancer stage and T category were assigned using AJCC 8th-edition criteria regardless of what was listed on original operative pathology reports.",
+    "Lymphovascular Invasion (Positive)" = "n = 1 patient had indeterminate lymphovascular invasion but was treated as \"negative\" analytically."
+  ),
+  abbreviation_footnote = "AJCC, American Joint Committee on Cancer; FTC, follicular thyroid carcinoma; FV-PTC, follicular variant of papillary thyroid carcinoma; M, metastasis; N, lymph node; PTC, papillary thyroid carcinoma; SD, standard deviation; T, tumor"
 )
 #+ 7.2: Supplementary Table 1
 #- 7.2.1: Define group order

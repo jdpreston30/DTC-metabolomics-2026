@@ -51,8 +51,9 @@ Imports:
     rmarkdown,
     tinytex,
     officer,
-    TernTablesR
+    TernTables
 Additional_repositories: 
+    https://jdpreston30.r-universe.dev,
     https://bioconductor.org/packages/release/bioc
 Bioconductor:
     mixOmics,
@@ -60,7 +61,7 @@ Bioconductor:
     MSnbase
 Remotes: 
     xia-lab/MetaboAnalystR,
-    jdpreston30/TernTablesR
+    traversc/qs
 Config/renv/snapshot/type: explicit
 Encoding: UTF-8
 RoxygenNote: 7.3.3

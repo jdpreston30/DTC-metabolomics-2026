@@ -149,7 +149,6 @@ annot_features_sig <- annot_results_w_meta |>
 fig2BC_features <- QC_scatter |>
   select(display_name, log2FC) |>
   arrange(log2FC)
-
 #- 6.4.2: Calculate fold change ranges
 {
   # Separate increased and decreased metabolites
@@ -198,13 +197,25 @@ fig2BC_features <- QC_scatter |>
 #+ 6.5: PEA Correlation Summary
 # Count significant results per pathway
 {
+  correlation_mfn_dirs <- list.dirs("Outputs/mummichog/correlations_MFN", recursive = FALSE)
+  correlation_mfn_plot_data <- purrr::map_dfr(correlation_mfn_dirs, function(d) {
+    csv_path <- file.path(d, "mummichog_pathway_enrichment_mummichog.csv")
+    if (!file.exists(csv_path)) return(NULL)
+    readr::read_csv(csv_path, show_col_types = FALSE) |>
+      dplyr::rename(pathway_name = 1, p_fisher = `P(Fisher)`) |>
+      dplyr::mutate(
+        p_fisher = -log10(p_fisher),
+        metabolite = basename(d)
+      )
+  })
+
   correlation_mfn_plot_data |>
-    group_by(pathway_name) |>
-    summarise(
+    dplyr::group_by(pathway_name) |>
+    dplyr::summarise(
       n_significant = sum(p_fisher > -log10(0.05)),
-      total_comparisons = n()
+      total_comparisons = dplyr::n()
     ) |>
-    arrange(desc(n_significant)) |>
+    dplyr::arrange(desc(n_significant)) |>
     print(n = Inf)
 }
 #+ 6.6: Abbreviations for figure legends

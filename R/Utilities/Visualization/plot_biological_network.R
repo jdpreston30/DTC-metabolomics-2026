@@ -223,15 +223,11 @@ plot_biological_network <- function(network_data,
     if (pull_outliers) {
       # Fruchterman-Reingold with aggressive parameters to pull outliers closer
       bio_network_plot <- ggraph(bio_graph, layout = "fr", 
-                                 niter = layout_iterations * 2,  # More iterations
-                                 area = vcount(bio_graph)^1.2,   # Much smaller area
-                                 repulserad = vcount(bio_graph)^1.4)  # Much less repulsion
+                                 niter = layout_iterations * 2)
     } else {
       # Standard Fruchterman-Reingold
       bio_network_plot <- ggraph(bio_graph, layout = "fr", 
-                                 niter = layout_iterations,
-                                 area = vcount(bio_graph)^1.5,
-                                 repulserad = vcount(bio_graph)^1.8)
+                                 niter = layout_iterations)
     }
   } else if (layout_algorithm == "kk") {
     # Kamada-Kawai layout (naturally more compact)

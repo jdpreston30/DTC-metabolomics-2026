@@ -1,9 +1,9 @@
-# Metabolomic Profiling Identifies Functional Tumor Subtypes in Differentiated Thyroid Cancer
+# Metabolic reprogramming in differentiated thyroid cancer progression: a tumor metabolomics analysis
 
 ## 📖 Citation
 
 This code is associated with the analysis presented in the following manuscript:
-> Preston et al. (2026). Metabolomic Profiling Identifies Functional Tumor Subtypes in Differentiated Thyroid Cancer. *[Journal Name - Pending Publication]*.
+> Preston et al. (2026). Metabolic reprogramming in differentiated thyroid cancer progression: a tumor metabolomics analysis. *[Submitted to Surgery]*.
 
 ## 🚀 Quick Start for Reproduction
 
@@ -116,7 +116,8 @@ source("all_run/run.R")
 - Installs all R packages at exact versions from `renv.lock`
 - Installs CRAN packages (e.g., ggplot2, dplyr, broom, conflicted)
 - Installs Bioconductor packages (e.g., mixOmics, KEGGREST)
-- Installs GitHub packages (MetaboAnalystR)
+- Installs GitHub packages (MetaboAnalystR, qs)
+- Installs TernTables from GitHub (also available on [R-universe](https://jdpreston30.r-universe.dev/TernTables))
 - Creates isolated project library (doesn't affect your system R packages)
 - Only needed once per computer; subsequent runs use installed packages
 - Packages are automatically loaded from `DESCRIPTION` file during pipeline execution
@@ -153,12 +154,14 @@ source("all_run/run.R")
 The complete pipeline executes in sequence:
 
 1. **00a-00d**: Environment setup, clinical metadata, feature tables
-2. **01**: Clustering analysis
+2. **01**: Volcano plots and heatmap
 3. **02**: Pathway enrichment (mummichog analysis)
 4. **03**: Annotated bar plots and visualizations
 5. **04**: Assignment of plots to figure panels
 6. **05**: Render final figures
-7. **06**: Generate abstract/presentation data
+7. **06**: Data not shown / supplementary analyses
+8. **07**: Generate summary tables
+9. **08**: Session info
 
 ## 💻 System Requirements
 
@@ -187,8 +190,10 @@ All R package dependencies are specified in `DESCRIPTION`. Key packages include:
 - **Metabolomics analysis**: mixOmics
 - **Pathway databases**: KEGGREST
 
-### GitHub Packages
+### GitHub/R-universe Packages
 - `xia-lab/MetaboAnalystR`: Metabolomics analysis and pathway enrichment
+- `traversc/qs`: High-performance serialization (dependency of MetaboAnalystR)
+- `jdpreston30/TernTables`: Publication-ready summary tables ([R-universe](https://jdpreston30.r-universe.dev/TernTables))
 
 *See `DESCRIPTION` file for complete list of all dependencies.*
 
@@ -302,6 +307,8 @@ gitcreds::gitcreds_set()
 Then retry installation:
 ```r
 renv::install("xia-lab/MetaboAnalystR")
+renv::install("traversc/qs")
+renv::install("jdpreston30/TernTables")
 ```
 
 #### Slow renv activation
@@ -325,7 +332,7 @@ unlink("renv/library", recursive = TRUE)
 renv::restore()
 ```
 
-## �🔄 Reproducibility Features
+## 🔄 Reproducibility Features
 
 This project implements best practices for computational reproducibility:
 
@@ -346,7 +353,10 @@ This project implements best practices for computational reproducibility:
 - **ORCID**: [0000-0001-9834-3017](https://orcid.org/0000-0001-9834-3017)  
 - **Institution**: Department of Surgery, Emory University School of Medicine
 
-**Corresponding Author**: [Pending]
+**Corresponding Author**: Thomas Szabo Yamashita
+- **Email**: thomas.szabo.yamashita@emory.edu
+- **ORCID**: [0000-0002-2786-6678](https://orcid.org/0000-0002-2786-6678)  
+- **Institution**: Department of Surgery, Emory University School of Medicine
 
 ---
 

@@ -69,9 +69,40 @@ if (length(missing_bioc) > 0) {
   cat("   ✅ All Bioconductor packages already installed\n")
 }
 
-# Step 4: Install GitHub packages
-cat("\n📦 Step 4: Installing GitHub packages...\n")
+# Step 4: Install R-universe packages
+cat("\n📦 Step 4: Installing R-universe packages...\n")
+runiverse_packages <- list(
+  list(
+    name = "TernTables",
+    repo = "https://jdpreston30.r-universe.dev"
+  )
+)
+
+for (pkg_info in runiverse_packages) {
+  if (!requireNamespace(pkg_info$name, quietly = TRUE)) {
+    cat("   -", pkg_info$name, "from", pkg_info$repo, "...\n")
+    tryCatch({
+      install.packages(
+        pkg_info$name,
+        repos = c(pkg_info$repo, getOption("repos")),
+        type = "source"
+      )
+      cat("     ✅ Installed\n")
+    }, error = function(e) {
+      cat("     ⚠️ Failed to install", pkg_info$name, "\n")
+      cat("     Error:", conditionMessage(e), "\n")
+      cat("     You may need to install this package manually.\n")
+      cat("     Try: install.packages('TernTables', repos = 'https://jdpreston30.r-universe.dev')\n")
+    })
+  } else {
+    cat("   ✅", pkg_info$name, "already installed\n")
+  }
+}
+
+# Step 5: Install GitHub packages
+cat("\n📦 Step 5: Installing GitHub packages...\n")
 github_packages <- list(
+  list(repo = "traversc/qs",            name = "qs"),
   list(repo = "xia-lab/MetaboAnalystR", name = "MetaboAnalystR")
 )
 
@@ -92,8 +123,8 @@ for (pkg_info in github_packages) {
   }
 }
 
-# Step 5: Create snapshot
-cat("\n📸 Step 5: Creating renv snapshot...\n")
+# Step 6: Create snapshot
+cat("\n📸 Step 6: Creating renv snapshot...\n")
 tryCatch({
   renv::snapshot(prompt = FALSE)
   cat("✅ Snapshot created successfully!\n")
