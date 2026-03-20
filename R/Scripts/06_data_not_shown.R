@@ -220,3 +220,53 @@ fig2BC_features <- QC_scatter |>
 }
 #+ 6.6: Abbreviations for figure legends
 make_figure_abbrev(abbreviation_tibble)
+#+ 6.7: Post-hoc Power Analysis
+{
+  # Group sample sizes
+  group_ns <- UFT_filtered |>
+    count(stage_bin)
+  n_early    <- group_ns |> filter(stage_bin == "Early")    |> pull(n)
+  n_advanced <- group_ns |> filter(stage_bin == "Advanced") |> pull(n)
+
+  # Minimum detectable Cohen's d at 80% power (two-sided alpha = 0.05)
+  mde_result <- pwr::pwr.t2n.test(
+    n1          = n_early,
+    n2          = n_advanced,
+    sig.level   = 0.05,
+    power       = 0.80,
+    alternative = "two.sided"
+  )
+
+  # Achieved power at medium effect (Cohen's d = 0.5)
+  power_medium <- pwr::pwr.t2n.test(
+    n1          = n_early,
+    n2          = n_advanced,
+    d           = 0.5,
+    sig.level   = 0.05,
+    alternative = "two.sided"
+  )
+
+  # Achieved power at large effect (Cohen's d = 0.8)
+  power_large <- pwr::pwr.t2n.test(
+    n1          = n_early,
+    n2          = n_advanced,
+    d           = 0.8,
+    sig.level   = 0.05,
+    alternative = "two.sided"
+  )
+
+  cat(
+    "\n", strrep("=", 60), "\n",
+    "POST-HOC POWER ANALYSIS (Two-sample Welch t-test)\n",
+    strrep("=", 60), "\n\n",
+    "Sample sizes:\n",
+    "  Early-stage:    n =", n_early, "\n",
+    "  Advanced-stage: n =", n_advanced, "\n\n",
+    "Minimum detectable effect (80% power, alpha = 0.05):\n",
+    "  Cohen's d =", round(mde_result$d, 3), "\n\n",
+    "Achieved power:\n",
+    "  Medium effect (d = 0.5): ", round(power_medium$power * 100, 1), "%\n",
+    "  Large effect  (d = 0.8): ", round(power_large$power  * 100, 1), "%\n",
+    strrep("=", 60), "\n\n"
+  )
+}

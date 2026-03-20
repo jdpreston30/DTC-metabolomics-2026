@@ -51,6 +51,7 @@ Imports:
     rmarkdown,
     tinytex,
     officer,
+    pwr,
     TernTables
 Additional_repositories: 
     https://jdpreston30.r-universe.dev,
