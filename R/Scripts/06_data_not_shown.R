@@ -220,7 +220,7 @@ fig2BC_features <- QC_scatter |>
 }
 #+ 6.6: Abbreviations for figure legends
 make_figure_abbrev(abbreviation_tibble)
-#+ 6.7: Post-hoc Power Analysis
+#+ 6.7: Post-hoc Sensitivity Analysis
 {
   # Group sample sizes
   group_ns <- UFT_filtered |>
