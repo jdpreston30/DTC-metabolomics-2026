@@ -220,7 +220,7 @@ fig2BC_features <- QC_scatter |>
 }
 #+ 6.6: Abbreviations for figure legends
 make_figure_abbrev(abbreviation_tibble)
-#+ 6.7: Post-hoc Sensitivity Analysis
+#+ 6.7: Post-hoc Power Analysis
 {
   # Group sample sizes
   group_ns <- UFT_filtered |>
@@ -320,3 +320,11 @@ make_figure_abbrev(abbreviation_tibble)
     strrep("-", 60), "\n\n"
   )
 }
+#+ 6.8 80% Rule Verification + remove_qc() Equivalence
+verify_80pct_results <- verify_80pct_rule(
+  uft_raw_import      = UFT_raw_import,
+  uft_filtered_import = UFT_filtered_import,
+  uft_filtered        = UFT_filtered,
+  tft_annot_import    = TFT_annot_import,
+  tft_annot           = TFT_annot
+)

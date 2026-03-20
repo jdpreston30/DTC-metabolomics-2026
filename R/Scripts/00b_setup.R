@@ -33,11 +33,14 @@ set.seed(2025)
 tumor_IDs <- readr::read_csv(config$data_files$tumor_ids, show_col_types = FALSE)
 #- 0b.6.2: Tumor Path
 tumor_pathology_raw <- readxl::read_excel(config$data_files$tumor_pathology, sheet = "Logan Update")
-#- 0b.6.3: Load MetaboJanitoR processed CSV files  
-TFT_annot_import <- readr::read_csv(config$data_files$TFT_annot, show_col_types = FALSE)
-TFT_annot_key <- readr::read_csv(config$data_files$TFT_annot_key, show_col_types = FALSE)
-UFT_full_import <- readr::read_csv(config$data_files$UFT_full, show_col_types = FALSE)
-UFT_filtered_import <- readr::read_csv(config$data_files$UFT_filtered, show_col_types = FALSE)
+#- 0b.6.3: Load MetaboJanitoR processed CSV files
+{
+  TFT_annot_import <- readr::read_csv(config$data_files$TFT_annot, show_col_types = FALSE)
+  TFT_annot_key <- readr::read_csv(config$data_files$TFT_annot_key, show_col_types = FALSE)
+  UFT_raw_import <- readr::read_csv(config$data_files$UFT_raw, show_col_types = FALSE)
+  UFT_full_import <- readr::read_csv(config$data_files$UFT_full, show_col_types = FALSE)
+  UFT_filtered_import <- readr::read_csv(config$data_files$UFT_filtered, show_col_types = FALSE)
+}
 #- 0b.6.4: Read in QC that goes with annotated TFT; deduplicate with lower p-value
 QC_dedup_full <- read_xlsx(config$data_files$QC, sheet = "QC") |>
   group_by(display_name) |>
