@@ -260,8 +260,7 @@ ratio_GMP <- plot_metabolite_correlation(
   minx = 14, maxx = 22, tickx = 2,
   miny = -6, maxy = 3, ticky = 3,
   text_scale = 0.6,
-  stats_annot_pos = "BL",
-  annotation = "stacked"
+  stats_annot_pos = "BL"
 )
 #- 3.9.3: SAM/SAH ratio vs AMP
 ratio_AMP <- plot_metabolite_correlation(
@@ -272,8 +271,7 @@ ratio_AMP <- plot_metabolite_correlation(
   minx = 17, maxx = 25, tickx = 2,
   miny = -6, maxy = 3, ticky = 3,
   text_scale = 0.6,
-  stats_annot_pos = "BL",
-  annotation = "stacked"
+  stats_annot_pos = "BL"
 )
 #- 3.9.4: SAM/SAH ratio vs gamma-Linolenate
 ratio_gLin <- plot_metabolite_correlation(
@@ -284,8 +282,7 @@ ratio_gLin <- plot_metabolite_correlation(
   minx = 14, maxx = 24, tickx = 2,
   miny = -6, maxy = 3, ticky = 3,
   text_scale = 0.6,
-  stats_annot_pos = "BL",
-  annotation = "stacked"
+  stats_annot_pos = "BL"
 )
 #- 3.9.5: SAM/SAH ratio vs 1-Methylnicotinamide
 ratio_MNA1 <- plot_metabolite_correlation(
@@ -296,6 +293,5 @@ ratio_MNA1 <- plot_metabolite_correlation(
   minx = 16, maxx = 28, tickx = 3,
   miny = -6, maxy = 3, ticky = 3,
   text_scale = 0.6,
-  stats_annot_pos = "BL",
-  annotation = "stacked"
+  stats_annot_pos = "BL"
 )

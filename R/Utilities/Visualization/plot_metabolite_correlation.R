@@ -20,7 +20,7 @@
 #' @param tickx Interval between x-axis ticks (default: NULL for auto)
 #' @param ticky Interval between y-axis ticks (default: NULL for auto)
 #' @param stats_annot_pos Position for statistics annotation: "TL" (top left), "TR" (top right), "BL" (bottom left), "BR" (bottom right) (default: "TL")
-#' @param annotation Annotation style: "inline" for rho and p on one line (default), "stacked" for rho on line 1 and p on line 2
+#' @param annotation Annotation style: "inline" for rho and p on one line, "stacked" for rho on line 1 and p on line 2 (default)
 #' @param stage_color Color scheme for stages: "default" for gray/red, "rb" for blue/red (default: "default")
 #' @param method Correlation method: "spearman" or "pearson" (default: "spearman")
 #'
@@ -44,7 +44,7 @@ plot_metabolite_correlation <- function(y_metabolite,
                                        tickx = NULL,
                                        ticky = NULL,
                                        stats_annot_pos = "BR",
-                                       annotation = "inline",
+                                       annotation = "stacked",
                                        stage_color = "rb",
                                        method = "spearman") {
   

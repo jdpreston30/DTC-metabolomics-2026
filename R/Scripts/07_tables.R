@@ -60,7 +60,6 @@ classify_normality(
 )
 #! For Early-Stage: SW p = 0.150, skewness = −0.18, excess kurtosis = −0.90
 #! For Late-Stage: SW = 0.258, skewness = −0.59, excess kurtosis = −1.30
- and 0.258 for the Early- and Advanced-Stage groups
 #+ 7.2: Supplementary Table 1
 #- 7.2.1: Define group order
 group_order <- c(

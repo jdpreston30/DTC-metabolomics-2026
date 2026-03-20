@@ -38,10 +38,10 @@ p3B.R2.C2 <- Adr_SAH
 #- 4.3.6: Assign 3C plots
 p3C.R1.C1 <- GMP_R5P
 p3C.R1.C2 <- KS3_ODHAP
-p3C.R2.C1 <- MNA1_SAH
-p3C.R2.C2 <- PAPS_SAH
-p3C.R3.C1 <- AcGlu_Cit
-p3C.R3.C2 <- Kyn_Ser
+p3C.R1.C3 <- MNA1_SAH
+p3C.R2.C1 <- PAPS_SAH
+p3C.R2.C2 <- AcGlu_Cit
+p3C.R2.C3 <- Kyn_Ser
 #- 4.3.7: Assign 3D plots
 p3D.R1.C1 <- ratio_MNA1
 p3D.R1.C2 <- ratio_gLin

@@ -255,6 +255,23 @@ make_figure_abbrev(abbreviation_tibble)
     alternative = "two.sided"
   )
 
+  # Observed Cohen's d for FDR-significant annotated features (from raw data)
+  fdr_sig_features <- annot_results_w_meta |>
+    filter(p_value_fdr < 0.05) |>
+    pull(feature)
+
+  observed_cohens_d <- purrr::map_dfr(fdr_sig_features, function(feat) {
+    vals <- TFT_annot_transformed |>
+      select(stage_bin, value = all_of(feat)) |>
+      filter(!is.na(value))
+    g1 <- vals |> filter(stage_bin == "Stage I/II")  |> pull(value)
+    g2 <- vals |> filter(stage_bin == "Stage III/IV") |> pull(value)
+    n1 <- length(g1); n2 <- length(g2)
+    if (n1 < 2 || n2 < 2) return(NULL)
+    sp <- sqrt(((n1 - 1) * var(g1) + (n2 - 1) * var(g2)) / (n1 + n2 - 2))
+    tibble(feature = feat, cohens_d = abs(mean(g2) - mean(g1)) / sp)
+  })
+
   cat(
     "\n", strrep("=", 60), "\n",
     "POST-HOC POWER ANALYSIS (Two-sample Welch t-test)\n",
@@ -266,7 +283,40 @@ make_figure_abbrev(abbreviation_tibble)
     "  Cohen's d =", round(mde_result$d, 3), "\n\n",
     "Achieved power:\n",
     "  Medium effect (d = 0.5): ", round(power_medium$power * 100, 1), "%\n",
-    "  Large effect  (d = 0.8): ", round(power_large$power  * 100, 1), "%\n",
+    "  Large effect  (d = 0.8): ", round(power_large$power  * 100, 1), "%\n\n",
+    "Observed Cohen's d for FDR-significant annotated features (n =",
+      nrow(observed_cohens_d), "):\n",
+    "  Median: ", round(median(observed_cohens_d$cohens_d), 3), "\n",
+    "  Min:    ", round(min(observed_cohens_d$cohens_d),    3), "\n",
+    "  Max:    ", round(max(observed_cohens_d$cohens_d),    3), "\n",
     strrep("=", 60), "\n\n"
+  )
+
+  # Narrative result
+  cat(
+    "\n", strrep("-", 60), "\n",
+    "NARRATIVE RESULT\n",
+    strrep("-", 60), "\n\n",
+    "No a priori power calculation was performed, as samples were",
+    "derived from an existing institutional biobank. Post-hoc power",
+    "analysis using the observed group sizes (Stage I/II: n =", n_early,
+    "; Stage III/IV: n =", n_advanced, ") indicated",
+    round(power_medium$power * 100, 1), "% power to detect a medium",
+    "effect (Cohen's d = 0.5) and", round(power_large$power * 100, 1),
+    "% power to detect a large effect (Cohen's d = 0.8) at a two-sided",
+    "alpha of 0.05. The minimum detectable effect at 80% power was",
+    "Cohen's d =", round(mde_result$d, 3), ". Among FDR-significant",
+    "annotated features (n =", nrow(observed_cohens_d), "), observed",
+    "Cohen's d values ranged from", round(min(observed_cohens_d$cohens_d), 2),
+    "to", round(max(observed_cohens_d$cohens_d), 2),
+    "(median =", paste0(round(median(observed_cohens_d$cohens_d), 2), "),"),
+    "consistent with medium-to-large effect sizes. The limited",
+    "advanced-stage sample size reflects the rarity of advanced",
+    "differentiated thyroid cancer at our institution; underpowering",
+    "in this context is expected to increase the false negative rate",
+    "rather than inflate false positives, and all reported findings",
+    "are presented as discovery-level observations warranting",
+    "prospective validation in larger cohorts.\n\n",
+    strrep("-", 60), "\n\n"
   )
 }
