@@ -36,7 +36,7 @@ T1 <- ternG(
   show_p = FALSE,
   methods_doc = FALSE,
   output_docx = "Outputs/Tables/T1.docx",
-  consider_normality = TRUE,
+  consider_normality = "ROBUST",
   table_font_size = 11,
   zero_to_dash = TRUE,
   table_caption = "Table I. Clinical and pathological characteristics of patients and analyzed tumors.",
@@ -52,6 +52,15 @@ T1 <- ternG(
   ),
   abbreviation_footnote = "AJCC, American Joint Committee on Cancer; FTC, follicular thyroid carcinoma; IEFVPTC, invasive encapsulated follicular variant of papillary thyroid carcinoma; M, metastasis; N, lymph node; PTC, papillary thyroid carcinoma; SD, standard deviation; T, tumor"
 )
+#- 7.1.3: Examine normality of age variable
+classify_normality(
+  tumor_pathology_table,
+  group_var          = "stage_bin",
+  consider_normality = "ROBUST"
+)
+#! For Early-Stage: SW p = 0.150, skewness = −0.18, excess kurtosis = −0.90
+#! For Late-Stage: SW = 0.258, skewness = −0.59, excess kurtosis = −1.30
+ and 0.258 for the Early- and Advanced-Stage groups
 #+ 7.2: Supplementary Table 1
 #- 7.2.1: Define group order
 group_order <- c(
@@ -273,7 +282,6 @@ build_ST1_latex(
   components_dir <- here::here("Supplementary", "Components")
   intermediates_dir <- here::here("Supplementary", "Build_Logs")
   output_dir <- here::here("Supplementary")
-  
   rmarkdown::render(
     input = file.path(components_dir, "supplementary_tables.Rmd"),
     output_dir = output_dir,
@@ -281,7 +289,6 @@ build_ST1_latex(
     intermediates_dir = intermediates_dir,
     clean = TRUE
   )
-  
   # Open the PDF
   output_pdf <- file.path(output_dir, "Supplementary Table I.pdf")
   if (Sys.info()["sysname"] == "Darwin") {
