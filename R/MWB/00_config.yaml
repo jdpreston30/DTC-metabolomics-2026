@@ -1,0 +1,14 @@
+# --- MWB Submission Config ---
+# Edit paths before running the scripts.
+# Keys must not be removed or renamed.
+
+# Full path to the folder containing mzXML files (or hilicpos/c18neg subfolders)
+# This is typically on an external drive
+mzxml_dir: /Volumes/MS_raw_data/LCMS/Thyroid_LCMS/Thyroid_Robertson_M524/mzXML
+
+# Full path to the raw_zips/ destination folder (where .7z archives and zip_contents.csv will be copied)
+# This should be a standalone raw_zips/ folder in your cloud/OneDrive study directory
+raw_zips_dir: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/MS_raw_data/LCMS/Thyroid_LCMS/raw_zips
+
+# Full path to the Xcalibur sequence .txt file for this study
+sequence_file: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/MS_raw_data/LCMS/Thyroid_LCMS/sequence.txt

@@ -60,6 +60,9 @@ classify_normality(
 )
 #! For Early-Stage: SW p = 0.150, skewness = −0.18, excess kurtosis = −0.90
 #! For Late-Stage: SW = 0.258, skewness = −0.59, excess kurtosis = −1.30
+#- 7.1.3: Write CSV of needed data for MWB
+write_csv(tumor_pathology_full |>
+  select(Patient_ID, Sample_ID, Variant, Age, Sex, stage_bin, Stage), "R/MWB/data/tumor_pathology_table.csv")
 #+ 7.2: Supplementary Table 1
 #- 7.2.1: Define group order
 group_order <- c(
@@ -293,4 +296,4 @@ build_ST1_latex(
   if (Sys.info()["sysname"] == "Darwin") {
     system(paste("open", shQuote(output_pdf)))
   }
-} 
+}
