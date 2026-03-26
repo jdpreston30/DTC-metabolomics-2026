@@ -12,3 +12,10 @@ raw_zips_dir: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUnivers
 
 # Full path to the Xcalibur sequence .txt file for this study
 sequence_file: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/MS_raw_data/LCMS/Thyroid_LCMS/sequence.txt
+
+# Feature tables from xMSanalyzer (Stage3b RAW mzcalibrated untargeted)
+c18neg_feature_table: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/MS_raw_data/LCMS/Thyroid_LCMS/xMSanalyzer/c18neg/Stage3b/RAW_mzcalibrated_untargeted_featuretable.txt
+hilicpos_feature_table: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/MS_raw_data/LCMS/Thyroid_LCMS/xMSanalyzer/hilicpos/Stage3b/RAW_mzcalibrated_untargeted_featuretable.txt
+
+# Output directory for MWB-formatted feature table uploads
+mwb_uploads_dir: /Users/JoshsMacbook2015/Library/CloudStorage/OneDrive-EmoryUniversity/Research/MS_raw_data/LCMS/Thyroid_LCMS/MWB_uploads
