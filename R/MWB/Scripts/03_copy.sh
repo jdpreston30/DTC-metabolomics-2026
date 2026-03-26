@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # 03_copy.sh  (Step 3)
 # Copies the .7z archives and zip_contents.csv produced by 02_compress.sh
-# into the raw_zips_dir specified in 00_config.yaml.
+# into the raw_zips_dir specified in config.yaml.
 # Original files on the external drive are not modified.
 #
 # Usage: bash R/MWB/Scripts/03_copy.sh
-# Config: R/MWB/00_config.yaml
+# Config: R/MWB/config.yaml
 
 set -uo pipefail
 
-CONFIG="$(dirname "$0")/../00_config.yaml"
+CONFIG="$(dirname "$0")/../config.yaml"
 
 if [[ ! -f "$CONFIG" ]]; then
   echo "ERROR: config not found at $CONFIG" >&2
@@ -33,7 +33,7 @@ fi
 
 if [[ ! -d "$(dirname "$raw_zips_dir")" ]]; then
   echo "ERROR: parent of raw_zips_dir not found: $(dirname "$raw_zips_dir")" >&2
-  echo "  Check the raw_zips_dir key in 00_config.yaml" >&2
+  echo "  Check the raw_zips_dir key in config.yaml" >&2
   exit 1
 fi
 

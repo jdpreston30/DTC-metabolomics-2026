@@ -7,7 +7,7 @@ library(dplyr)
 library(stringr)
 
 #+ Config
-cfg <- yaml::read_yaml("R/MWB/00_config.yaml")
+cfg <- yaml::read_yaml("R/MWB/config.yaml")
 
 #+ Import
 sequence     <- read_tsv(cfg$sequence_file)

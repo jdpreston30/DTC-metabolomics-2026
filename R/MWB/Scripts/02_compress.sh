@@ -5,11 +5,11 @@
 # REQUIRES: mzxml_dir must contain hilicpos/ and c18neg/ — run 01_organize.sh first.
 #
 # Usage: bash R/MWB/Scripts/02_compress.sh
-# Config: R/MWB/00_config.yaml
+# Config: R/MWB/config.yaml
 
 set -uo pipefail
 
-CONFIG="$(dirname "$0")/../00_config.yaml"
+CONFIG="$(dirname "$0")/../config.yaml"
 
 if [[ ! -f "$CONFIG" ]]; then
   echo "ERROR: config not found at $CONFIG" >&2; exit 1

@@ -6,7 +6,7 @@ library(dplyr)
 
 #+ 7.1: Load config
 #- 7.1.1: Read config YAML
-config <- yaml::read_yaml("R/MWB/00_config.yaml")
+config <- yaml::read_yaml("R/MWB/config.yaml")
 
 #+ 7.2: Import feature tables and study design
 #- 7.2.1: Import C18 negative feature table

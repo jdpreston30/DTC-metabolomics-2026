@@ -1,6 +1,6 @@
 # MWB Submission — Instructions
 
-> **Mac only.** Study-specific paths live in `00_config.yaml`, not here.  
+> **Mac only.** Study-specific paths live in `config.yaml`, not here.  
 > This is a reusable recipe for Metabolomics Workbench submissions.
 
 > **Prerequisites:** mzXML files must already exist (converted on Windows via msconvert/ProteoWizard). This workflow does not perform conversion.
@@ -21,7 +21,7 @@ Checks/installs p7zip (required for compression).
 
 > **Note:** mzXML files are large. It is strongly advised to keep them on an external drive.
 
-Set `mzxml_dir` in `00_config.yaml` (the study mzXML folder — may be flat or pre-sorted), then:
+Set `mzxml_dir` in `config.yaml` (the study mzXML folder — may be flat or pre-sorted), then:
 
 ```bash
 bash R/MWB/Scripts/01_organize.sh
@@ -45,7 +45,7 @@ bash R/MWB/Scripts/02_compress.sh
 
 ## Step 3: Copy archives to cloud destination
 
-Set `raw_zips_dir` in `00_config.yaml` (the standalone `raw_zips/` folder on OneDrive/cloud), then:
+Set `raw_zips_dir` in `config.yaml` (the standalone `raw_zips/` folder on OneDrive/cloud), then:
 
 ```bash
 bash R/MWB/Scripts/03_copy.sh
@@ -116,7 +116,7 @@ Produces `study_design.tsv` in `R/MWB/data/`. Paste this directly into the **Stu
 
 ## Step 7: Feature tables
 
-Set `c18neg_feature_table`, `hilicpos_feature_table`, and `mwb_uploads_dir` in `00_config.yaml`, then:
+Set `c18neg_feature_table`, `hilicpos_feature_table`, and `mwb_uploads_dir` in `config.yaml`, then:
 
 ```bash
 R --no-init-file
@@ -202,7 +202,7 @@ Checks/installs p7zip (required for compression).
 
 > **Note:** mzXML files are large. It is strongly advised to keep them on an external drive.
 
-Set `mzxml_dir` in `00_config.yaml` (the study mzXML folder — may be flat or pre-sorted), then:
+Set `mzxml_dir` in `config.yaml` (the study mzXML folder — may be flat or pre-sorted), then:
 
 ```bash
 bash R/MWB/Scripts/01_organize.sh
@@ -226,7 +226,7 @@ bash R/MWB/Scripts/02_compress.sh
 
 ## Step 3: Copy archives to cloud destination
 
-Set `raw_zips_dir` in `00_config.yaml` (the standalone `raw_zips/` folder on OneDrive/cloud), then:
+Set `raw_zips_dir` in `config.yaml` (the standalone `raw_zips/` folder on OneDrive/cloud), then:
 
 ```bash
 bash R/MWB/Scripts/03_copy.sh
@@ -290,7 +290,7 @@ source("R/MWB/Scripts/05_study_design.R")
 
 ## Step 7: Feature Tables
 
-Set `c18neg_feature_table` and `hilicpos_feature_table` in `00_config.yaml` to the paths of your xMSanalyzer-format untargeted feature tables, then:
+Set `c18neg_feature_table` and `hilicpos_feature_table` in `config.yaml` to the paths of your xMSanalyzer-format untargeted feature tables, then:
 
 ```bash
 R --no-init-file
