@@ -7,3 +7,7 @@
 # example repos
 example/
 example2/
+
+# Specimen accessions (Sample_ID) -- must never re-enter the public repo.
+# Canonical copy lives at the tumor_pathology_table path in R/MWB/config.yaml.
+R/MWB/data/tumor_pathology_table.csv
