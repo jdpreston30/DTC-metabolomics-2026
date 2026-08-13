@@ -14,3 +14,4 @@ R/MWB/data/tumor_pathology_table.csv
 
 # Local-only scratch: GitHub Support request (references removed commit SHAs)
 ticket.md
+ticket_audit.md
