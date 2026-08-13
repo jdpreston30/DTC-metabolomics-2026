@@ -1,365 +1,124 @@
 # Metabolic reprogramming in differentiated thyroid cancer progression: a tumor metabolomics analysis
 
-## 📖 Citation
+Analysis code for an untargeted LC–MS metabolomics study of 55 differentiated thyroid cancer (DTC)
+specimens, comparing early-stage (AJCC I/II, n = 49) with advanced-stage (III/IV, n = 6) tumors.
 
-This code is associated with the analysis presented in the following manuscript:
-> Preston et al. (2026). Metabolic reprogramming in differentiated thyroid cancer progression: a tumor metabolomics analysis. *[Submitted to Surgery]*.
+## Citation
 
-## 🚀 Quick Start for Reproduction
+> Preston JD, Glosser LD, Jarrell ZR, Senanayake MS, Tran V, Weinberg J, Robertson JM, Weber CJ,
+> Smith MR, Liang Y, Zhan J, Safley SA, Jackson AS, Patel SG, Sharma J, Saunders ND, Go Y-M,
+> Jones DP, Szabo Yamashita T. Metabolic reprogramming in differentiated thyroid cancer progression:
+> a tumor metabolomics analysis. *Surgery*. In press, 2026.
 
-**⚠️ Data Availability Notice**: 
-- **No data files** (raw data, processed feature tables, or clinical metadata) are included in this repository
-- **All instructions below assume you have obtained data files or are using your own data**
-- **To reproduce this analysis**: Contact the author (Joshua D. Preston, joshua.preston@emory.edu) to obtain the data files—this is the easiest and recommended approach
-- **Public data access**: [Pending - will be deposited to public repository]
-- **To run analyses with your own data or provided data files**: Update file paths in `all_run/config_dynamic.yaml` to match your system
+## Data availability
 
-### Option 1: Using Docker (Recommended for Exact Reproducibility)
+**No data files are included in this repository.** Clinical metadata and specimen identifiers are
+withheld: the source biorepository retains a re-identification key, so specimen accession numbers are
+not publicly shareable. Subjects are referred to throughout by study-assigned identifiers
+(`F1`, `P1`, `FVPTC2`, …) that cannot be linked back to the biorepository without that key.
 
-**Prerequisites**: 
-- Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
-- (Optional) Create free [Docker Hub](https://hub.docker.com) account
+Raw spectral data (`.mzXML`) and untargeted feature tables are deposited at the NIH Common Fund's
+National Metabolomics Data Repository, **Metabolomics Workbench** (Study ID and DOI pending release).
+The deposition carries per-sample age, sex, tumor type and AJCC stage, keyed to the same
+study-assigned identifiers used here.
 
-#### Method A: Pull Pre-built Image (Fastest - Recommended)
+To rerun the pipeline you must supply the input paths yourself — see `all_run/config_dynamic.yaml`.
+
+## Requirements
+
+- **R ≥ 4.5.1**
+- **System tools**, verified by `check_system_dependencies()`: ImageMagick (`magick`),
+  Ghostscript (`gs`), and a LaTeX engine (`tinytex` / `xelatex`) for supplementary table rendering
+- A standard desktop machine; no special hardware
+
+Package versions are pinned with **renv** (`renv.lock`), and dependencies are declared in
+`DESCRIPTION` under `Imports:`, `Bioconductor:` and `Remotes:` with
+`Config/renv/snapshot/type: explicit`.
+
+## Running the analysis
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/jdpreston30/DTC-metabolomics-2026.git
 cd DTC-metabolomics-2026
-
-# 2. Pull the pre-built Docker image (~5-10 minutes)
-docker pull jdpreston30/dtc-metabolomics:latest  # [PENDING]
-
-# 3. Run the complete analysis pipeline
-docker run -v $(pwd):/analysis jdpreston30/dtc-metabolomics:latest
-
-# Windows users: Replace $(pwd) with:
-# - CMD: docker run -v %cd%:/analysis jdpreston30/dtc-metabolomics:latest
-# - PowerShell: docker run -v ${PWD}:/analysis jdpreston30/dtc-metabolomics:latest
 ```
-
-#### Method B: Build Image Locally
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/jdpreston30/DTC-metabolomics-2026.git
-cd DTC-metabolomics-2026
-
-# 2. Build the Docker image from Dockerfile (~30-45 minutes)
-docker build -t dtc-metabolomics .  # [PENDING - Dockerfile to be created]
-
-# 3. Run the complete analysis pipeline
-docker run -v $(pwd):/analysis dtc-metabolomics
-
-# Windows users: Replace $(pwd) with:
-# - CMD: docker run -v %cd%:/analysis dtc-metabolomics
-# - PowerShell: docker run -v ${PWD}:/analysis dtc-metabolomics
-```
-
-All outputs (figures, tables, pathway results) will be saved to your local workspace.
-
-#### Testing the Container
-
-To verify the Docker image was built correctly before running the full analysis:
-
-```bash
-# Quick verification (< 1 minute)
-docker run --rm dtc-metabolomics Rscript -e "packageVersion('mixOmics'); packageVersion('vegan')"
-```
-
-This should display package versions. If it succeeds, the container is ready for the full analysis.
-
-#### Troubleshooting
-
-**Build fails or is very slow**: 
-- This is normal for the first build (30-45 minutes) due to compiling complex packages
-- If build is interrupted, run `docker build` again - it will resume from where it stopped
-
-**"No space left on device" error**:
-- The final image is ~3-5 GB
-- Check available disk space: `docker system df`
-- Clean up old images: `docker image prune`
-
-**Container runs but produces no output**:
-- Check the Outputs directory exists and is writable
-- Verify the mount path: `ls Outputs/`
-
-### Option 2: Manual Installation (Without Docker)
-
-**Prerequisites**: 
-- R >= 4.5.1
-- Git (to clone repository)
-
-**Note**: This project uses `renv` for package management to ensure reproducibility. The `renv.lock` file contains exact versions of all packages used in the manuscript.
 
 ```r
-# 1. Clone the repository
-# (from terminal)
-git clone https://github.com/jdpreston30/DTC-metabolomics-2026.git
-cd DTC-metabolomics-2026
+# renv activates automatically via .Rprofile
+renv::restore()                 # first time only, ~10-20 min
 
-# 2. Start R in the project directory
-# (renv automatically activates via .Rprofile)
-
-# 3. Restore all packages at exact versions (first time only, ~10-20 minutes)
-renv::restore()
-
-# 4. Check system dependencies
 source("R/Utilities/Setup/check_system_dependencies.R")
 check_system_dependencies()
 
-# 5. Run the complete analysis pipeline
+# edit all_run/config_dynamic.yaml so the input paths match your system, then:
 source("all_run/run.R")
 ```
 
-**What happens during `renv::restore()`**:
-- Installs all R packages at exact versions from `renv.lock`
-- Installs CRAN packages (e.g., ggplot2, dplyr, broom, conflicted)
-- Installs Bioconductor packages (e.g., mixOmics, KEGGREST)
-- Installs GitHub packages (MetaboAnalystR, qs)
-- Installs TernTables from GitHub (also available on [R-universe](https://jdpreston30.r-universe.dev/TernTables))
-- Creates isolated project library (doesn't affect your system R packages)
-- Only needed once per computer; subsequent runs use installed packages
-- Packages are automatically loaded from `DESCRIPTION` file during pipeline execution
+`run.R` executes the analysis scripts (`00a`–`08`) in order. The Metabolomics Workbench deposition
+scripts are run separately, on demand — see below.
 
-## 📁 Project Structure
+## Pipeline
+
+### Analysis (`R/Scripts/`)
+
+| Script | Purpose |
+|---|---|
+| `00a_environment_setup.R` | Conflict preferences, package loading from `DESCRIPTION`, system-dependency check |
+| `00b_setup.R` | Sources every utility under `R/Utilities/` |
+| `00c_clinical_metadata.R` | Clinical and pathology metadata, stage assignment |
+| `00d_FTs.R` | Feature table import and preprocessing |
+| `01_volcano_heatmap.R` | Differential features; volcano plot and heatmap |
+| `02_pathway_enrichment.R` | Mummichog pathway enrichment (KEGG, MFN) |
+| `03_annotated.R` | Annotated metabolite plots |
+| `04_assign_plots.R` | Assigns panels to figures |
+| `05_render_figures.R` | Renders publication figures |
+| `06_data_not_shown.R` | Supporting analyses not shown in the manuscript |
+| `07_tables.R` | Manuscript and supplementary tables |
+| `08_session_info.R` | Writes `session_info.txt` |
+
+### Metabolomics Workbench deposition (`R/MWB/`)
+
+Not part of `run.R` — run these on demand when preparing a deposition. Shell steps (`00`–`03`)
+organise, compress and stage the `.mzXML` archives; R steps build the deposition metadata. Paths are
+configured separately in `R/MWB/config.yaml`.
+
+Run the R steps in the order **04 → 06 → 05 → 07**: `05` summarises the deposited cohort by reading
+the `study_design.tsv` that `06` writes, so running it earlier reports a stale cohort.
+
+| Script | Purpose |
+|---|---|
+| `Scripts/00_setup.sh` | Checks/installs p7zip |
+| `Scripts/01_organize.sh` | Sorts `.mzXML` into `hilicpos/` and `c18neg/` |
+| `Scripts/02_compress.sh` | Builds `hilicpos.7z` / `c18neg.7z` and `zip_contents.csv` |
+| `Scripts/03_copy.sh` | Stages archives for upload |
+| `Scripts/04_clean.R` | Joins the acquisition sequence to the archive contents |
+| `Scripts/06_study_design.R` | Builds the de-identified `SUBJECT_SAMPLE_FACTORS` table |
+| `Scripts/05_custom_info.R` | Study summary — **runs after 06**, since it reads `study_design.tsv` |
+| `Scripts/07_feature_tables.R` | Renames feature-table columns to study identifiers for upload |
+
+## Repository layout
 
 ```
-├── DESCRIPTION                 # R package dependencies (CRAN, Bioconductor, GitHub)
-├── Dockerfile                  # [PENDING] Docker container for reproducible environment
-├── renv.lock                   # Exact package versions for reproducibility
-├── all_run/                    # Pipeline execution
-│   ├── config_dynamic.yaml     # Analysis configuration (update paths for your system)
-│   └── run.R                   # Main pipeline execution script
-├── R/                          # Analysis code
-│   ├── Scripts/                # Analysis workflow scripts (00a-06)
-│   ├── Utilities/              # Custom analysis functions
-│   │   ├── Analysis/           # Statistical and pathway analysis
-│   │   ├── Helpers/            # Helper functions
-│   │   ├── Preprocessing/      # Data preprocessing functions
-│   │   ├── Visualization/      # Plotting functions
-│   │   └── Other/              # Other utilities
-│   └── legacy/                 # Legacy code (not part of main pipeline)
-├── Figures/                    # Static/reference figures
-├── Outputs/                    # Generated results
-│   ├── Figures/                # Publication figures (PDF, EPS, PNG)
-│   └── mummichog/              # Pathway enrichment results (KEGG, MFN)
-└── R/Utilities/Setup/          # Setup and configuration scripts
-    ├── setup_dependencies.R    # One-time package installation
-    └── check_environment.R     # Environment status checker
+├── DESCRIPTION                 # dependencies (CRAN, Bioconductor, GitHub/R-universe)
+├── renv.lock                   # pinned package versions
+├── session_info.txt            # session record from the manuscript run
+├── all_run/
+│   ├── config_dynamic.yaml     # input paths and analysis options — edit before running
+│   └── run.R                   # pipeline entry point
+├── R/
+│   ├── Scripts/                # analysis workflow, 00a-08
+│   ├── MWB/                    # Metabolomics Workbench deposition
+│   └── Utilities/              # Analysis, Helpers, Other, Preprocessing,
+│                               #   Setup, Tabulation, Terminal, Visualization
+├── Outputs/                    # Annotation, Correlation, Figures, Tables, mummichog
+└── Supplementary/              # Components (incl. Tables), Build_Logs
 ```
 
-## 🔬 Analysis Workflow
+## Contact
 
-The complete pipeline executes in sequence:
+**Joshua D. Preston** — joshua.preston@emory.edu ·
+[ORCID 0000-0001-9834-3017](https://orcid.org/0000-0001-9834-3017) ·
+Medical Scientist Training Program, Emory University School of Medicine
 
-1. **00a-00d**: Environment setup, clinical metadata, feature tables
-2. **01**: Volcano plots and heatmap
-3. **02**: Pathway enrichment (mummichog analysis)
-4. **03**: Annotated bar plots and visualizations
-5. **04**: Assignment of plots to figure panels
-6. **05**: Render final figures
-7. **06**: Data not shown / supplementary analyses
-8. **07**: Generate summary tables
-9. **08**: Session info
-
-## 💻 System Requirements
-
-### Computational Requirements
-- **R**: Version 4.5.1 or higher
-- **Platform**: Developed on macOS but should work on Windows or Linux
-- **Note**: Standard modern computer sufficient; no special hardware required
-
-### System Dependencies
-- **Ghostscript**: PDF to EPS conversion
-- **ImageMagick**: Image processing
-
-*Note: All system dependencies will be automatically installed in the Docker container. For manual installation, run `check_system_dependencies()` for platform-specific instructions.*
-
-## 📦 Package Dependencies
-
-All R package dependencies are specified in `DESCRIPTION`. Key packages include:
-
-### CRAN Packages
-- **Data manipulation**: tidyverse (dplyr, tidyr, purrr, readr, tibble, stringr, forcats)
-- **Visualization**: ggplot2, ggraph, ggprism, pheatmap, cowplot, RColorBrewer, scales, magick
-- **Statistical modeling**: vegan, mice, permute
-- **Utilities**: here, yaml, conflicted, broom, jsonlite, readxl, memoise, gtools
-
-### Bioconductor Packages
-- **Metabolomics analysis**: mixOmics
-- **Pathway databases**: KEGGREST
-
-### GitHub/R-universe Packages
-- `xia-lab/MetaboAnalystR`: Metabolomics analysis and pathway enrichment
-- `traversc/qs`: High-performance serialization (dependency of MetaboAnalystR)
-- `jdpreston30/TernTables`: Publication-ready summary tables ([R-universe](https://jdpreston30.r-universe.dev/TernTables))
-
-*See `DESCRIPTION` file for complete list of all dependencies.*
-
-## � Package Management with renv
-
-This project uses `renv` for reproducible package management. All package dependencies and their exact versions are tracked in `renv.lock`.
-
-### How It Works
-
-The project follows a structured approach to package management:
-
-1. **DESCRIPTION file** - Contains all package dependencies:
-   - `Imports:` - CRAN packages
-   - `Bioconductor:` - Bioconductor packages  
-   - `Remotes:` - GitHub packages
-
-2. **Helper utilities** in `R/Utilities/Setup/`:
-   - `restore_renv.R` - Ensures renv environment is ready
-   - `load_packages_from_description.R` - Loads packages from DESCRIPTION
-   - `check_system_dependencies.R` - Verifies system requirements
-
-3. **00a_environment_setup.R** - Sets up the R environment:
-   - Sets conflict preferences (using `conflicted` package)
-   - Loads all packages from DESCRIPTION
-   - Explicitly loads GitHub packages for renv detection
-   - Checks system dependencies
-
-### Explicit Snapshot Mode
-
-This project uses `Config/renv/snapshot/type: explicit` in DESCRIPTION. This means:
-
-- ✅ Only packages listed in DESCRIPTION are tracked
-- ✅ Cleaner, more maintainable dependency list
-- ✅ Easier to audit what packages are actually needed
-- ✅ GitHub packages must be loaded explicitly with `library()` for renv to detect them
-
-### Manual Package Management
-
-#### Add a new package
-
-1. Add to DESCRIPTION:
-   ```
-   Imports:
-       ...,
-       newpackage
-   ```
-
-2. Install and snapshot:
-   ```r
-   renv::install("newpackage")
-   renv::snapshot()
-   ```
-
-#### Update packages
-
-```r
-# Update specific package
-renv::update("dplyr")
-
-# Update all packages
-renv::update()
-
-# Create new snapshot after updates
-renv::snapshot()
-```
-
-#### Restore packages
-
-If packages are missing or out of sync:
-
-```r
-# Check status
-renv::status()
-
-# Restore from lockfile
-renv::restore()
-```
-
-#### Remove unused packages
-
-```r
-# Remove packages not in DESCRIPTION
-renv::clean()
-```
-
-### Troubleshooting
-
-#### "Package not found" errors
-
-```r
-# Check what's missing
-renv::status()
-
-# Restore from lockfile
-renv::restore()
-```
-
-#### GitHub package installation fails
-
-GitHub packages may require authentication. Set up a GitHub Personal Access Token:
-
-```r
-# Install usethis if needed
-install.packages("usethis")
-
-# Set up GitHub credentials
-usethis::create_github_token()
-gitcreds::gitcreds_set()
-```
-
-Then retry installation:
-```r
-renv::install("xia-lab/MetaboAnalystR")
-renv::install("traversc/qs")
-renv::install("jdpreston30/TernTables")
-```
-
-#### Slow renv activation
-
-If you see "renv took longer than expected to activate the sandbox", you can disable it:
-
-Add to `.Renviron`:
-```
-RENV_CONFIG_SANDBOX_ENABLED=FALSE
-```
-
-#### Starting fresh
-
-To completely rebuild the environment:
-
-```r
-# Remove renv library
-unlink("renv/library", recursive = TRUE)
-
-# Restore everything
-renv::restore()
-```
-
-## 🔄 Reproducibility Features
-
-This project implements best practices for computational reproducibility:
-
-- ✅ **Version Control**: Complete analysis code on GitHub
-- ✅ **Package Management**: `renv` with `renv.lock` pinning all packages to exact versions
-- ✅ **Dependency Declaration**: All dependencies specified in `DESCRIPTION` with automatic loading
-- ✅ **Containerization**: [PENDING] Docker image available at `jdpreston30/dtc-metabolomics:latest`
-- ✅ **Conflict Resolution**: `conflicted` package ensures predictable function behavior
-- ✅ **Docker Hub Distribution**: [PENDING] Pre-built image at [jdpreston30/dtc-metabolomics](https://hub.docker.com/r/jdpreston30/dtc-metabolomics)
-- ✅ **Configuration-Driven**: All parameters in `config_dynamic.yaml`
-- ✅ **System Dependency Checking**: Automated validation via `check_system_dependencies()`
-- ✅ **Documentation**: Comprehensive function documentation and workflow comments
-
-## 📧 Contact
-
-**Author & Repository Maintainer**: Joshua D. Preston
-- **Email**: joshua.preston@emory.edu  
-- **ORCID**: [0000-0001-9834-3017](https://orcid.org/0000-0001-9834-3017)  
-- **Institution**: Department of Surgery, Emory University School of Medicine
-
-**Corresponding Author**: Thomas Szabo Yamashita
-- **Email**: thomas.szabo.yamashita@emory.edu
-- **ORCID**: [0000-0002-2786-6678](https://orcid.org/0000-0002-2786-6678)  
-- **Institution**: Department of Surgery, Emory University School of Medicine
-
----
-
-**Repository**: https://github.com/jdpreston30/DTC-metabolomics-2026  
-**Docker Hub**: [PENDING] https://hub.docker.com/r/jdpreston30/dtc-metabolomics  
-**Zenodo Archive**: [PENDING] https://doi.org/10.5281/zenodo.XXXXXXX
+**Corresponding author: Thomas Szabo Yamashita** — thomas.szabo.yamashita@emory.edu ·
+[ORCID 0000-0002-2786-6678](https://orcid.org/0000-0002-2786-6678) ·
+Division of General and GI Surgery, Department of Surgery, Emory University School of Medicine

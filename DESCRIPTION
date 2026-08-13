@@ -1,9 +1,10 @@
 Type: Project
-Title: Metabolomic Profiling Identifies Functional Tumor Subtypes in Differentiated Thyroid Cancer
+Title: Metabolic Reprogramming in Differentiated Thyroid Cancer Progression: A Tumor Metabolomics Analysis
 Authors@R: person("Joshua", "Preston", email = "joshua.preston@emory.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9834-3017"))
-Description: Metabolomics analysis pipeline for differentiated thyroid cancer study.
-    This project contains all code and analysis scripts for metabolomic profiling
-    of thyroid cancer variants including PTC, FTC, and FVPTC.
+Description: Untargeted LC-MS metabolomics analysis pipeline for a study of 55
+    differentiated thyroid cancer specimens, comparing early-stage (AJCC I/II) with
+    advanced-stage (III/IV) tumors. Includes the analysis workflow and the scripts
+    that build the Metabolomics Workbench deposition.
 License: MIT + file LICENSE
 URL: https://github.com/jdpreston30/DTC-metabolomics-2026
 Depends: 
@@ -14,7 +15,6 @@ Imports:
     forcats,
     ggplot2,
     ggprism,
-    fitdistrplus,
     RJSONIO,
     ggraph,
     gtools,
@@ -27,7 +27,6 @@ Imports:
     corrplot,
     png,
     qpdf,
-    grid,
     permute,
     pheatmap,
     purrr,
@@ -52,14 +51,12 @@ Imports:
     tinytex,
     officer,
     pwr,
-    TernTables
+    TernTables,
+    mixOmics,
+    KEGGREST
 Additional_repositories: 
     https://jdpreston30.r-universe.dev,
     https://bioconductor.org/packages/release/bioc
-Bioconductor:
-    mixOmics,
-    KEGGREST,
-    MSnbase
 Remotes: 
     xia-lab/MetaboAnalystR,
     traversc/qs

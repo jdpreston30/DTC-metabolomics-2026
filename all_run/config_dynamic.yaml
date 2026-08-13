@@ -8,7 +8,7 @@ computers:
     figures_path: "Outputs/Figures/Final"
   desktop:
     user_home: "/Users/JoshsMacbook2015" 
-    onedrive_path: "Library/CloudStorage/OneDrive-EmoryUniversity"
+    onedrive_path: "Library/CloudStorage/OneDrive-Emory"
     figures_path: "Outputs/Figures/Final"
 # Dynamic path templates (will be populated based on computer selection)
 paths:

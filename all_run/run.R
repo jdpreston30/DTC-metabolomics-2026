@@ -15,8 +15,3 @@
   source("R/Scripts/07_tables.R")
   source("R/Scripts/08_session_info.R")
 }
-
-source("R/MWB/Scripts/04_clean.R")
-source("R/MWB/Scripts/05_custom_info.R")
-source("R/MWB/Scripts/06_study_design.R")
-source("R/MWB/Scripts/07_feature_tables.R")
