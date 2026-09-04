@@ -6,7 +6,7 @@ specimens, comparing early-stage (AJCC I/II, n = 49) with advanced-stage (III/IV
 ## Citation
 
 > Preston JD, Glosser LD, Jarrell ZR, Senanayake MS, Tran V, Weinberg J, Robertson JM, Weber CJ,
-> Smith MR, Liang Y, Zhan J, Safley SA, Jackson AS, Patel SG, Sharma J, Saunders ND, Go Y-M,
+> Smith MR, Liang Y, Zhan J, Safley SA, Jackson AS, Patel SG, Sharma J, Saunders ND, Go Y,
 > Jones DP, Szabo Yamashita T. Metabolic reprogramming in differentiated thyroid cancer progression:
 > a tumor metabolomics analysis. *Surgery*. In press, 2026.
 
