@@ -49,7 +49,7 @@ plot_stage_targeted <- function(feature_table,
   
   # Set dynamic y-label based on undo_log parameter
   y_label <- if (undo_log) {
-    "Spectral Intensity"
+    "Peak Area"
   } else {
     expression(Log[2]~Intensity)
   }
