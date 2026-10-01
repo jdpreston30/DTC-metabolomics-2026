@@ -40,7 +40,7 @@ T1 <- ternG(
   table_font_size = 11,
   zero_to_dash = TRUE,
   table_caption = "Table I. Clinical and pathological characteristics of patients and analyzed tumors.",
-  table_footnote = "All values are displayed as mean ± SD for ratio continuous variables or n (%) for categorical variables.",
+  table_footnote = "All values are displayed as mean ± SD for continuous variables or n (%) for categorical variables.",
   category_start = c(
     "Patient Characteristics" = "Age (y)",
     "Staging"                 = "Pathologic Stage",
@@ -81,6 +81,8 @@ group_order <- c(
 )
 #- 7.2.2: Prepare base ST1 data (pre-sort by p-value before formatting)
 ST1_base <- readxl::read_xlsx(config$data_files$QC, sheet = "QC") |>
+  # QC sheet also holds SAM (needed for the Figure 3D SAM/SAH ratio); ST1 lists differential metabolites only
+  filter(p_value < 0.05) |>
   mutate(
     mode_ESI = case_when(
       Mode == "C18" ~ "C18-",

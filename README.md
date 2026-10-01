@@ -10,6 +10,8 @@ specimens, comparing early-stage (AJCC I/II, n = 49) with advanced-stage (III/IV
 > Jones DP, Szabo Yamashita T. Metabolic reprogramming in differentiated thyroid cancer progression:
 > a tumor metabolomics analysis. *Surgery*. In press, 2026.
 
+**DOI:** [10.1016/j.surg.2026.110658](https://doi.org/10.1016/j.surg.2026.110658) · **PMID:** TBD
+
 ## Data availability
 
 **No data files are included in this repository.** Clinical metadata and specimen identifiers are
@@ -17,8 +19,10 @@ withheld: the source biorepository retains a re-identification key, so specimen 
 not publicly shareable. Subjects are referred to throughout by study-assigned identifiers
 (`F1`, `P1`, `FVPTC2`, …) that cannot be linked back to the biorepository without that key.
 
-Raw spectral data (`.mzXML`) and untargeted feature tables are deposited at the NIH Common Fund's
-National Metabolomics Data Repository, **Metabolomics Workbench** (Study ID and DOI pending release).
+All raw data files (.mzXML format) and feature tables analyzed for this study are available through
+the National Institutes of Health Common Fund's National Metabolomics Data Repository (NMDR) website,
+Metabolomics Workbench (Project ID PR002999; Study ID ST004729; Project DOI
+https://doi.org/10.21228/M8185V).
 The deposition carries per-sample age, sex, tumor type and AJCC stage, keyed to the same
 study-assigned identifiers used here.
 

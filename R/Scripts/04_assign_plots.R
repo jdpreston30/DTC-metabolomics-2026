@@ -22,9 +22,16 @@ p3A_legend <- plot_corr_legend()
 p3A <- grid::rasterGrob(as.raster(
   magick::image_read("Outputs/Figures/Raw/p3A.png") %>%
   magick::image_crop("5412x4601+0+1065")))
+# Top of the "11-cis-Retinol" column label sits above the crop; restore only that patch, placed at the same scale
+p3A_l <- grid::rasterGrob(as.raster(
+  magick::image_read("Outputs/Figures/Raw/p3A.png") %>%
+  magick::image_crop("112x21+1690+1044")))
+p3A_h <- (3.996 * 4601 / 5412) / 3.6
 #- 4.3.2: Knit together A plot and legend
 fig_3A <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
-  draw_plot(ggdraw() + draw_grob(p3A), x = 0.473333333, y = 7.470000001, width = 3.996, height = 3.6) +
+  draw_plot(ggdraw() + draw_grob(p3A) +
+              draw_grob(p3A_l, x = 1690 / 5412, y = (1 - p3A_h) / 2 + p3A_h, width = 112 / 5412, height = p3A_h * 21 / 4601),
+            x = 0.473333333, y = 7.470000001, width = 3.996, height = 3.6) +
   draw_plot(p3A_legend, x = 4.538333, y = 6.948333334, width = 0.9, height = 4.185)
 #- 4.3.3: Save knit A/C
 print_to_png(fig_3A, "Raw/fig_3A.png", dpi = 1200, background = "transparent")

@@ -64,11 +64,10 @@
       "Encoding": "UTF-8",
       "RoxygenNote": "6.0.1",
       "Collate": "'AllGenerics.R' 'AnnotationFilter.R' 'AnnotationFilterList.R' 'translate-utils.R'",
-      "git_url": "https://git.bioconductor.org/packages/AnnotationFilter",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "730457f",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/AnnotationFilter",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "730457fdac505f620303c35b89ef58eafbfae6b7",
       "NeedsCompilation": "no",
       "Author": "Martin Morgan [aut], Johannes Rainer [aut], Joachim Bargsten [ctb], Daniel Van Twisk [ctb], Bioconductor Package Maintainer [cre]",
       "Maintainer": "Bioconductor Package Maintainer <maintainer@bioconductor.org>"
@@ -122,11 +121,10 @@
       "VignetteBuilder": "knitr",
       "LazyLoad": "yes",
       "Collate": "tools.R strings.R environment.R vignettes.R packages.R AllGenerics.R VersionsClass.R VersionedClasses.R methods-VersionsNull.R methods-VersionedClass.R DataClasses.R methods-aggregator.R methods-container.R methods-MIAxE.R methods-MIAME.R methods-AssayData.R methods-AnnotatedDataFrame.R methods-eSet.R methods-ExpressionSet.R methods-MultiSet.R methods-SnpSet.R methods-NChannelSet.R anyMissing.R rowOp-methods.R updateObjectTo.R methods-ScalarObject.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/Biobase",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "9964e15",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/Biobase",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "9964e1563d0652a9f2e77dbac543463dc482b425",
       "NeedsCompilation": "yes",
       "Author": "R. Gentleman [aut], V. Carey [aut], M. Morgan [aut], S. Falcon [aut], Haleema Khan [ctb] ('esApply' and 'BiobaseDevelopment' vignette translation from Sweave to Rmarkdown / HTML), Bioconductor Package Maintainer [cre]",
       "Maintainer": "Bioconductor Package Maintainer <maintainer@bioconductor.org>"
@@ -159,11 +157,10 @@
       "RoxygenNote": "7.3.2",
       "VignetteBuilder": "knitr",
       "Date": "2025-07-14",
-      "git_url": "https://git.bioconductor.org/packages/BiocBaseUtils",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "756163a",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/BiocBaseUtils",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "756163a56486f2a5247073883b0948a033ccb637",
       "NeedsCompilation": "no",
       "Author": "Marcel Ramos [aut, cre] (ORCID: <https://orcid.org/0000-0002-3242-0582>), Martin Morgan [ctb], Hervé Pagès [ctb]",
       "Maintainer": "Marcel Ramos <marcel.ramos@sph.cuny.edu>"
@@ -216,11 +213,10 @@
         "RUnit"
       ],
       "Collate": "S3-classes-as-S4-classes.R utils.R normarg-utils.R replaceSlots.R aperm.R append.R as.data.frame.R as.list.R as.vector.R cbind.R do.call.R duplicated.R eval.R Extremes.R format.R funprog.R get.R grep.R is.unsorted.R lapply.R mapply.R match.R mean.R nrow.R order.R paste.R rank.R rep.R row_colnames.R saveRDS.R sort.R start.R subset.R t.R table.R tapply.R unique.R unlist.R unsplit.R which.R which.min.R relist.R boxplot.R image.R density.R IQR.R mad.R residuals.R var.R weights.R xtabs.R setops.R annotation.R combine.R containsOutOfMemoryData.R dbconn.R dge.R dims.R fileName.R longForm.R normalize.R Ontology.R organism_species.R paste2.R path.R plotMA.R plotPCA.R score.R strand.R toTable.R type.R updateObject.R testPackage.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/BiocGenerics",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "16cf16d",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/BiocGenerics",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "16cf16df6e7c4a0f76e959bf858c5c0990543522",
       "NeedsCompilation": "no",
       "Author": "The Bioconductor Dev Team [aut], Hervé Pagès [aut, cre] (ORCID: <https://orcid.org/0009-0002-8272-4522>), Laurent Gatto [ctb] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Nathaniel Hayden [ctb], James Hester [ctb], Wolfgang Huber [ctb], Michael Lawrence [ctb], Martin Morgan [ctb] (ORCID: <https://orcid.org/0000-0002-5874-8148>), Valerie Obenchain [ctb]",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -328,16 +324,15 @@
       "Authors@R": "c( person(\"Martin\", \"Morgan\", email = \"martin.morgan@roswellpark.org\", role = \"aut\"), person(\"Marcel\", \"Ramos\", email = \"marcel.ramos@sph.cuny.edu\", role = \"ctb\"), person(\"Bioconductor\", \"Package Maintainer\", email  = \"maintainer@bioconductor.org\", role = c(\"ctb\", \"cre\")))",
       "biocViews": "Infrastructure",
       "Depends": [
-        "R (>= 4.5.0)"
+        "R (>= 4.4.0)"
       ],
       "License": "Artistic-2.0",
       "Encoding": "UTF-8",
       "RoxygenNote": "6.0.1",
-      "git_url": "https://git.bioconductor.org/packages/BiocVersion",
-      "git_branch": "devel",
-      "git_last_commit": "fea53ac",
-      "git_last_commit_date": "2025-04-15",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/BiocVersion",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "fea53ac938311018c7513d2339cdd5f928cd72c5",
       "NeedsCompilation": "no",
       "Author": "Martin Morgan [aut], Marcel Ramos [ctb], Bioconductor Package Maintainer [ctb, cre]",
       "Maintainer": "Bioconductor Package Maintainer <maintainer@bioconductor.org>"
@@ -396,11 +391,11 @@
       ],
       "VignetteBuilder": "knitr",
       "Collate": "utils.R IUPAC_CODE_MAP.R AMINO_ACID_CODE.R GENETIC_CODE.R XStringCodec-class.R seqtype.R coloring.R XString-class.R XStringSet-class.R XStringSet-comparison.R XStringViews-class.R MaskedXString-class.R XStringSetList-class.R seqinfo-methods.R xscat.R XStringSet-io.R letter.R getSeq.R letterFrequency.R dinucleotideFrequencyTest.R chartr.R reverseComplement.R translate.R toComplex.R replaceAt.R replaceLetterAt.R injectHardMask.R padAndClip.R strsplit-methods.R misc.R SparseList-class.R MIndex-class.R lowlevel-matching.R match-utils.R matchPattern.R maskMotif.R matchLRPatterns.R trimLRPatterns.R matchProbePair.R matchPWM.R findPalindromes.R PDict-class.R matchPDict.R XStringPartialMatches-class.R XStringQuality-class.R QualityScaledXStringSet.R pmatchPattern.R MultipleAlignment.R matchprobes.R moved_to_pwalign.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/Biostrings",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "eda5d66",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/Biostrings",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "eda5d667ad05a73336d8c83a71f670198433232f",
       "NeedsCompilation": "yes",
       "Author": "Hervé Pagès [aut, cre], Patrick Aboyoun [aut], Robert Gentleman [aut], Saikat DebRoy [aut], Vince Carey [ctb], Nicolas Delhomme [ctb], Felix Ernst [ctb], Wolfgang Huber [ctb] ('matchprobes' vignette), Beryl Kanali [ctb] (Converted 'MultipleAlignments' vignette from Sweave to RMarkdown), Haleema Khan [ctb] (Converted 'matchprobes' vignette from Sweave to RMarkdown), Aidan Lakshman [ctb], Kieran O'Neill [ctb], Valerie Obenchain [ctb], Marcel Ramos [ctb], Albert Vill [ctb], Jen Wokaty [ctb] (Converted 'matchprobes' vignette from Sweave to RMarkdown), Erik Wright [ctb]",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -579,7 +574,8 @@
       "NeedsCompilation": "no",
       "Author": "Achim Zeileis [aut, cre] (<https://orcid.org/0000-0003-0918-3766>), Yves Croissant [aut]",
       "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "GenomicRanges": {
       "Package": "GenomicRanges",
@@ -650,11 +646,10 @@
       ],
       "VignetteBuilder": "knitr",
       "Collate": "normarg-utils.R utils.R phicoef.R transcript-utils.R constraint.R strand-utils.R genomic-range-squeezers.R GenomicRanges-class.R GenomicRanges-comparison.R GRanges-class.R GPos-class.R GRangesFactor-class.R DelegatingGenomicRanges-class.R GNCList-class.R GenomicRangesList-class.R GRangesList-class.R makeGRangesFromDataFrame.R makeGRangesListFromDataFrame.R RangedData-methods.R findOverlaps-methods.R intra-range-methods.R inter-range-methods.R coverage-methods.R setops-methods.R subtract-methods.R nearest-methods.R absoluteRanges.R tileGenome.R tile-methods.R genomicvars.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/GenomicRanges",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "efdd1c3",
-      "git_last_commit_date": "2025-12-08",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/GenomicRanges",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "ce11a45400f198fbede382bf1f0ad137ef2d8a96",
       "NeedsCompilation": "yes",
       "Author": "Patrick Aboyoun [aut], Hervé Pagès [aut, cre], Michael Lawrence [aut], Sonali Arora [ctb], Martin Morgan [ctb], Kayla Morrell [ctb], Valerie Obenchain [ctb], Marcel Ramos [ctb], Lori Shepherd [ctb], Dan Tenenbaum [ctb], Daniel van Twisk [ctb]",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -697,11 +692,10 @@
         "BiocStyle"
       ],
       "Collate": "thread-control.R range-squeezers.R Vector-class-leftovers.R DataFrameList-class.R DataFrameList-utils.R AtomicList-class.R AtomicList-utils.R Ranges-and-RangesList-classes.R IPosRanges-class.R IPosRanges-comparison.R IntegerRangesList-class.R IRanges-class.R IRanges-constructor.R makeIRangesFromDataFrame.R IRanges-utils.R Rle-class-leftovers.R IPos-class.R subsetting-utils.R Grouping-class.R Views-class.R RleViews-class.R RleViews-summarization.R extractList.R seqapply.R multisplit.R SimpleGrouping-class.R IRangesList-class.R IPosList-class.R ViewsList-class.R RleViewsList-class.R RleViewsList-utils.R RangedSelection-class.R MaskCollection-class.R read.Mask.R CompressedList-class.R CompressedList-comparison.R CompressedHitsList-class.R CompressedDataFrameList-class.R CompressedAtomicList-class.R CompressedAtomicList-summarization.R CompressedGrouping-class.R CompressedRangesList-class.R Hits-class-leftovers.R NCList-class.R findOverlaps-methods.R windows-methods.R intra-range-methods.R inter-range-methods.R reverse-methods.R coverage-methods.R cvg-methods.R slice-methods.R setops-methods.R nearest-methods.R cbind-Rle-methods.R tile-methods.R extractListFragments.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/IRanges",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "964a290",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/IRanges",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "964a2904e15d5352da6bcb1e0f55fcf62a09ce59",
       "NeedsCompilation": "yes",
       "Author": "Hervé Pagès [aut, cre], Patrick Aboyoun [aut], Michael Lawrence [aut]",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -736,11 +730,11 @@
       "biocViews": "Annotation, Pathways, ThirdPartyClient, KEGG",
       "RoxygenNote": "7.1.1",
       "Date": "2025-06-18",
-      "git_url": "https://git.bioconductor.org/packages/KEGGREST",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "bb924dc",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "libpng-dev libssl-dev zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/KEGGREST",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "bb924dc5faa2bec562866275b08b1b2f98e30a07",
       "NeedsCompilation": "no",
       "Author": "Dan Tenenbaum [aut], Bioconductor Package Maintainer [aut, cre], Martin Morgan [ctb], Kozo Nishida [ctb], Marcel Ramos [ctb], Kristina Riemer [ctb], Lori Shepherd [ctb], Jeremy Volkening [ctb]",
       "Maintainer": "Bioconductor Package Maintainer <maintainer@bioconductor.org>"
@@ -999,11 +993,10 @@
       "RoxygenNote": "7.3.2",
       "Roxygen": "list(markdown = TRUE, old_usage = TRUE)",
       "Collate": "'MatrixGenerics-package.R' 'rowAlls.R' 'rowAnyNAs.R' 'rowAnys.R' 'rowAvgsPerColSet.R' 'rowCollapse.R' 'rowCounts.R' 'rowCummaxs.R' 'rowCummins.R' 'rowCumprods.R' 'rowCumsums.R' 'rowDiffs.R' 'rowIQRDiffs.R' 'rowIQRs.R' 'rowLogSumExps.R' 'rowMadDiffs.R' 'rowMads.R' 'rowMaxs.R' 'rowMeans.R' 'rowMeans2.R' 'rowMedians.R' 'rowMins.R' 'rowOrderStats.R' 'rowProds.R' 'rowQuantiles.R' 'rowRanges.R' 'rowRanks.R' 'rowSdDiffs.R' 'rowSds.R' 'rowSums.R' 'rowSums2.R' 'rowTabulates.R' 'rowVarDiffs.R' 'rowVars.R' 'rowWeightedMads.R' 'rowWeightedMeans.R' 'rowWeightedMedians.R' 'rowWeightedSds.R' 'rowWeightedVars.R'",
-      "git_url": "https://git.bioconductor.org/packages/MatrixGenerics",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "75d9a54",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/MatrixGenerics",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "75d9a54ae570634c1c0d7f3c90958461ac8f6428",
       "NeedsCompilation": "no",
       "Author": "Constantin Ahlmann-Eltze [aut] (ORCID: <https://orcid.org/0000-0002-3762-068X>), Peter Hickey [aut, cre] (ORCID: <https://orcid.org/0000-0002-8153-6258>), Hervé Pagès [aut]",
       "Maintainer": "Peter Hickey <peter.hickey@gmail.com>"
@@ -1178,11 +1171,10 @@
       "biocViews": "Infrastructure, Metabolomics, MassSpectrometry",
       "Roxygen": "list(markdown=TRUE)",
       "RoxygenNote": "7.3.3",
-      "git_url": "https://git.bioconductor.org/packages/MetaboCoreUtils",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "4cd047f",
-      "git_last_commit_date": "2025-11-18",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/MetaboCoreUtils",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "4cd047f6088b1039c4f0827fed314bc34c873c61",
       "NeedsCompilation": "no",
       "Author": "Johannes Rainer [aut, cre] (ORCID: <https://orcid.org/0000-0002-6977-7147>), Michael Witting [aut] (ORCID: <https://orcid.org/0000-0002-1462-4426>), Andrea Vicini [aut], Liesa Salzer [ctb] (ORCID: <https://orcid.org/0000-0003-0761-0656>), Sebastian Gibb [aut] (ORCID: <https://orcid.org/0000-0001-7406-4443>), Michael Stravs [ctb] (ORCID: <https://orcid.org/0000-0002-1426-8572>), Roger Gine [aut] (ORCID: <https://orcid.org/0000-0003-0288-9619>), Philippine Louail [aut] (ORCID: <https://orcid.org/0009-0007-5429-6846>)",
       "Maintainer": "Johannes Rainer <Johannes.Rainer@eurac.edu>"
@@ -1263,11 +1255,10 @@
       "biocViews": "Infrastructure, Proteomics, MassSpectrometry, Metabolomics",
       "Roxygen": "list(markdown=TRUE)",
       "RoxygenNote": "7.3.2",
-      "git_url": "https://git.bioconductor.org/packages/MsCoreUtils",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "5370600",
-      "git_last_commit_date": "2025-11-25",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/MsCoreUtils",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "5370600f8c3d27ae88e202c6b75ed4250852769d",
       "NeedsCompilation": "yes",
       "Author": "RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Johannes Rainer [aut] (ORCID: <https://orcid.org/0000-0002-6977-7147>), Sebastian Gibb [aut] (ORCID: <https://orcid.org/0000-0001-7406-4443>), Philippine Louail [aut] (ORCID: <https://orcid.org/0009-0007-5429-6846>), Adriaan Sticker [ctb], Sigurdur Smarason [ctb], Thomas Naake [ctb], Josep Maria Badia Aparicio [ctb] (ORCID: <https://orcid.org/0000-0002-5704-1124>), Michael Witting [ctb] (ORCID: <https://orcid.org/0000-0002-1462-4426>), Samuel Wieczorek [ctb], Roger Gine Bertomeu [ctb] (ORCID: <https://orcid.org/0000-0003-0288-9619>), Mar Garcia-Aloy [ctb] (ORCID: <https://orcid.org/0000-0002-1330-6610>)",
       "Maintainer": "RforMassSpectrometry Package Maintainer <maintainer@rformassspectrometry.org>"
@@ -1376,11 +1367,11 @@
       "BugReports": "https://github.com/RforMassSpectrometry/PSM/issues",
       "URL": "https://github.com/RforMassSpectrometry/PSM",
       "biocViews": "Infrastructure, Proteomics, MassSpectrometry",
-      "git_url": "https://git.bioconductor.org/packages/PSMatch",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "eedaf3a",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "libglpk-dev make libicu-dev libxml2-dev libssl-dev zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/PSMatch",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "eedaf3a9270b0c4752572e5829718f9d4c6260d1",
       "NeedsCompilation": "no",
       "Author": "Laurent Gatto [aut, cre] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Johannes Rainer [aut] (ORCID: <https://orcid.org/0000-0002-6977-7147>), Sebastian Gibb [aut] (ORCID: <https://orcid.org/0000-0001-7406-4443>), Samuel Wieczorek [ctb], Thomas Burger [ctb], Guillaume Deflandre [ctb] (ORCID: <https://orcid.org/0009-0008-1257-2416>)",
       "Maintainer": "Laurent Gatto <laurent.gatto@uclouvain.be>"
@@ -1404,11 +1395,10 @@
       "License": "Artistic-2.0",
       "NeedsCompilation": "no",
       "RoxygenNote": "7.3.2",
-      "git_url": "https://git.bioconductor.org/packages/ProtGenerics",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "672cf15",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22"
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/ProtGenerics",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "672cf15787b9e832d534ba543375f8ae574fb603"
     },
     "QFeatures": {
       "Package": "QFeatures",
@@ -1476,11 +1466,11 @@
       "Collate": "'AllGenerics.R' 'AssayLinks.R' 'QFeatures-class.R' 'QFeatures-functions.R' 'QFeatures-longForm.R' 'QFeatures-processing.R' 'QFeatures-filter.R' 'QFeatures-missing-data.R' 'QFeatures-aggregation.R' 'QFeatures-imputation.R' 'QFeatures-join.R' 'QFeatures-validity.R' 'SummarizedExperiment-methods.R' 'subsetBy-methods.R' 'readQFeatures.R' 'readQFeaturesFromDIANN.R' 'data.R' 'reduce.R' 'utils.R' 'display.R'",
       "Roxygen": "list(markdown=TRUE)",
       "RoxygenNote": "7.3.2",
-      "git_url": "https://git.bioconductor.org/packages/QFeatures",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "bde5b54",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "libglpk-dev make libicu-dev libxml2-dev libssl-dev zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/QFeatures",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "bde5b545f737a9e0b394fecabc0899e24fe67a14",
       "NeedsCompilation": "no",
       "Author": "Laurent Gatto [aut, cre] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Christophe Vanderaa [aut] (ORCID: <https://orcid.org/0000-0001-7443-5427>), Léopold Guyot [ctb]",
       "Maintainer": "Laurent Gatto <laurent.gatto@uclouvain.be>"
@@ -1526,8 +1516,7 @@
       "NeedsCompilation": "yes",
       "Author": "Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), Ei-ji Nakama [aut] (Code in package Rhpc), Junji Nakano [aut] (Code in package Rhpc), R Core [aut] (Code in R file src/main/serialize.c)",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
-      "Encoding": "UTF-8"
+      "Repository": "CRAN"
     },
     "RBGL": {
       "Package": "RBGL",
@@ -1559,11 +1548,10 @@
         "BH"
       ],
       "VignetteBuilder": "knitr",
-      "git_url": "https://git.bioconductor.org/packages/RBGL",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "a15bdde",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/RBGL",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "a15bddece459497941508fd768366d76a09e52a4",
       "NeedsCompilation": "yes",
       "Author": "Vince Carey [aut], Li Long [aut], R. Gentleman [aut], Emmanuel Taiwo [ctb] (Converted RBGL vignette from Sweave to RMarkdown / HTML.), Bioconductor Package Maintainer [cre]",
       "Maintainer": "Bioconductor Package Maintainer <maintainer@bioconductor.org>"
@@ -1765,7 +1753,8 @@
       "NeedsCompilation": "yes",
       "Author": "Dirk Eddelbuettel [aut, cre] (ORCID: <https://orcid.org/0000-0001-6419-907X>), Romain Francois [aut] (ORCID: <https://orcid.org/0000-0002-2444-4226>), Doug Bates [aut] (ORCID: <https://orcid.org/0000-0001-8316-9503>), Binxiang Ni [aut], Conrad Sanderson [aut] (ORCID: <https://orcid.org/0000-0002-0049-4501>)",
       "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "RcppEigen": {
       "Package": "RcppEigen",
@@ -1896,11 +1885,11 @@
       "Encoding": "UTF-8",
       "biocViews": "Infrastructure",
       "RoxygenNote": "7.1.2",
-      "git_url": "https://git.bioconductor.org/packages/Rhdf5lib",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "f62ae28",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "make",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/Rhdf5lib",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "f62ae289bd6cdd27f8d2f924d6578d3b344fc396",
       "NeedsCompilation": "yes",
       "Author": "Mike Smith [ctb] (ORCID: <https://orcid.org/0000-0002-7800-3848>), Hugo Gruson [cre] (ORCID: <https://orcid.org/0000-0002-4094-1476>), The HDF Group [cph]",
       "Maintainer": "Hugo Gruson <hugo.gruson@embl.de>"
@@ -1967,11 +1956,10 @@
       ],
       "VignetteBuilder": "knitr",
       "Collate": "utils.R rowsum.R abind.R aperm2.R array_selection.R Nindex-utils.R arep.R array_recycling.R Array-class.R dim-tuning-utils.R Array-subsetting.R Array-subassignment.R ArrayGrid-class.R mapToGrid.R extract_array.R type.R is_sparse.R read_block.R write_block.R show-utils.R Array-kronecker-methods.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/S4Arrays",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "a4cccba",
-      "git_last_commit_date": "2025-11-24",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/S4Arrays",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "a4cccbaab0d12176db3670665f0ca6c23bb900be",
       "NeedsCompilation": "yes",
       "Author": "Hervé Pagès [aut, cre] (ORCID: <https://orcid.org/0009-0002-8272-4522>), Jacques Serizay [ctb]",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -2117,11 +2105,10 @@
       ],
       "VignetteBuilder": "knitr",
       "Collate": "utils.R rankSeqlevels.R seqinfo.R sortSeqlevels.R Seqinfo-class.R seqlevelsInUse.R GenomeDescription-class.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/Seqinfo",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "9fc5a61",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/Seqinfo",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "9fc5a613b84efd096416b9810ed62ceef79522cb",
       "NeedsCompilation": "no",
       "Author": "Hervé Pagès [aut, cre] (ORCID: <https://orcid.org/0009-0002-8272-4522>)",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -2254,11 +2241,11 @@
       "RoxygenNote": "7.3.3",
       "Roxygen": "list(markdown=TRUE)",
       "Collate": "'hidden_aliases.R' 'AllGenerics.R' 'MsBackend-functions.R' 'MsBackend.R' 'MsBackendCached.R' 'MsBackendDataFrame-functions.R' 'MsBackendDataFrame.R' 'MsBackendHdf5Peaks-functions.R' 'MsBackendHdf5Peaks.R' 'MsBackendMemory-functions.R' 'MsBackendMemory.R' 'MsBackendMzR-functions.R' 'MsBackendMzR.R' 'Spectra-estimatePrecursorMz.R' 'Spectra-functions.R' 'Spectra.R' 'Spectra-neutralLoss.R' 'Spectra-precursorPurity.R' 'countIdentifications.R' 'fft_spectrum.R' 'functions-util.R' 'mz-delta-functions.R' 'peak-list-functions.R' 'peaks-functions.R' 'plotting-functions.R' 'zzz.R'",
-      "git_url": "https://git.bioconductor.org/packages/Spectra",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "fa47307",
-      "git_last_commit_date": "2025-12-23",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "make",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/Spectra",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "3663eb961c517362334c1771216086fb7f0ea8a2",
       "NeedsCompilation": "no",
       "Author": "RforMassSpectrometry Package Maintainer [cre], Laurent Gatto [aut] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Johannes Rainer [aut] (ORCID: <https://orcid.org/0000-0002-6977-7147>), Sebastian Gibb [aut] (ORCID: <https://orcid.org/0000-0001-7406-4443>), Philippine Louail [aut] (ORCID: <https://orcid.org/0009-0007-5429-6846>), Jan Stanstrup [ctb] (ORCID: <https://orcid.org/0000-0003-0541-7369>), Nir Shahaf [ctb], Mar Garcia-Aloy [ctb] (ORCID: <https://orcid.org/0000-0002-1330-6610>), Guillaume Deflandre [ctb] (ORCID: <https://orcid.org/0009-0008-1257-2416>), Ahlam Mentag [ctb] (ORCID: <https://orcid.org/0009-0008-5438-7067>)",
       "Maintainer": "RforMassSpectrometry Package Maintainer <maintainer@rformassspectrometry.org>"
@@ -2315,11 +2302,11 @@
       ],
       "VignetteBuilder": "knitr",
       "Collate": "Assays-class.R SummarizedExperiment-class.R RangedSummarizedExperiment-class.R intra-range-methods.R inter-range-methods.R coverage-methods.R combine-methods.R findOverlaps-methods.R nearest-methods.R makeSummarizedExperimentFromExpressionSet.R makeSummarizedExperimentFromDataFrame.R makeSummarizedExperimentFromLoom.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/SummarizedExperiment",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "469a2de",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/SummarizedExperiment",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "469a2deab30b904252870c5b569b353fe1a49227",
       "NeedsCompilation": "no",
       "Author": "Martin Morgan [aut], Valerie Obenchain [aut], Jim Hester [aut], Hervé Pagès [aut, cre]",
       "Maintainer": "Hervé Pagès <hpages.on.github@gmail.com>"
@@ -2438,11 +2425,10 @@
         "RUnit"
       ],
       "Collate": "io-utils.R RDS-random-access.R SharedVector-class.R SharedRaw-class.R SharedInteger-class.R SharedDouble-class.R XVector-class.R XRaw-class.R XInteger-class.R XDouble-class.R XVectorList-class.R XRawList-class.R XRawList-comparison.R XIntegerViews-class.R XDoubleViews-class.R OnDiskRaw-class.R RdaCollection-class.R RdsCollection-class.R intra-range-methods.R compact-methods.R reverse-methods.R slice-methods.R view-summarization-methods.R updateObject-methods.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/XVector",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "6b7e2a1",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/XVector",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "6b7e2a122e94cba4c8048da29b99f482533d3fec",
       "NeedsCompilation": "yes"
     },
     "abind": {
@@ -2504,11 +2490,11 @@
       "Collate": "ProgressBarText.R ppset.ttest.R ppsetApply.R expressoWidget.R getCDFenv.R AffyRNAdeg.R avdiff.R barplot.ProbeSet.R bg.Affy.chipwide.R bg.R expresso.R fit.li.wong.R generateExprVal.method.avgdiff.R generateExprVal.method.liwong.R generateExprVal.method.mas.R generateExprVal.method.medianpolish.R generateExprVal.method.playerout.R hlog.R justrma.R loess.normalize.R maffy.R mas5.R merge.AffyBatch.R normalize.constant.R normalize.contrasts.R normalize.invariantset.R normalize.loess.R normalize.qspline.R normalize.quantiles.R pairs.AffyBatch.R plot.density.R plotLocation.R plot.ProbeSet.R pmcorrect.mas.R AffyBatch.R mva.pairs.R ProbeSet.R read.affybatch.R rma.R summary.R tukey.biweight.R whatcdf.R xy2indices.R zzz.R",
       "biocViews": "Microarray, OneChannel, Preprocessing",
       "LazyLoad": "yes",
-      "git_url": "https://git.bioconductor.org/packages/affy",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "229aef4",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/affy",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "229aef42785482d8d06d102327bd0a389ebe8f8d",
       "NeedsCompilation": "yes"
     },
     "affyio": {
@@ -2529,11 +2515,10 @@
       "URL": "https://github.com/bmbolstad/affyio",
       "biocViews": "Microarray, DataImport, Infrastructure",
       "LazyLoad": "yes",
-      "git_url": "https://git.bioconductor.org/packages/affyio",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "eb747bb",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/affyio",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "eb747bb56f812c1c30eba2810d40d399b182b3c6",
       "NeedsCompilation": "yes"
     },
     "askpass": {
@@ -2685,7 +2670,8 @@
       "NeedsCompilation": "yes",
       "Author": "Steve Dutky [aut] (S original; then (after MM's port) revised and modified), Martin Maechler [cre, aut] (Initial R port; tweaks, <https://orcid.org/0000-0002-8685-9910>)",
       "Maintainer": "Martin Maechler <maechler@stat.math.ethz.ch>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "blob": {
       "Package": "blob",
@@ -2952,8 +2938,9 @@
       "Description": "Contains several basic utility functions including: moving (rolling, running) window statistic functions, read/write for GIF and ENVI binary files, fast calculation of AUC, LogitBoost classifier, base64 encoder/decoder, round-off-error-free sum and cumsum, etc.",
       "License": "GPL-3",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN",
-      "Author": "Jarek Tuszynski [aut], Michael Dietze [cre]"
+      "Repository": "RSPM",
+      "Author": "Jarek Tuszynski [aut], Michael Dietze [cre]",
+      "Encoding": "UTF-8"
     },
     "cachem": {
       "Package": "cachem",
@@ -3602,7 +3589,7 @@
       "NeedsCompilation": "no",
       "Author": "Claus O. Wilke [aut, cre] (ORCID: <https://orcid.org/0000-0002-7470-9261>)",
       "Maintainer": "Claus O. Wilke <wilke@austin.utexas.edu>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -3934,7 +3921,7 @@
       "NeedsCompilation": "no",
       "Author": "Folashade Daniel [cre], Microsoft Corporation [aut, cph], Steve Weston [aut], Dan Tenenbaum [ctb]",
       "Maintainer": "Folashade Daniel <fdaniel@microsoft.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "RSPM",
       "Encoding": "UTF-8"
     },
     "dplyr": {
@@ -4071,11 +4058,10 @@
       "URL": "https://bioinf.wehi.edu.au/edgeR/, https://bioconductor.org/packages/edgeR",
       "biocViews": "AlternativeSplicing, BatchEffect, Bayesian, BiomedicalInformatics, CellBiology, ChIPSeq, Clustering, Coverage, DifferentialExpression, DifferentialMethylation, DifferentialSplicing, DNAMethylation, Epigenetics, FunctionalGenomics, GeneExpression, GeneSetEnrichment, Genetics, Genetics, ImmunoOncology, MultipleComparison, Normalization, Pathways, Proteomics, QualityControl, Regression, RNASeq, SAGE, Sequencing, SingleCell, SystemsBiology, TimeCourse, Transcription, Transcriptomics",
       "NeedsCompilation": "yes",
-      "git_url": "https://git.bioconductor.org/packages/edgeR",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "af0343a",
-      "git_last_commit_date": "2025-12-23",
-      "Repository": "Bioconductor 3.22"
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/edgeR",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "af0343acbb3998d2d2bb3e3d259bbee17a2c8a7e"
     },
     "ellipse": {
       "Package": "ellipse",
@@ -4263,11 +4249,10 @@
       "VignetteBuilder": "knitr",
       "URL": "https://github.com/ctlab/fgsea/",
       "BugReports": "https://github.com/ctlab/fgsea/issues",
-      "git_url": "https://git.bioconductor.org/packages/fgsea",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "b7862b7",
-      "git_last_commit_date": "2026-01-05",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/fgsea",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "b7862b78985f52670a13ca46abacb7831e33d5e1",
       "NeedsCompilation": "yes",
       "Author": "Gennady Korotkevich [aut], Vladimir Sukhov [aut], Nikolay Budin [ctb], Nikita Gusak [ctb], Zieman Mark [ctb], Alexey Sergushichev [aut, cre]",
       "Maintainer": "Alexey Sergushichev <alsergbox@gmail.com>"
@@ -5374,11 +5359,10 @@
       "biocViews": "GraphAndNetwork",
       "RoxygenNote": "7.2.3",
       "VignetteBuilder": "knitr",
-      "git_url": "https://git.bioconductor.org/packages/graph",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "1834660",
-      "git_last_commit_date": "2025-12-07",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/graph",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "18346609f983e67db28095e729bf19d53a99bb33",
       "NeedsCompilation": "yes",
       "Author": "R Gentleman [aut], Elizabeth Whalen [aut], W Huber [aut], S Falcon [aut], Jeff Gentry [aut], Paul Shannon [aut], Halimat C. Atanda [ctb] (Converted 'MultiGraphClass' and 'GraphClass' vignettes from Sweave to RMarkdown / HTML.), Paul Villafuerte [ctb] (Converted vignettes from Sweave to RMarkdown / HTML.), Aliyu Atiku Mustapha [ctb] (Converted 'Graph' vignette from Sweave to RMarkdown / HTML.), Bioconductor Package Maintainer [cre]",
       "Maintainer": "Bioconductor Package Maintainer <maintainer@bioconductor.org>"
@@ -5446,7 +5430,7 @@
       "NeedsCompilation": "no",
       "Author": "Baptiste Auguie [aut, cre], Anton Antonov [ctb]",
       "Maintainer": "Baptiste Auguie <baptiste.auguie@gmail.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest",
+      "Repository": "RSPM",
       "Encoding": "UTF-8"
     },
     "gsignal": {
@@ -5956,11 +5940,10 @@
       ],
       "License": "GPL-2",
       "biocViews": "Microarray",
-      "git_url": "https://git.bioconductor.org/packages/impute",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "9873337",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/impute",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "987333765032b156b0b3bb09a5defb85043d9520",
       "NeedsCompilation": "yes"
     },
     "ipred": {
@@ -5993,7 +5976,8 @@
       "NeedsCompilation": "yes",
       "Author": "Andrea Peters [aut], Torsten Hothorn [aut, cre], Brian D. Ripley [ctb], Terry Therneau [ctb], Beth Atkinson [ctb]",
       "Maintainer": "Torsten Hothorn <Torsten.Hothorn@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "isoband": {
       "Package": "isoband",
@@ -6459,7 +6443,8 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut, cre], RStudio [cph]",
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "lifecycle": {
       "Package": "lifecycle",
@@ -6542,11 +6527,10 @@
       "VignetteBuilder": "knitr",
       "URL": "https://bioinf.wehi.edu.au/limma/",
       "biocViews": "ExonArray, GeneExpression, Transcription, AlternativeSplicing, DifferentialExpression, DifferentialSplicing, GeneSetEnrichment, DataImport, Bayesian, Clustering, Regression, TimeCourse, Microarray, MicroRNAArray, mRNAMicroarray, OneChannel, ProprietaryPlatforms, TwoChannel, Sequencing, RNASeq, BatchEffect, MultipleComparison, Normalization, Preprocessing, QualityControl, BiomedicalInformatics, CellBiology, Cheminformatics, Epigenetics, FunctionalGenomics, Genetics, ImmunoOncology, Metabolomics, Proteomics, SystemsBiology, Transcriptomics",
-      "git_url": "https://git.bioconductor.org/packages/limma",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "1c4b971",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/limma",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "1c4b97114f1fd662b4a4b609cba4ebab72654822",
       "NeedsCompilation": "yes"
     },
     "listenv": {
@@ -6648,7 +6632,7 @@
       "NeedsCompilation": "yes",
       "Author": "Douglas Bates [aut] (ORCID: <https://orcid.org/0000-0001-8316-9503>), Martin Maechler [aut] (ORCID: <https://orcid.org/0000-0002-8685-9910>), Ben Bolker [cre, aut] (ORCID: <https://orcid.org/0000-0002-2127-0443>), Steven Walker [aut] (ORCID: <https://orcid.org/0000-0002-4394-9078>), Rune Haubo Bojesen Christensen [ctb] (ORCID: <https://orcid.org/0000-0002-4494-3399>), Henrik Singmann [ctb] (ORCID: <https://orcid.org/0000-0002-4842-3657>), Bin Dai [ctb], Fabian Scheipl [ctb] (ORCID: <https://orcid.org/0000-0001-8172-3603>), Gabor Grothendieck [ctb], Peter Green [ctb] (ORCID: <https://orcid.org/0000-0002-0238-9852>), John Fox [ctb], Alexander Bauer [ctb], Pavel N. Krivitsky [ctb, cph] (ORCID: <https://orcid.org/0000-0002-9101-3362>, shared copyright on simulate.formula), Emi Tanaka [ctb] (ORCID: <https://orcid.org/0000-0002-1455-259X>), Mikael Jagan [aut] (ORCID: <https://orcid.org/0000-0002-3542-2938>), Ross D. Boylan [ctb] (ORCID: <https://orcid.org/0009-0003-4123-8090>), Anna Ly [aut] (ORCID: <https://orcid.org/0000-0002-0210-0342>)",
       "Maintainer": "Ben Bolker <bbolker+lme4@gmail.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "lmtest": {
       "Package": "lmtest",
@@ -7160,11 +7144,11 @@
       "biocViews": "ImmunoOncology, Microarray, Sequencing, Metabolomics, Metagenomics, Proteomics, GenePrediction, MultipleComparison, Classification, Regression",
       "RoxygenNote": "7.3.2",
       "Encoding": "UTF-8",
-      "git_url": "https://git.bioconductor.org/packages/mixOmics",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "553e6cc",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "libfreetype6-dev libglpk-dev libglu1-mesa-dev make texlive libicu-dev libpng-dev libxml2-dev libgl1-mesa-dev zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/mixOmics",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "553e6cc35dfd7020313b9a305237c9cc736fda37",
       "Author": "Kim-Anh Le Cao [aut], Florian Rohart [aut], Ignacio Gonzalez [aut], Sebastien Dejean [aut], Al J Abadi [ctb], Max Bladen [ctb], Benoit Gautier [ctb], Francois Bartolo [ctb], Pierre Monget [ctb], Jeff Coquery [ctb], FangZou Yao [ctb], Benoit Liquet [ctb], Eva Hamrud [ctb, cre]",
       "Maintainer": "Eva Hamrud <mixomicsdeveloper@gmail.com>"
     },
@@ -7228,7 +7212,8 @@
       "NeedsCompilation": "no",
       "Author": "Spencer Graves [aut], Hans-Peter Piepho [aut], Luciano Selzer [aut, cre], Sundar Dorai-Raj [ctb]",
       "Maintainer": "Luciano Selzer <luciano.selzer@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "multtest": {
       "Package": "multtest",
@@ -7255,11 +7240,10 @@
       "License": "LGPL",
       "LazyLoad": "yes",
       "biocViews": "Microarray, DifferentialExpression, MultipleComparison",
-      "git_url": "https://git.bioconductor.org/packages/multtest",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "2722ca2",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/multtest",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "2722ca27696f8a39a493a460b5c535cb65a6dd78",
       "NeedsCompilation": "yes"
     },
     "mzID": {
@@ -7292,11 +7276,11 @@
       ],
       "Collate": "'aaa.R' 'generics.R' 'mzIDpsm.R' 'mzIDpeptides.R' 'mzIDparameters.R' 'mzIDevidence.R' 'mzIDdatabase.R' 'mzID.R' 'mzIDCollection.R' 'mzID-constructor.R' 'mzID-package.R'",
       "RoxygenNote": "5.0.1",
-      "git_url": "https://git.bioconductor.org/packages/mzID",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "96e9485",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "libxml2-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/mzID",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "96e948549879059fdd995012cb639b64f5287bd4",
       "NeedsCompilation": "no",
       "Author": "Laurent Gatto [ctb, cre] (ORCID: <https://orcid.org/0000-0002-1520-2268>), Thomas Pedersen [aut] (ORCID: <https://orcid.org/0000-0002-6977-7147>), Vladislav Petyuk [ctb]",
       "Maintainer": "Laurent Gatto <laurent.gatto@uclouvain.be>"
@@ -7344,11 +7328,11 @@
       "BugReports": "https://github.com/sneumann/mzR/issues/",
       "biocViews": "ImmunoOncology, Infrastructure, DataImport, Proteomics, Metabolomics, MassSpectrometry",
       "RoxygenNote": "6.0.1",
-      "git_url": "https://git.bioconductor.org/packages/mzR",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "2637134",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "make libnetcdf-dev zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/mzR",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "26371343dfcc37531804a3376d921a981a77ec95",
       "NeedsCompilation": "yes",
       "Maintainer": "Steffen Neumann <sneumann@ipb-halle.de>"
     },
@@ -7366,8 +7350,7 @@
       "NeedsCompilation": "yes",
       "Author": "David Pierce [aut, cre] (<https://orcid.org/0000-0002-2453-9030>)",
       "Maintainer": "David Pierce <dpierce@ucsd.edu>",
-      "Repository": "RSPM",
-      "Encoding": "UTF-8"
+      "Repository": "CRAN"
     },
     "nlme": {
       "Package": "nlme",
@@ -7596,7 +7579,7 @@
       "NeedsCompilation": "yes",
       "Author": "Philipp Schauberger [aut], Alexander Walker [aut], Luca Braglia [ctb], Joshua Sturm [ctb], Jan Marvin Garbuszus [ctb, cre], Jordan Mark Barbone [ctb] (ORCID: <https://orcid.org/0000-0001-9788-3628>), David Zimmermann [ctb], Reinhold Kainhofer [ctb]",
       "Maintainer": "Jan Marvin Garbuszus <jan.garbuszus@ruhr-uni-bochum.de>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "ordinal": {
       "Package": "ordinal",
@@ -7634,7 +7617,8 @@
       "BugReports": "https://github.com/runehaubo/ordinal/issues",
       "Author": "Rune Haubo Bojesen Christensen [aut, cre]",
       "Maintainer": "Rune Haubo Bojesen Christensen <rune.haubo@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "otel": {
       "Package": "otel",
@@ -7727,10 +7711,11 @@
       "Description": "It provides functions and examples for maximum likelihood estimation for generalized linear mixed models and Gibbs sampler for multivariate linear mixed models with incomplete data, as described in Schafer JL (1997) \"Imputation of missing covariates under a multivariate linear mixed model\". Technical report 97-04, Dept. of Statistics, The Pennsylvania State University.",
       "License": "GPL-3",
       "NeedsCompilation": "yes",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Depends": [
         "R (>= 2.10)"
-      ]
+      ],
+      "Encoding": "UTF-8"
     },
     "parallelly": {
       "Package": "parallelly",
@@ -7834,11 +7819,10 @@
       "Collate": "'derrorHierarchic.R' 'errorHierarchic.R' 'AllClasses.R' 'AllGenerics.R' 'BPCA_dostep.R' 'BPCA_initmodel.R' 'bpca.R' 'checkData.R' 'forkNlpcaNet.R' 'kEstimate.R' 'kEstimateFast.R' 'lineSearch.R' 'llsImpute.R' 'methods-ExpressionSet.R' 'methods-nniRes.R' 'methods-pcaRes.R' 'nipalsPca.R' 'nlpca.R' 'optiAlgCgd.R' 'orth.R' 'pca.R' 'pcaMethods-package.R' 'ppca.R' 'prep.R' 'repmat.R' 'robustPca.R' 'sortFeatures.R' 'svdImpute.R' 'vector2matrices.R' 'xval.R'",
       "biocViews": "Bayesian",
       "RoxygenNote": "6.1.1",
-      "git_url": "https://git.bioconductor.org/packages/pcaMethods",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "0956371",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/pcaMethods",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "0956371559bff825740ecfa5761ee3dc15eb4b5d",
       "NeedsCompilation": "yes"
     },
     "permute": {
@@ -8186,11 +8170,10 @@
       "Collate": "normalize.quantiles.R quantile_extensions.R rma.background.correct.R rcModel.R colSummarize.R subColSummarize.R plmr.R plmd.R",
       "LazyLoad": "yes",
       "biocViews": "Infrastructure",
-      "git_url": "https://git.bioconductor.org/packages/preprocessCore",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "f8fc99a",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/preprocessCore",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "f8fc99ac2632b1d08ec1bfe3021e3e02fc8c60b7",
       "NeedsCompilation": "yes"
     },
     "prettyunits": {
@@ -8519,7 +8502,7 @@
       "NeedsCompilation": "yes",
       "Author": "Jeroen Ooms [aut, cre] (ORCID: <https://orcid.org/0000-0002-4035-0289>), Ben Raymond [ctb], Jay Berkenbilt [cph] (Author of libqpdf)",
       "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "qs": {
       "Package": "qs",
@@ -9507,11 +9490,10 @@
       "Description": "Identification of differentially expressed genes and estimation of the False Discovery Rate (FDR) using both the Significance Analysis of Microarrays (SAM) and the Empirical Bayes Analyses of Microarrays (EBAM).",
       "License": "LGPL (>= 2)",
       "biocViews": "MultipleComparison, Microarray, GeneExpression, SNP, ExonArray, DifferentialExpression",
-      "git_url": "https://git.bioconductor.org/packages/siggenes",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "bc03145",
-      "git_last_commit_date": "2025-10-29",
-      "Repository": "Bioconductor 3.22",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/siggenes",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "bc03145cc6ab68d08ab6a0d3b90fa5939a9fc290",
       "NeedsCompilation": "no"
     },
     "snow": {
@@ -9597,7 +9579,8 @@
       "License": "GPL-2 | GPL-3",
       "NeedsCompilation": "yes",
       "Author": "Gordon Smyth [cre, aut], Lizhong Chen [aut], Yifang Hu [ctb], Peter Dunn [ctb], Belinda Phipson [ctb], Yunshun Chen [ctb]",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "stringfish": {
       "Package": "stringfish",
@@ -9864,7 +9847,7 @@
       "NeedsCompilation": "yes",
       "Author": "Thomas Lin Pedersen [aut, cre] (ORCID: <https://orcid.org/0000-0002-5147-4711>), Jeroen Ooms [aut] (ORCID: <https://orcid.org/0000-0002-4035-0289>), Devon Govett [aut] (Author of font-manager), Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "textshaping": {
       "Package": "textshaping",
@@ -10198,7 +10181,7 @@
       "NeedsCompilation": "no",
       "Author": "Yihui Xie [aut, cre, cph] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Posit Software, PBC [cph, fnd], Christophe Dervieux [ctb] (ORCID: <https://orcid.org/0000-0003-4474-2498>), Devon Ryan [ctb] (ORCID: <https://orcid.org/0000-0002-8549-0971>), Ethan Heinzen [ctb], Fernando Cagua [ctb]",
       "Maintainer": "Yihui Xie <xie@yihui.name>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "tweenr": {
       "Package": "tweenr",
@@ -10438,7 +10421,8 @@
       "NeedsCompilation": "yes",
       "Author": "Jari Oksanen [aut, cre], Gavin L. Simpson [aut], F. Guillaume Blanchet [aut], Roeland Kindt [aut], Pierre Legendre [aut], Peter R. Minchin [aut], R.B. O'Hara [aut], Peter Solymos [aut], M. Henry H. Stevens [aut], Eduard Szoecs [aut], Helene Wagner [aut], Matt Barbour [aut], Michael Bedward [aut], Ben Bolker [aut], Daniel Borcard [aut], Tuomas Borman [aut], Gustavo Carvalho [aut], Michael Chirico [aut], Miquel De Caceres [aut], Sebastien Durand [aut], Heloisa Beatriz Antoniazi Evangelista [aut], Rich FitzJohn [aut], Michael Friendly [aut], Brendan Furneaux [aut], Geoffrey Hannigan [aut], Mark O. Hill [aut], Leo Lahti [aut], Cameron Martino [aut], Dan McGlinn [aut], Marie-Helene Ouellette [aut], Eduardo Ribeiro Cunha [aut], Tyler Smith [aut], Adrian Stier [aut], Cajo J.F. Ter Braak [aut], James Weedon [aut]",
       "Maintainer": "Jari Oksanen <jhoksane@gmail.com>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "viridis": {
       "Package": "viridis",
@@ -10613,18 +10597,18 @@
         "dplyr",
         "testthat"
       ],
-      "Description": "The package implements a method for normalising microarray intensities from single- and  multiple-color arrays. It can also be used for data from other technologies, as long as they have similar format. The method uses a robust variant of the maximum-likelihood estimator for an additive-multiplicative error model and affine calibration. The model incorporates data calibration step (a.k.a. normalization), a model for the dependence of the variance on the mean intensity and a variance stabilizing data transformation. Differences between transformed intensities are analogous to \"normalized log-ratios\". However, in contrast to the latter, their variance is independent of the mean, and they are usually more sensitive and specific in detecting differential transcription.",
+      "Description": "The package implements a method for normalising microarray intensities from single- and multiple-color arrays. It can also be used for data from other technologies, as long as they have similar format. The method uses a robust variant of the maximum-likelihood estimator for an additive-multiplicative error model and affine calibration. The model incorporates data calibration step (a.k.a. normalization), a model for the dependence of the variance on the mean intensity and a variance stabilizing data transformation. Differences between transformed intensities are analogous to \"normalized log-ratios\". However, in contrast to the latter, their variance is independent of the mean, and they are usually more sensitive and specific in detecting differential transcription.",
       "Reference": "[1] Variance stabilization applied to microarray data calibration and to the quantification of differential expression, Wolfgang Huber, Anja von Heydebreck, Holger Sueltmann, Annemarie Poustka, Martin Vingron; Bioinformatics (2002) 18 Suppl1 S96-S104. [2] Parameter estimation for the calibration and variance stabilization of microarray data, Wolfgang Huber, Anja von Heydebreck, Holger Sueltmann, Annemarie Poustka, and Martin Vingron; Statistical Applications in Genetics and Molecular Biology (2003) Vol. 2 No. 1, Article 3; http://www.bepress.com/sagmb/vol2/iss1/art3.",
       "License": "Artistic-2.0",
       "URL": "http://www.r-project.org, http://www.ebi.ac.uk/huber",
       "biocViews": "Microarray, OneChannel, TwoChannel, Preprocessing",
       "VignetteBuilder": "knitr",
       "Collate": "AllClasses.R AllGenerics.R vsn2.R vsnLogLik.R justvsn.R methods-vsnInput.R methods-vsn.R methods-vsn2.R methods-predict.R RGList_to_NChannelSet.R meanSdPlot-methods.R plotLikelihood.R normalize.AffyBatch.vsn.R sagmbSimulateData.R zzz.R",
-      "git_url": "https://git.bioconductor.org/packages/vsn",
-      "git_branch": "RELEASE_3_22",
-      "git_last_commit": "3f3cc16",
-      "git_last_commit_date": "2026-01-13",
-      "Repository": "Bioconductor 3.22",
+      "Config/pak/sysreqs": "zlib1g-dev",
+      "Repository": "https://bioc-release.r-universe.dev",
+      "RemoteUrl": "https://github.com/bioc/vsn",
+      "RemoteRef": "RELEASE_3_22",
+      "RemoteSha": "3f3cc16a304aa9930dbca71777f7cb91add9fcc4",
       "NeedsCompilation": "yes"
     },
     "withr": {
@@ -10804,7 +10788,7 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [cre] (ORCID: <https://orcid.org/0000-0003-4757-117X>), Shawn Garbett [ctb] (ORCID: <https://orcid.org/0000-0003-4079-5621>), Jeremy Stephens [aut, ctb], Kirill Simonov [aut], Yihui Xie [ctb] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Zhuoer Dong [ctb], Jeffrey Horner [ctb], reikoch [ctb], Will Beasley [ctb] (ORCID: <https://orcid.org/0000-0002-5613-5006>), Brendan O'Connor [ctb], Michael Quinn [ctb], Charlie Gao [ctb], Gregory R. Warnes [ctb], Zhian N. Kamvar [ctb]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
-      "Repository": "https://packagemanager.posit.co/cran/latest"
+      "Repository": "RSPM"
     },
     "zip": {
       "Package": "zip",
@@ -10873,7 +10857,8 @@
       "NeedsCompilation": "yes",
       "Author": "Achim Zeileis [aut, cre] (ORCID: <https://orcid.org/0000-0003-0918-3766>), Gabor Grothendieck [aut], Jeffrey A. Ryan [aut], Joshua M. Ulrich [ctb], Felix Andrews [ctb]",
       "Maintainer": "Achim Zeileis <Achim.Zeileis@R-project.org>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     }
   }
 }

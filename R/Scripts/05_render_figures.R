@@ -25,8 +25,6 @@ fig1 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
 #+ 5.2: Figure 2
 fig2 <- ggdraw(xlim = c(0, 8.5), ylim = c(0, 11)) +
   draw_plot(p2A, x = 0.75, y = 1.823333334, width = 3.75, height = 8.333333333) +
-  # Manually add dagger symbol to 9-O-Acetyl-Neu5Ac
-  draw_text("†", x = 1.985000001, y = 6.025, size = 4, fontface = "bold", family = "Arial") +
   # 2B
   draw_plot(p2B.1, x = 4.703333333, y = 8.456666667, width = 1.5, height = 1.5) +
   draw_plot(p2B.2, x = 6.253333333, y = 8.456666667, width = 1.5, height = 1.5) +
