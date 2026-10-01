@@ -41,7 +41,7 @@ make_figure_abbrev <- function(abbreviation_tibble,
     # Extract abbreviations for this figure (where value is "Y")
     fig_abbrevs <- abbreviation_tibble |>
       filter(.data[[fig_col]] == "Y") |>
-      arrange(abbreviation) |>
+      arrange(tolower(abbreviation)) |>
       select(abbreviation, longform)
     
     # Skip if no abbreviations for this figure

@@ -16,3 +16,6 @@ R/MWB/data/tumor_pathology_table.csv
 ticket.md
 ticket_audit.md
 note.md
+
+# macOS Finder metadata
+.DS_Store
